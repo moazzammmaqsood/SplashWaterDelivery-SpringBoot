@@ -1,11 +1,12 @@
 package com.splash.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
-import com.mysql.cj.Query;
 import com.splash.entity.mysql.UserEntity;
 
 @Repository
@@ -17,7 +18,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void adduser(UserEntity user) {
-		
+		entityManager.persist(user);	
 	}
 
 	@Override
@@ -45,6 +46,21 @@ public class UserDAOImpl implements UserDAO {
 		
 		
 		return user;
+	}
+
+	@Override
+	public UserEntity getLoginUser(String username, String password) {
+		List<UserEntity> list= 		entityManager.createQuery("FROM UserEntity where username=:userid and password=:password ")
+				.setParameter("userid", username)
+				.setParameter("password", password).getResultList();
+		
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return list.get(0);
+		}
+
+
 	}
 
 }

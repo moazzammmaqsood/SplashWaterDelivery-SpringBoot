@@ -41,4 +41,11 @@ public class UserServiceImpl implements UserService {
 		 userDAO.disableuser(user);
 	}
 
+	@Override
+	@Transactional
+	public UserEntity LoginUser(String username, String password) {
+		return userDAO.getLoginUser(username,password);
+		
+	}
+
 }

@@ -13,4 +13,6 @@ public interface UserService {
 	void edituser(UserEntity user);
 	
 	void disableuser(int id);
+	
+	UserEntity LoginUser(String username, String password);
 }

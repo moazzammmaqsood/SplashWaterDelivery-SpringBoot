@@ -17,6 +17,8 @@ public interface UserDAO {
 	void updateuser(UserEntity user);
 	
 	UserEntity getuser(String loginid);
+
+	UserEntity getLoginUser(String username, String password);
 	
 	
 	
