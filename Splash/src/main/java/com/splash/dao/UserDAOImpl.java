@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
-import com.splash.entity.mysql.UserEntity;
+import com.splash.domain.entity.UserEntity;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -61,6 +61,19 @@ public class UserDAOImpl implements UserDAO {
 		}
 
 
+	}
+
+	@Override
+	public UserEntity getuserbyUsername(String username) {
+		List<UserEntity> list= 		entityManager.createQuery("FROM UserEntity where username=:userid ")
+				.setParameter("userid", username)
+				.getResultList();
+		
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			return list.get(0);
+		}
 	}
 
 }

@@ -1,9 +1,10 @@
 package com.splash.dao;
 
 
-import com.splash.entity.mysql.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import com.splash.domain.entity.UserEntity;
 
 
 public interface UserDAO {
@@ -20,6 +21,7 @@ public interface UserDAO {
 
 	UserEntity getLoginUser(String username, String password);
 	
+	UserEntity getuserbyUsername(String username);
 	
 	
 

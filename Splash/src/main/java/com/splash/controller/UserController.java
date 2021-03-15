@@ -1,11 +1,13 @@
 package com.splash.controller;
 
-import java.util.Date;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,56 +15,45 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.splash.domain.entity.UserEntity;
 import com.splash.entity.model.ErrorResponse;
 import com.splash.entity.model.LoginForm;
-import com.splash.entity.model.UserForm;
-import com.splash.entity.mysql.UserEntity;
 import com.splash.enums.ErrorEnums;
-import com.splash.services.UserService;
+import com.splash.enums.Status;
+import com.splash.service.UserService;
 
-
-//401 user not found
-//402 user disabled
-//500 Server Error
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
-
-	@Autowired
-	UserService userService;
 	
-	@RequestMapping(value="add-user",method=RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<?> addUser(@RequestBody UserForm user,final BindingResult bindingResult){
-		
-		if (bindingResult.hasErrors()) {  
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(asJsonString(bindingResult.getAllErrors()));
-		}
-		
-		
-		UserEntity userEntity =new UserEntity();
-		userEntity.setUsername(user.getUsername());
-    	userEntity.setUserrole(user.getUserrole());
-    	userEntity.setEmail(user.getEmail());
-    	userEntity.setPassword(user.getPassword());
-    	userEntity.setPhone(user.getPhone());
-    	userEntity.setStatus(user.getStatus());
-    	userEntity.setCreatedon(new Date());
-    	userEntity.setCreatedby(user.getCreatedby());
-    	userEntity.setName(user.getName());
+	
 
 
-		userService.adduser(userEntity);
+    @Autowired
+    UserService userService;
 
-		return ResponseEntity.status(HttpStatus.OK).build();
-		
-		
-	}
+    @RequestMapping(value="/signup",method = RequestMethod.POST)
+    public Status signup(@Valid @RequestBody UserEntity newUser){
+
+
+        return Status.SUCCESS;
+    }
+
+    @RequestMapping(value="/get-user/{id}",method = RequestMethod.GET)
+    public ResponseEntity<?> signup(@Valid @PathVariable ("id") int id){
+
+    	if(userService.getUser(id)==null) {
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
+    	}
+    	
+        return ResponseEntity.ok(userService.getUser(id));
+
+    }
 	
 	@RequestMapping(value="login-action",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> loginAction(@RequestBody LoginForm login,final BindingResult bindingResult){
+	public ResponseEntity<?> loginAction(@RequestBody LoginForm login,BindingResult bindingResult){
 		
 		if (bindingResult.hasErrors()) {  
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(asJsonString(bindingResult.getAllErrors()));
@@ -98,5 +89,8 @@ public class UserController {
     }
 	
 	
-	
+
+
+
+
 }

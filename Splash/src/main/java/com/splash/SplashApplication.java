@@ -9,9 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.splash.entity.mysql.UserEntity;
-import com.splash.services.UserService;
-import com.splash.services.UserServiceImpl;
+import com.splash.domain.entity.UserEntity;
+
 
 @SpringBootApplication
 public class SplashApplication {
