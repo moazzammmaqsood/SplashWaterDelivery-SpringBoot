@@ -2,16 +2,22 @@ package com.splash.service;
 
 import java.util.List;
 
+import com.splash.controller.vendor.BottleDelivered;
 import com.splash.controller.vendor.ClientRequest;
-import com.splash.domain.entity.ClientEntity;
+import com.splash.controller.vendor.ClientUpdateRequest;
+import com.splash.controller.vendor.GetClientsResponse;
 
 public interface VendorService {
 	
-	List<ClientEntity> getClients();
+	List<GetClientsResponse> getClients();
 
 	String getuser();
 
-	String addUser(ClientRequest request); 
+	void addUser(ClientRequest request);
+
+	void updateUser(ClientUpdateRequest request); 
+	
+	void DeliverBottle(BottleDelivered request);
 
 }
 

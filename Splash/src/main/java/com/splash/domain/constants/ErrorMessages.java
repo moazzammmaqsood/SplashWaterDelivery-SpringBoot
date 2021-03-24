@@ -15,4 +15,7 @@ public final class ErrorMessages {
     public static final String FORBIDDEN = "You do not have permission to access/modify this resource.";
     public static final String NO_AUTHORIZATION_HEADER = "No Authorization header found in request.";
     public static final String INVALID_AUTHORIZATION_TOKEN_SCHEME = "Authorization header is not bearer scheme format.";
+	public static final String VENDOR_NOT_FOUND = "No vendor found for this user";
+	public static final String NULL_REQUEST = "Null Request";
+	public static final String CLIENT_NOT_FOUND = "No client found for this user";
 }

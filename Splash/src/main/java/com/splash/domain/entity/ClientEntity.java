@@ -30,6 +30,13 @@ public class ClientEntity {
 	@Column(name="frequency")
 	private int frequency;
 
+	@Column(name="bottles")
+	private int bottles;
+
+	@Column(name="deposit")
+	private int deposit;
+
+	
 
 
 	public int getClientid() {
@@ -84,7 +91,27 @@ public class ClientEntity {
 
 
 
-	public ClientEntity(int clientid, int userid, String address, int rate, int vendorid, int frequency) {
+	public int getBottles() {
+		return bottles;
+	}
+
+	public void setBottles(int bottles) {
+		this.bottles = bottles;
+	}
+	
+	
+	
+
+	public int getDeposit() {
+		return deposit;
+	}
+
+	public void setDeposit(int deposit) {
+		this.deposit = deposit;
+	}
+	
+	public ClientEntity(int clientid, int userid, String address, int rate, int vendorid, int frequency, int bottles,
+			int deposit) {
 		super();
 		this.clientid = clientid;
 		this.userid = userid;
@@ -92,7 +119,19 @@ public class ClientEntity {
 		this.rate = rate;
 		this.vendorid = vendorid;
 		this.frequency = frequency;
+		this.bottles = bottles;
+		this.deposit = deposit;
+	}
 
+	public ClientEntity(int userid, String address, int rate, int vendorid, int frequency, int bottles,int deposit) {
+		super();
+		this.userid = userid;
+		this.address = address;
+		this.rate = rate;
+		this.vendorid = vendorid;
+		this.frequency = frequency;
+		this.bottles = bottles;
+		this.deposit= deposit;
 	}
 
 	public ClientEntity() {
@@ -103,7 +142,7 @@ public class ClientEntity {
 	@Override
 	public String toString() {
 		return "ClientEntity [clientid=" + clientid + ", userid=" + userid + ", address=" + address + ", rate=" + rate
-				+ ", vendorid=" + vendorid + ", frequency=" + frequency + "]";
+				+ ", vendorid=" + vendorid + ", frequency=" + frequency + ", bottles=" + bottles + "]";
 	}
 
 	

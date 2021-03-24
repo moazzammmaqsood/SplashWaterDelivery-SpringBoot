@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.splash.domain.entity.UserEntity;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 	 Optional<UserEntity> findByemail(String email);
 
 	Optional<UserEntity> findByusername(String username);
