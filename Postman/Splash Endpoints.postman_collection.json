@@ -1,0 +1,228 @@
+{
+	"id": "3453dcd0-333a-51df-f8d7-e8bfbf613f5b",
+	"name": "Splash Endpoints",
+	"description": "",
+	"order": [
+		"a7506f17-ba6a-3035-a815-37d028de9fd8",
+		"c51f4b58-48ce-8ffa-8d35-6d396515e700",
+		"14769ecc-b749-718f-2cfc-b97794035297",
+		"4c289cf7-a6df-0202-65e2-8d99c9948a0c",
+		"54f6dfa9-9b04-f5fa-78ca-067e67e1107d",
+		"e6e49dc1-9505-49d2-fdf8-6fb8c1101f9c"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1615145168447,
+	"owner": "6697531",
+	"public": false,
+	"requests": [
+		{
+			"id": "14769ecc-b749-718f-2cfc-b97794035297",
+			"headers": "Content-Type: application/json\nAuthorization: Bearer=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFrZWVsMTIzIiwiaWF0IjoxNjE1ODQ0NjAyLCJleHAiOjE2MTU5MzEwMDJ9.LSJ-8vfNkm7nfjKUiiJenyHYN5skDIC4GB9Smk7WdKU\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFrZWVsMTIzIiwiaWF0IjoxNjE1ODQ0NjAyLCJleHAiOjE2MTU5MzEwMDJ9.LSJ-8vfNkm7nfjKUiiJenyHYN5skDIC4GB9Smk7WdKU",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080/api/v1/private/vendor/getclients",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "3453dcd0-333a-51df-f8d7-e8bfbf613f5b",
+			"data": null,
+			"dataMode": "params",
+			"name": "GetClients",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1615844977855,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "4c289cf7-a6df-0202-65e2-8d99c9948a0c",
+			"headers": "Content-Type: application/json\nAuthorization: Bearer=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFrZWVsMTIzIiwiaWF0IjoxNjE2MTA1MTgyLCJleHAiOjE2MTYxOTE1ODJ9.gcFT9jaZF3pV7KP7Jw0KxuV9Er07pnsImBWC9qwnEmU\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFrZWVsMTIzIiwiaWF0IjoxNjE2MTA1MTgyLCJleHAiOjE2MTYxOTE1ODJ9.gcFT9jaZF3pV7KP7Jw0KxuV9Er07pnsImBWC9qwnEmU",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080/api/v1/private/vendor/add_client",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "3453dcd0-333a-51df-f8d7-e8bfbf613f5b",
+			"data": [],
+			"dataMode": "raw",
+			"name": "AddClient",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1616107132951,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"name\":\"Ammar Sahab\",\n\t \"contactno\": \"923248262087\",\n    \"address\":\"123 PIb Colony\",\n\t\"frequency\":3,\n\t\"email\":\"moazzamm96@gmail.com\",\n\t\"rate\":50,\n\t\"deposit\":600,\n\t\"lastdelivery\":\"2021-03-02\",\n\t\"noofbottles\":2\n\t\n}"
+		},
+		{
+			"id": "54f6dfa9-9b04-f5fa-78ca-067e67e1107d",
+			"headers": "Content-Type: application/json\nAuthorization: Bearer=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFrZWVsMTIzIiwiaWF0IjoxNjE2NDQ2NTQ5LCJleHAiOjE2MTY1MzI5NDl9.9s9v8iro643VrWF1aH8jGp6f3sVNicO24p1iPWa44r4\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFrZWVsMTIzIiwiaWF0IjoxNjE2NDQ2NTQ5LCJleHAiOjE2MTY1MzI5NDl9.9s9v8iro643VrWF1aH8jGp6f3sVNicO24p1iPWa44r4",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080/api/v1/private/vendor/update_client",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "3453dcd0-333a-51df-f8d7-e8bfbf613f5b",
+			"data": [],
+			"dataMode": "raw",
+			"name": "UpdateClient",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1616617972386,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\r\n\t\t\t\"username\" : \"MM6603\",\r\n\t\t\t\"name\" : \"Ammar Sahab\",\r\n\t\t\t\"contactno\": \"923248262088\",\r\n\t\t\t\"address\" : \"123 PIb Colony\",\r\n\t\t\t\"daysdelivery\" : \"3\",\r\n\t\t\t\"rate\" : 60,\r\n\t\t\t\"deposit\": 600,\r\n\t\t\"noofbottles\" : 2\r\n\t\t\r\n}"
+		},
+		{
+			"id": "a7506f17-ba6a-3035-a815-37d028de9fd8",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080/api/v1/public/auth/login",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1615752356573,
+			"name": "LoginRequest",
+			"description": "",
+			"collectionId": "3453dcd0-333a-51df-f8d7-e8bfbf613f5b",
+			"responses": [],
+			"rawModeData": "{ \t\r\n\t\r\n\t\"emailAddress\" : \"moazzamm2@gmail.com\",\r\n\t\"password\" : \"oldisgold\"\r\n\t\r\n}"
+		},
+		{
+			"id": "c51f4b58-48ce-8ffa-8d35-6d396515e700",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080/api/v1/public/auth/signup",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "3453dcd0-333a-51df-f8d7-e8bfbf613f5b",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Signup",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1615751909813,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\t\"name\" : \"Shakeel Sahab\",\n\t\t\"email\" : \"moazzamm2@gmail.com\",\n\t\t\"password\" : \"oldisgold\",\n\t\t\"username\" : \"shakeel123\",\n \t\t\"address\" : \"87A, Pib Colony Karachi\",\n\t\t\"phone\" : \"923248262087\",\n\t\t\"createdby\":\"admin\",\n\t\t\"userrole\":\"V\"\n\t\t\n}"
+		},
+		{
+			"id": "e6e49dc1-9505-49d2-fdf8-6fb8c1101f9c",
+			"headers": "Content-Type: application/json\nAuthorization: Bearer=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFrZWVsMTIzIiwiaWF0IjoxNjE2NDQ2NTQ5LCJleHAiOjE2MTY1MzI5NDl9.9s9v8iro643VrWF1aH8jGp6f3sVNicO24p1iPWa44r4\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFrZWVsMTIzIiwiaWF0IjoxNjE2NDQ2NTQ5LCJleHAiOjE2MTY1MzI5NDl9.9s9v8iro643VrWF1aH8jGp6f3sVNicO24p1iPWa44r4",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080/api/v1/private/vendor/update_client",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "3453dcd0-333a-51df-f8d7-e8bfbf613f5b",
+			"data": [],
+			"dataMode": "raw",
+			"name": "UpdateClient copy",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1616617972386,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\r\n\t\t\t\"username\" : \"MM6603\",\r\n\t\t\t\"name\" : \"Ammar Sahab\",\r\n\t\t\t\"contactno\": \"923248262088\",\r\n\t\t\t\"address\" : \"123 PIb Colony\",\r\n\t\t\t\"daysdelivery\" : \"3\",\r\n\t\t\t\"rate\" : 60,\r\n\t\t\t\"deposit\": 600,\r\n\t\t\"noofbottles\" : 2\r\n\t\t\r\n}"
+		}
+	]
+}
