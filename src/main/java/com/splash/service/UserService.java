@@ -19,4 +19,6 @@ public interface UserService {
 
 	UserEntity LoginUser(String username, String password);
 
+	public UserEntity getUserbytoken();
+
 }
