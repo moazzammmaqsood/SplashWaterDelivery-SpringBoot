@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -23,12 +24,19 @@ public class LoginController extends BaseController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
+    @ResponseBody
     public ResponseEntity<?> v1Login(@Valid @RequestBody LoginRequest loginRequest) {
 
     	
         ParameterizedAction<LoginRequest, ResponseEntity<?>> v1LoginInternal = (request) -> {
+
             LoginResponse response = loginService.login(request);
-            return ResponseEntity.ok(response);
+      
+            
+            ResponseEntity<LoginResponse> responses= ResponseEntity.ok(response);
+            System.out.println(responses.getBody().toString());
+            
+            return responses;
         };
 
         return execute(loginRequest, v1LoginInternal);

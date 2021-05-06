@@ -30,7 +30,8 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     @Transactional
     public UserEntity getUserbyloginid(String loginid) {
-        return null;
+    	return userDAO.getuserbyUsername(loginid);
+        
     }
 
     @Override
