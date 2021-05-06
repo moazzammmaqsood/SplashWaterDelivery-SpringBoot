@@ -18,6 +18,7 @@ import com.splash.controller.vendor.GetClientsResponse;
 import com.splash.domain.ApiException;
 import com.splash.domain.constants.ApiStatusCodes;
 import com.splash.domain.constants.ErrorMessages;
+import com.splash.domain.entity.ClientDelivery;
 import com.splash.domain.entity.ClientEntity;
 import com.splash.domain.entity.OrderEntity;
 import com.splash.domain.entity.User;
@@ -238,6 +239,37 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		
 		orderrepo.save(order);
 		
+	}
+
+
+	@Override
+	public List<ClientDelivery> getDeliveries() {
+
+		User user =getCurrentUser();
+		
+		Optional<UserEntity> vendoruser= userrepo.findByusername(user.getUsername());
+		
+		if(!vendoruser.isPresent()) {
+			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);	
+		}
+		
+		VendorEntity vendor= vendorrepo.findByUserid(vendoruser.get().getUserid());
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
+		}
+		
+		List<ClientDelivery> clientdel=orderrepo.getDailydelivery(vendor.getVendorid());
+		if(clientdel==null) {
+			return null;
+		}
+		List<ClientDelivery> resultlist=new ArrayList<>();
+		for (ClientDelivery clientDelivery : clientdel) {
+			if(clientDelivery.bottlefinished()) {
+				resultlist.add(clientDelivery);
+			}
+		}
+		
+		return resultlist;
 	}
 
 

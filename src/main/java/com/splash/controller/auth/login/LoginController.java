@@ -27,8 +27,8 @@ public class LoginController extends BaseController {
 
     	
         ParameterizedAction<LoginRequest, ResponseEntity<?>> v1LoginInternal = (request) -> {
-            String token = loginService.login(request);
-            return ResponseEntity.ok(new LoginResponse(token));
+            LoginResponse response = loginService.login(request);
+            return ResponseEntity.ok(response);
         };
 
         return execute(loginRequest, v1LoginInternal);

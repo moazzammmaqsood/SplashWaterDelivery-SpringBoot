@@ -16,7 +16,7 @@ import com.splash.common.BasicAction;
 import com.splash.common.ParameterizedAction;
 import com.splash.controller.base.BaseController;
 import com.splash.service.VendorService;
-
+import com.splash.domain.entity.*;
 @RestController
 public class VendorController extends BaseController  {
 
@@ -38,7 +38,6 @@ public class VendorController extends BaseController  {
 				 System.out.println(bindingResult.getAllErrors());
 			 }
 			 
-			 System.out.println("Check");
 			 
 	        ParameterizedAction<ClientRequest, ResponseEntity<?>> v1addclient = (request) -> {
 	        	vendorservice.addUser(request);
@@ -112,5 +111,23 @@ public class VendorController extends BaseController  {
 
 	        return execute(delivery,v1deliverclient);
 	    }
-	
+
+	    
+	    @GetMapping(
+	            value = "/api/v1/private/vendor/getdelivery",
+	            produces = MediaType.APPLICATION_JSON_VALUE,
+	            consumes = MediaType.APPLICATION_JSON_VALUE
+	    )
+	    public ResponseEntity<?> v1getdeliveries() {
+
+	    	
+	    	BasicAction< ResponseEntity<?>> v1getdeliveries = () -> {
+	    		List<ClientDelivery> list= vendorservice.getDeliveries();
+ 
+	    		return ResponseEntity.ok(list);
+	        };
+
+	        return execute(v1getdeliveries);
+	    }
+
 }
