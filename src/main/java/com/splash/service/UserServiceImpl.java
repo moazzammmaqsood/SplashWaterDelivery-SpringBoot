@@ -55,7 +55,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 	@Override
 	@Transactional
 	public UserEntity LoginUser(String username, String password) {
-		return null;//  userDAO.getLoginUser(username,password);
+		return    userDAO.getLoginUser(username,password);
 		
 	}
 
