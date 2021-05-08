@@ -228,28 +228,28 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		Optional<UserEntity> vendoruser= userrepo.findByusername(user.getUsername());
 		
 		if(!vendoruser.isPresent()) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);	
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);	
 		}
 		
 		VendorEntity vendor= vendorrepo.findByUserid(vendoruser.get().getUserid());
 		if(vendor==null) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
 		}	
 		
-		ClientEntity client= clientrepo.getOne(request.getId());
+		ClientEntity client= clientrepo.getOne(request.getClientid());
 		if(client==null) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
 		}
 	
 		
 		UserEntity clientuser= userrepo.getOne(client.getUserid());
 		
 		if(clientuser==null) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
 		}
 		
-		if(!clientuser.getCreatedby().equals(vendoruser.get().getUsername())) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.UNAUTHORIZED_USER_TYPE);
+		if( client.getVendorid()!= vendor.getVendorid()) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.UNAUTHORIZED_USER_TYPE);
 		}
 		
 		order.setClientid(client.getClientid());

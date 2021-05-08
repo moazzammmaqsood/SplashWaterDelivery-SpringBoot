@@ -110,7 +110,7 @@ public class VendorController extends BaseController  {
 			 
 	        ParameterizedAction<BottleDelivered, ResponseEntity<?>> v1deliverclient = (request) -> {
 	        	vendorservice.DeliverBottle(request);
-	            return ResponseEntity.ok("SUCCESS");
+	            return ResponseEntity.ok(new SuccessResponse("Bottle Sucessfully Delivered"));
 	        };
 
 	        return execute(delivery,v1deliverclient);
