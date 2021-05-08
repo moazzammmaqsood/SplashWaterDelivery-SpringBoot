@@ -129,7 +129,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		clientrepo.save(client);
 	 
 
-		if(request.getLastdelivery()!=null) { 
+		if(request.getLastdelivery()!=null && !request.getLastdelivery().isEmpty()) { 
 			OrderEntity order=new OrderEntity();
 			order.setBottlesdelivered(request.getLastbottles());
 			order.setBottlesrecieved(request.getLastrecieved());
