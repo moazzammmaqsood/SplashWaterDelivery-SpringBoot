@@ -7,6 +7,7 @@ import com.splash.controller.vendor.ClientRequest;
 import com.splash.controller.vendor.ClientUpdateRequest;
 import com.splash.controller.vendor.GetClientsResponse;
 import com.splash.domain.entity.ClientDelivery;
+import com.splash.entity.model.ClientDetails;
 
 public interface VendorService {
 	
@@ -22,5 +23,8 @@ public interface VendorService {
 
 	List<ClientDelivery> getDeliveries();
 
+	ClientDetails getclient(int clientid, int userid);
+
 }
+
 

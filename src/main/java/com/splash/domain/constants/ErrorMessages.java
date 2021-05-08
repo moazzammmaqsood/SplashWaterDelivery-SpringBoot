@@ -18,4 +18,7 @@ public final class ErrorMessages {
 	public static final String VENDOR_NOT_FOUND = "No vendor found for this user";
 	public static final String NULL_REQUEST = "Null Request";
 	public static final String CLIENT_NOT_FOUND = "No client found for this user";
+	public static final String USER_NOT_FOUND = "User Not Found";
+	public static final String ID_NOT_FOUND = "ID not found";
+	
 }

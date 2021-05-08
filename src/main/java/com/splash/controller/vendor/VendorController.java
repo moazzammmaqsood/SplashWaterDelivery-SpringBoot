@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import com.splash.controller.base.BaseController;
 import com.splash.service.VendorService;
 import com.splash.domain.SuccessResponse;
 import com.splash.domain.entity.*;
+import com.splash.entity.model.ClientDetails;
 @RestController
 public class VendorController extends BaseController  {
 
@@ -131,5 +133,24 @@ public class VendorController extends BaseController  {
 
 	        return execute(v1getdeliveries);
 	    }
+	    
+	    
+	    @GetMapping(
+	            value = "/api/v1/private/vendor/getclient/{clientid}/{userid}",
+	            produces = MediaType.APPLICATION_JSON_VALUE,
+	            consumes = MediaType.APPLICATION_JSON_VALUE
+	    )
+	    public ResponseEntity<?> v1getclientbyid(@PathVariable(name="clientid") int clientid,@PathVariable(name="userid") int userid ) {
+
+	    	
+	    	BasicAction< ResponseEntity<?>> v1getdeliveries = () -> {
+	    		ClientDetails client= vendorservice.getclient(clientid,userid);
+ 
+	    		return ResponseEntity.ok(client);
+	        };
+
+	        return execute(v1getdeliveries);
+	    }
+
 
 }
