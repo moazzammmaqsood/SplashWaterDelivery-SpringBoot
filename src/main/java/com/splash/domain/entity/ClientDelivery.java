@@ -10,10 +10,15 @@ import javax.persistence.Table;
 
 @Entity(name="ClientDelivery")
 
-@NamedNativeQuery(name="OrderEntity.getDailydelivery",query="select o.orderid,  c.clientid,c.userid,u.name,c.address,c.bottles,c.frequency,c.rate,DATEDIFF(CURDATE(),o.date ) AS days from worthywa_splash.client c inner join  worthywa_splash.orders o  on c.clientid =o.clientid "
-		+ "Inner join worthywa_splash.users u on c.userid = u.userid"
-		+ " where o.date = (select max(date) from  worthywa_splash.orders where clientid=o.clientid)"
-		+ " and o.vendorid= ?",resultClass =ClientDelivery.class)
+@NamedNativeQuery(name="OrderEntity.getDailydelivery",query="SELECT  c.clientid,c.userid,u.name,c.address,c.bottles,c.frequency,c.rate, "
+		+ "CASE "
+		+ "WHEN  o.date IS NULL THEN c.frequency  "
+		+ "ELSE DATEDIFF(CURDATE(),o.date ) "
+		+ "END  AS days FROM   worthywa_splash.client c left join worthywa_splash.orders o on c.clientid=o.clientid inner join worthywa_splash.users u on c.userid = u.userid  where  "
+		+ "c.vendorid= ?1  "
+		+ "AND ( o.date = (select max(date) from  worthywa_splash.orders where clientid=c.clientid) "
+		+ "OR o.date is null) "
+		+ "order by name ",resultClass =ClientDelivery.class)
 
 
 
@@ -23,8 +28,7 @@ import javax.persistence.Table;
 public class ClientDelivery {
 	
 	@Id
-	int orderid;
-	
+ 
 	@Column(name="clientid")
 	int clientid;
 	
@@ -49,10 +53,10 @@ public class ClientDelivery {
 	@Column(name="days")
 	int days;
 
-	public ClientDelivery(int orderid, int clientid, int userid, String name, String address, int bottles,
+	public ClientDelivery( int clientid, int userid, String name, String address, int bottles,
 			int frequency, int rate, int days) {
 		super();
-		this.orderid = orderid;
+ 
 		this.clientid = clientid;
 		this.userid = userid;
 		this.name = name;
@@ -62,15 +66,7 @@ public class ClientDelivery {
 		this.rate = rate;
 		this.days = days;
 	}
-
-	public int getOrderid() {
-		return orderid;
-	}
-
-	public void setOrderid(int orderid) {
-		this.orderid = orderid;
-	}
-
+ 
 	public int getClientid() {
 		return clientid;
 	}
@@ -142,7 +138,7 @@ public class ClientDelivery {
 
 	@Override
 	public String toString() {
-		return "ClientDelivery [orderid=" + orderid + ", clientid=" + clientid + ", userid=" + userid + ", name=" + name
+		return "ClientDelivery [  clientid=" + clientid + ", userid=" + userid + ", name=" + name
 				+ ", address=" + address + ", bottles=" + bottles + ", frequency=" + frequency + ", rate=" + rate
 				+ ", days=" + days + "]";
 	}

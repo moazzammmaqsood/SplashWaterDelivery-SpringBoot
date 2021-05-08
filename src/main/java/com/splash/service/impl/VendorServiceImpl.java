@@ -1,10 +1,12 @@
 package com.splash.service.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -96,46 +98,64 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	@Override
 	public void addUser(ClientRequest request) {
 		
-
+ 
 		User user = getCurrentUser();
-		
+		 
 		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername()); 
 		if(!optionaluser.isPresent())
-		{
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		{ 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
-
+ 
 		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
 		
-
-		if(vendor==null) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
+		 
+		if(vendor==null) { 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
 		}
-		String Clientusername=generateusername(vendor.getShortcode());
-		
+ 
+		int nextval=userrepo.findlastuserid() + 1 ;
+		 
+		String Clientusername=generateusername(vendor.getShortcode(),nextval);
+ 
 		UserEntity newuser =new UserEntity(request.getEmail(),passwordEncoder.encode("splash123123"),request.getName(),request.getContactno(),Clientusername,"C",optionaluser.get().getUsername());
 		
+		 
 		newuser.setCreatedon(new Date());
 		newuser.setStatus("E");
 		userrepo.save(newuser);
-		
+		 
 		ClientEntity client=new ClientEntity(newuser.getUserid(), request.getAddress(), request.getRate(), vendor.getVendorid(), request.getFrequency(), request.getNoofbottles(),request.getDeposit());
 		clientrepo.save(client);
-	
+	 
+
+		if(request.getLastdelivery()!=null) { 
+			OrderEntity order=new OrderEntity();
+			order.setBottlesdelivered(request.getLastbottles());
+			order.setBottlesrecieved(request.getLastrecieved());
+			order.setPayment(request.getLastpayment());
+			order.setClientid(client.getClientid());
+			order.setVendorid(vendor.getVendorid());
+	 
+			try {
+				order.setDate(Utils.DatetoString(request.getLastdelivery()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+		 
+				throw new ApiException(ApiStatusCodes.SERVER_ERROR, e.getLocalizedMessage());
+			}
+			
+			orderrepo.save(order);
+	 
+		}
 			
 	}
 	
-	public String generateusername(String shortcode) {
+	public String generateusername(String shortcode,int nextval) {
 		
 		String username= "";
-		boolean usernamegenerated=false;
-		while(!usernamegenerated) {
-			username=shortcode+ Utils.generateRandomnumber(4);
-		if(!userrepo.findByusername(username).isPresent()) {
-			usernamegenerated=true;
-		}
-		
-		}
+		String usernum= String.valueOf(nextval);
+		username=shortcode+StringUtils.leftPad(usernum, 5,"0" );
 		
 		
 		return username;
@@ -259,11 +279,13 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		}
 		
 		List<ClientDelivery> clientdel=orderrepo.getDailydelivery(vendor.getVendorid());
-		if(clientdel==null) {
+		if(clientdel==null || clientdel.isEmpty()) {
 			return null;
 		}
+		 
 		List<ClientDelivery> resultlist=new ArrayList<>();
 		for (ClientDelivery clientDelivery : clientdel) {
+			System.out.println(clientDelivery);
 			if(clientDelivery.bottlefinished()) {
 				resultlist.add(clientDelivery);
 			}

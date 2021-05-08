@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.splash.domain.entity.UserEntity;
@@ -15,4 +16,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 	Optional<UserEntity> findByusername(String username);
 	
 	List<UserEntity> findAllByCreatedby(String createdby);
+	
+	@Query(value = "select userid from users  order by  userid desc limit 1", nativeQuery = true)
+	Integer findlastuserid();
 }

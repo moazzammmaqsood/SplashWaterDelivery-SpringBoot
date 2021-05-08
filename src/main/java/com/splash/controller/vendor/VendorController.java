@@ -16,6 +16,7 @@ import com.splash.common.BasicAction;
 import com.splash.common.ParameterizedAction;
 import com.splash.controller.base.BaseController;
 import com.splash.service.VendorService;
+import com.splash.domain.SuccessResponse;
 import com.splash.domain.entity.*;
 @RestController
 public class VendorController extends BaseController  {
@@ -38,10 +39,11 @@ public class VendorController extends BaseController  {
 				 System.out.println(bindingResult.getAllErrors());
 			 }
 			 
+	 
 			 
 	        ParameterizedAction<ClientRequest, ResponseEntity<?>> v1addclient = (request) -> {
 	        	vendorservice.addUser(request);
-	            return ResponseEntity.ok("SUCCESS");
+	            return ResponseEntity.ok(new SuccessResponse("Successfull added Client"));
 	        };
 
 	        return execute(client,v1addclient);

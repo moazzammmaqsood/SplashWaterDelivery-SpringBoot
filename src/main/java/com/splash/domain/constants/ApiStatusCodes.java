@@ -12,5 +12,6 @@ public final class ApiStatusCodes {
     
 
     public static final int DUPLICATE_USERNAME=50;
-	public static final int DUPLICATE_EMAIL = 51; 
+	public static final int DUPLICATE_EMAIL = 51;
+	public static final int SERVER_ERROR = 501; 
 }

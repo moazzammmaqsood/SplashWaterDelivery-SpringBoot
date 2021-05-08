@@ -29,7 +29,7 @@ public class LoginController extends BaseController {
 
     	
         ParameterizedAction<LoginRequest, ResponseEntity<?>> v1LoginInternal = (request) -> {
-
+      
             LoginResponse response = loginService.login(request);
       
             
