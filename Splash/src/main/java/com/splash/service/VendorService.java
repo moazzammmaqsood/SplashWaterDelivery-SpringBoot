@@ -6,6 +6,7 @@ import com.splash.controller.vendor.BottleDelivered;
 import com.splash.controller.vendor.ClientRequest;
 import com.splash.controller.vendor.ClientUpdateRequest;
 import com.splash.controller.vendor.GetClientsResponse;
+import com.splash.domain.entity.ClientDelivery;
 
 public interface VendorService {
 	
@@ -19,5 +20,10 @@ public interface VendorService {
 	
 	void DeliverBottle(BottleDelivered request);
 
+	List<ClientDelivery> getDeliveries();
+
+	ClientDetails getclient(int clientid, int userid);
+
 }
+
 

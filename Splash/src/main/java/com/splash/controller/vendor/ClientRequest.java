@@ -26,13 +26,18 @@ public class ClientRequest {
 
     private int frequency;
 	
-
+    
 	private int rate;
 
 	private int deposit;
 	
 	private String lastdelivery;
-
+ 
+    int lastbottles;
+    
+    int lastrecieved;
+    
+    int lastpayment;
 
 	private int noofbottles;
 
@@ -108,12 +113,13 @@ public class ClientRequest {
 		this.noofbottles = noofbottles;
 	}
 
+	
 	public ClientRequest(
 			@Size(max = 100, message = "Max length for name can not exceed 100 characters.") @NotEmpty(message = "name must not be empty.") String name,
 			@Size(max = 45, message = "Max length for contactno can not exceed 100 characters.") @NotEmpty(message = "contactno must not be empty.") String contactno,
 			@Size(max = 100, message = "Max length for address can not exceed 100 characters.") @NotEmpty(message = "address must not be empty.") String address,
-			String email, @NotNull int frequency, @NotNull int rate, @NotNull int deposit, String lastdelivery,
-			@NotNull int noofbottles) {
+			String email, int frequency, int rate, int deposit, String lastdelivery, int lastbottles, int lastrecieved,
+			int lastpayment, int noofbottles) {
 		super();
 		this.name = name;
 		this.contactno = contactno;
@@ -123,19 +129,45 @@ public class ClientRequest {
 		this.rate = rate;
 		this.deposit = deposit;
 		this.lastdelivery = lastdelivery;
+		this.lastbottles = lastbottles;
+		this.lastrecieved = lastrecieved;
+		this.lastpayment = lastpayment;
 		this.noofbottles = noofbottles;
 	}
+
+
+
 
 	public ClientRequest() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "ClientRequest [name=" + name + ", contactno=" + contactno + ", address=" + address + ", email=" + email
-				+ ", frequency=" + frequency + ", rate=" + rate + ", deposit=" + deposit + ", lastdelivery="
-				+ lastdelivery + ", noofbottles=" + noofbottles + "]";
+
+
+
+	public int getLastbottles() {
+		return lastbottles;
+	}
+
+	public void setLastbottles(int lastbottles) {
+		this.lastbottles = lastbottles;
+	}
+
+	public int getLastrecieved() {
+		return lastrecieved;
+	}
+
+	public void setLastrecieved(int lastrecieved) {
+		this.lastrecieved = lastrecieved;
+	}
+
+	public int getLastpayment() {
+		return lastpayment;
+	}
+
+	public void setLastpayment(int lastpayment) {
+		this.lastpayment = lastpayment;
 	}
 	
 	

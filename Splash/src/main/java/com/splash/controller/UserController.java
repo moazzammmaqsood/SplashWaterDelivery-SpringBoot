@@ -1,5 +1,7 @@
 package com.splash.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.splash.common.BasicAction;
+import com.splash.controller.base.BaseController;
+import com.splash.controller.vendor.GetClientsResponse;
 import com.splash.domain.entity.UserEntity;
 import com.splash.entity.model.ErrorResponse;
 import com.splash.entity.model.LoginForm;
@@ -24,8 +29,7 @@ import com.splash.service.UserService;
 
 
 @RestController
-@RequestMapping(value = "/user")
-public class UserController {
+public class UserController extends BaseController{
 	
 	
 
@@ -48,6 +52,20 @@ public class UserController {
     	}
     	
         return ResponseEntity.ok(userService.getUser(id));
+
+    }
+    ///api/v1/private/user/get-user
+    @RequestMapping(value="/api/v1/private/user/get-user",method = RequestMethod.GET)
+    public ResponseEntity<?> v1getuser( ){
+
+ 
+        
+        BasicAction< ResponseEntity<?>> v1getuser = () -> {
+    		UserEntity user = userService.getUserbytoken();
+    		return ResponseEntity.ok(user);
+        };
+
+        return execute(v1getuser);
 
     }
 	
