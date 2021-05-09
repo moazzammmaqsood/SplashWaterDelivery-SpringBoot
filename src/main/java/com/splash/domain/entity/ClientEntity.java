@@ -37,7 +37,20 @@ public class ClientEntity {
 	private int deposit;
 
 	
+	 @OneToOne(mappedBy = "client")
+	  private UserEntity user;
 
+	 
+	 
+
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
+	}
 
 	public int getClientid() {
 		return clientid;
@@ -142,8 +155,12 @@ public class ClientEntity {
 	@Override
 	public String toString() {
 		return "ClientEntity [clientid=" + clientid + ", userid=" + userid + ", address=" + address + ", rate=" + rate
-				+ ", vendorid=" + vendorid + ", frequency=" + frequency + ", bottles=" + bottles + "]";
+				+ ", vendorid=" + vendorid + ", frequency=" + frequency + ", bottles=" + bottles + ", deposit="
+				+ deposit + ", user=" + user + "]";
 	}
+
+
+
 
 	
 	
