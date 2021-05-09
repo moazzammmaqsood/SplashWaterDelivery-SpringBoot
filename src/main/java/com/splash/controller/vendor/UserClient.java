@@ -5,15 +5,29 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
+
+import com.splash.domain.entity.ClientDelivery;
  
  
+@Entity(name="UserClient")
+
+@NamedNativeQuery(name="ClientEntity.getbyClientsbyvendor",query=" SELECT c.userid,c.clientid,u.name,c.address,c.bottles FROM worthywa_splash.client c Inner Join worthywa_splash.users u on c.userid =  u.userid where vendorid=?",resultClass =UserClient.class)
+
+
+
+@Table(name="client")
 public class UserClient {
 
  
+	@Id
 	int userid ; 
-	int clientid; 
-	String name; 
-	String Address; 
+	@Column
+	int clientid;
+	@Column
+	String name;
+	@Column
+	String Address;
+	@Column
 	int bottles;
 //	u.userid,
 //	  u.name,

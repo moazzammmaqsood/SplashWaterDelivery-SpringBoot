@@ -380,22 +380,23 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		}
 		
 		
-		Optional<List<ClientEntity>> clients=clientrepo.findAllByvendorid(vendor.getVendorid());
-	List<UserClient> userclient=new ArrayList<UserClient>();
+		 List<UserClient>  clients=clientrepo.getbyClientsbyvendor(vendor.getVendorid());
+//	List<UserClient> userclient=new ArrayList<UserClient>();
+//		
+//		if(clients.isPresent()) {
+//			for (ClientEntity clientdetails : clients.get()) {
+//				if (clientdetails.getUser()!=null) {
+//					userclient.add(new UserClient(clientdetails.getUserid(), clientdetails.getClientid(), clientdetails.getUser().getName(), clientdetails.getAddress(), clientdetails.getBottles()));
+//							
+//				}
+//					
+//			} 
+//		}
 		
-		if(clients.isPresent()) {
-			for (ClientEntity clientdetails : clients.get()) {
-				if (clientdetails.getUser()!=null) {
-					userclient.add(new UserClient(clientdetails.getUserid(), clientdetails.getClientid(), clientdetails.getUser().getName(), clientdetails.getAddress(), clientdetails.getBottles()));
-							
-				}
-					
-			} 
-		}
 		
+		if(clients!=null || !clients.isEmpty()) return clients ;
+		else return null;
 		
-		
-		return userclient;
 	}
 
 

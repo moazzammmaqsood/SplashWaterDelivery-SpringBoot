@@ -21,6 +21,6 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Integer> {
 	
 //	List<UserClient> getClientList(int vendorid);
 	
-		
+		List<UserClient> getbyClientsbyvendor(int vendorid);
 
 }

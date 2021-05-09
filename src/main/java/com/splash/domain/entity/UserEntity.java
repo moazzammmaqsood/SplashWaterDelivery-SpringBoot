@@ -44,7 +44,7 @@ public class UserEntity {
 	
 	
 	@OneToOne(cascade= CascadeType.ALL)
-	@JoinColumn(name="userid" ,referencedColumnName = "userid",nullable=true)
+	@JoinColumn(name="userid" ,referencedColumnName = "userid")
 	private ClientEntity client;
 
 	
