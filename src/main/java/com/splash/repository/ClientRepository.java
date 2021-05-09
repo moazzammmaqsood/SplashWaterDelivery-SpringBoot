@@ -19,7 +19,7 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Integer> {
 	Optional<List<ClientEntity> >findAllByvendorid(int vendorid);
 	
 	
-	List<UserClient> getClientList(int vendorid);
+//	List<UserClient> getClientList(int vendorid);
 	
 		
 

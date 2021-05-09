@@ -27,7 +27,7 @@ public interface VendorService {
 
 	ClientDetails getclient(int clientid, int userid);
 	
-	List<ClientEntity> getClientsbyvendor( );
+	List<UserClient> getClientsbyvendor( );
 
 }
 

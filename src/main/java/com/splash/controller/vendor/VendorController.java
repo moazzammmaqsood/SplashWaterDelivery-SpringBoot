@@ -61,7 +61,7 @@ public class VendorController extends BaseController  {
 
 	    	
 	    	BasicAction< ResponseEntity<?>> v1getclients = () -> {
-	    		List<ClientEntity> list= vendorservice.getClientsbyvendor();
+	    		List<UserClient> list= vendorservice.getClientsbyvendor();
 //	    		System.out.println(list);
 	    		return ResponseEntity.ok(list);
 	        };

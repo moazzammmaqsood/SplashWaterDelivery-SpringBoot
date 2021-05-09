@@ -364,7 +364,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 
 
 	@Override
-	public List<ClientEntity> getClientsbyvendor() {
+	public List<UserClient> getClientsbyvendor() {
 		User user = getCurrentUser(); 
 		
 		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername()); 
@@ -381,13 +381,21 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		
 		
 		Optional<List<ClientEntity>> clients=clientrepo.findAllByvendorid(vendor.getVendorid());
+	List<UserClient> userclient=new ArrayList<UserClient>();
+		
 		if(clients.isPresent()) {
-			System.out.println(clients.get().toString());	
+			for (ClientEntity clientdetails : clients.get()) {
+				if (clientdetails.getUser()!=null) {
+					userclient.add(new UserClient(clientdetails.getUserid(), clientdetails.getClientid(), clientdetails.getUser().getName(), clientdetails.getAddress(), clientdetails.getBottles()));
+							
+				}
+					
+			} 
 		}
 		
 		
 		
-		return clients.get();
+		return userclient;
 	}
 
 

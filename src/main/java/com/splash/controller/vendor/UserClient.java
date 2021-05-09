@@ -6,27 +6,14 @@ import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
  
-
-@Entity
-//Select c.userid,c.clientid, u.name, c.address,c.bottles from worthywa_splash.users u inner join worthywa_splash.client c on u.userid =c.userid where c.vendorid=?
-//;
-@NamedNativeQuery(name="ClientEntity.getClientList",query=" Select c.userid,c.clientid, u.name, c.address,c.bottles from worthywa_splash.users u inner join worthywa_splash.client c on u.userid =c.userid where c.vendorid=? ",resultClass =UserClient.class)
-
-@Table(name="client")
-
-
+ 
 public class UserClient {
 
-	@Id
-	@Column
-	int userid ;
-	@Column
-	int clientid;
-	@Column
-	String name;
-	@Column
-	String Address;
-	@Column
+ 
+	int userid ; 
+	int clientid; 
+	String name; 
+	String Address; 
 	int bottles;
 //	u.userid,
 //	  u.name,
