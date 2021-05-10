@@ -33,7 +33,7 @@ public class Utils {
 
 	public static String Datetostring(Date date) { 
 		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
 		String strDate = dateFormat.format(date);  
 		return strDate;
 	}

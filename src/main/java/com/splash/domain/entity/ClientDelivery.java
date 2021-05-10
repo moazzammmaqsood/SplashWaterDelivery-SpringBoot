@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @NamedNativeQuery(name="OrderEntity.getDailydelivery",query="SELECT  c.clientid,c.userid,u.name,c.address,c.bottles,c.frequency,c.rate, "
 		+ "CASE "
 		+ "WHEN  o.date IS NULL THEN c.frequency  "
-		+ "ELSE DATEDIFF(CURDATE(),o.date ) "
+		+ "ELSE DATEDIFF(CURDATE(),o.date ) + 1 "
 		+ "END  AS days FROM   worthywa_splash.client c left join worthywa_splash.orders o on c.clientid=o.clientid inner join worthywa_splash.users u on c.userid = u.userid  where  "
 		+ "c.vendorid= ?1  "
 		+ "AND ( o.date = (select max(date) from  worthywa_splash.orders where clientid=c.clientid) "
