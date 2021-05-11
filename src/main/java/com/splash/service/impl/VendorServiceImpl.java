@@ -259,7 +259,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		order.setVendorid(vendor.getVendorid());
 		order.setBottlesdelivered(request.getBottlesdel());
 		order.setBottlesrecieved(request.getBottlesrec());
-		order.setPayment(request.getBottlesdel());
+		order.setPayment(request.getPayment());
 		order.setDate(new Date());
 		
 		orderrepo.save(order);
