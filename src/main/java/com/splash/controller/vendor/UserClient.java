@@ -11,7 +11,7 @@ import com.splash.domain.entity.ClientDelivery;
  
 @Entity(name="UserClient")
 
-@NamedNativeQuery(name="ClientEntity.getbyClientsbyvendor",query=" SELECT c.userid,c.clientid,u.name,c.address,c.bottles FROM worthywa_splash.client c Inner Join worthywa_splash.users u on c.userid =  u.userid where vendorid=?",resultClass =UserClient.class)
+@NamedNativeQuery(name="ClientEntity.getbyClientsbyvendor",query=" SELECT c.userid,c.clientid,u.name,c.address,c.bottles FROM worthywa_splash.client c Inner Join worthywa_splash.users u on c.userid =  u.userid where vendorid=? order by u.name",resultClass =UserClient.class)
 
 
 
