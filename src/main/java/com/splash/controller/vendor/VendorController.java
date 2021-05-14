@@ -17,7 +17,10 @@ import com.splash.common.BasicAction;
 import com.splash.common.ParameterizedAction;
 import com.splash.controller.base.BaseController;
 import com.splash.service.VendorService;
+import com.splash.domain.ApiException;
 import com.splash.domain.SuccessResponse;
+import com.splash.domain.constants.ApiStatusCodes;
+import com.splash.domain.constants.ErrorMessages;
 import com.splash.domain.entity.*;
 import com.splash.entity.model.ClientDetails;
 @RestController
@@ -151,6 +154,65 @@ public class VendorController extends BaseController  {
 
 	        return execute(v1getdeliveries);
 	    }
+	    
+	    
+	    @GetMapping(
+	            value = "/api/v1/private/vendor/get_client_orders/{clientid}",
+	            produces = MediaType.APPLICATION_JSON_VALUE,
+	            consumes = MediaType.APPLICATION_JSON_VALUE
+	    )
+	    public ResponseEntity<?> v1getClientOrders(@PathVariable("clientid") int clientid) {
 
+	    	
+	    	BasicAction< ResponseEntity<?>> v1getdeliveries = () -> {
+	    		List<OrderEntity> list= vendorservice.getClientOrders(clientid);
+ 
+	    		return ResponseEntity.ok(list);
+	        };
+
+	        return execute(v1getdeliveries);
+	    }
+
+	    
+	    @GetMapping(
+	            value = "/api/v1/private/vendor/delete_get_client_order/{orderid}",
+	            produces = MediaType.APPLICATION_JSON_VALUE,
+	            consumes = MediaType.APPLICATION_JSON_VALUE
+	    )
+	    public ResponseEntity<?> v1deleteClientOrder(@PathVariable("orderid") int orderid) {
+
+	    	
+	    	BasicAction< ResponseEntity<?>> v1getdeliveries = () -> {
+
+	    		vendorservice.deleteClientOrder(orderid);
+ 
+	    		return ResponseEntity.ok(new SuccessResponse("Succesfully Deleted Order"));
+	        };
+
+	        return execute(v1getdeliveries);
+	    }
+	    
+	    
+	    @PostMapping(
+	            value = "/api/v1/private/vendor/edit_client",
+	            produces = MediaType.APPLICATION_JSON_VALUE,
+	            consumes = MediaType.APPLICATION_JSON_VALUE
+	    )
+	    public ResponseEntity<?> v1editclient(@Valid @RequestBody EditClientRequest client,BindingResult bindingResult) {
+
+	   	 
+			 if(bindingResult.hasErrors()) {
+				throw new ApiException(ApiStatusCodes.BAD_REQUEST,bindingResult.getFieldError().getDefaultMessage());
+			 }
+			 
+	 
+			 
+	        ParameterizedAction<EditClientRequest, ResponseEntity<?>> v1editclient = (request) -> {
+	        	vendorservice.editUser(request);
+	            return ResponseEntity.ok(new SuccessResponse("Successfull added Client"));
+	        };
+
+	        return execute(client,v1editclient);
+	    }
 
 }

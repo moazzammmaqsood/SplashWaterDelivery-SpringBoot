@@ -31,6 +31,21 @@ public class OrderEntity {
 	@Column(name="date")
 	private Date date;
 
+	
+	@Column(name="status")
+	private String status;
+	
+	
+	
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public int getOrderid() {
 		return orderid;
 	}
@@ -87,8 +102,11 @@ public class OrderEntity {
 		this.date = date;
 	}
 
+
+
+
 	public OrderEntity(int orderid, int clientid, int vendorid, int bottlesdelivered, int bottlesrecieved, int payment,
-			Date date) {
+			Date date, String status) {
 		super();
 		this.orderid = orderid;
 		this.clientid = clientid;
@@ -97,12 +115,21 @@ public class OrderEntity {
 		this.bottlesrecieved = bottlesrecieved;
 		this.payment = payment;
 		this.date = date;
+		this.status = status;
 	}
 
 	public OrderEntity() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public String toString() {
+		return "OrderEntity [orderid=" + orderid + ", clientid=" + clientid + ", vendorid=" + vendorid
+				+ ", bottlesdelivered=" + bottlesdelivered + ", bottlesrecieved=" + bottlesrecieved + ", payment="
+				+ payment + ", date=" + date + ", status=" + status + "]";
+	}
+	
 	
 	
 

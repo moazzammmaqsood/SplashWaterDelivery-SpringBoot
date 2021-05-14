@@ -3,6 +3,7 @@
 package com.splash.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +30,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 	
 //	@Query(nativeQuery = true, value = "SELECT clientid ,sum(bottlesdelivered) as totalbottles ,sum(bottlesrecieved) as totalrecieved ,sum(payment) as totalpayment FROM worthywa_splash.orders where clientid = ?1 group by clientid")
 	ClientTotalDetail getClientTotalDetail(int clientid);
+	
+	
+	Optional<List<OrderEntity>>  findAllByclientid(int clientid);
 }

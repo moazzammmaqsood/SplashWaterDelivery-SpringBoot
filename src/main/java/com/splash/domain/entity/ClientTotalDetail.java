@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity(name="ClientTotalDetail")
 
-@NamedNativeQuery(name="OrderEntity.getClientTotalDetail",query=" SELECT clientid ,sum(bottlesdelivered) as totalbottles ,sum(bottlesrecieved) as totalrecieved ,sum(payment) as totalpayment , max(date) date FROM worthywa_splash.orders where clientid = ?1 group by clientid ",resultClass =ClientTotalDetail.class)
+@NamedNativeQuery(name="OrderEntity.getClientTotalDetail",query=" SELECT clientid ,sum(bottlesdelivered) as totalbottles ,sum(bottlesrecieved) as totalrecieved ,sum(payment) as totalpayment , max(date) date FROM worthywa_splash.orders where clientid = ?1 and status != 'D' group by clientid ",resultClass =ClientTotalDetail.class)
 
 
 @Table(name="orders")
