@@ -209,7 +209,7 @@ public class VendorController extends BaseController  {
 			 
 	        ParameterizedAction<EditClientRequest, ResponseEntity<?>> v1editclient = (request) -> {
 	        	vendorservice.editUser(request);
-	            return ResponseEntity.ok(new SuccessResponse("Successfull added Client"));
+	            return ResponseEntity.ok(new SuccessResponse("Successfull Updated Client"));
 	        };
 
 	        return execute(client,v1editclient);

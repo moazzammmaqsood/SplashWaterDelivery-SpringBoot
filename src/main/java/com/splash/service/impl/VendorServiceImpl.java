@@ -351,13 +351,13 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		
 //		System.out.println(clienttotal);
 			if(clienttotal.getDate()!=null) {
-				 clientdetails= new ClientDetails(userid, clientid, userent.get().getName(), userent.get().getPhone(),clientent.get().getAddress(), clienttotal.getTotalbottles() , bottlesholding, clientent.get().getRate(), Utils.Datetostring(clienttotal.getDate()),clientent.get().getFrequency(),payment,paymentrecieved);	
+				 clientdetails= new ClientDetails(userid, clientid, userent.get().getName(), userent.get().getPhone(),clientent.get().getAddress(), clienttotal.getTotalbottles() , bottlesholding, clientent.get().getRate(), Utils.Datetostring(clienttotal.getDate()),clientent.get().getFrequency(),payment,paymentrecieved,clientent.get().getDeposit(),clientent.get().getBottles(),clientent.get().getOncall());	
 			}else {
-				 clientdetails= new ClientDetails(userid, clientid, userent.get().getName(), userent.get().getPhone(),clientent.get().getAddress(), clienttotal.getTotalbottles(),bottlesholding, clientent.get().getRate(), " ",clientent.get().getFrequency(),payment,paymentrecieved);
+				 clientdetails= new ClientDetails(userid, clientid, userent.get().getName(), userent.get().getPhone(),clientent.get().getAddress(), clienttotal.getTotalbottles(),bottlesholding, clientent.get().getRate(), " ",clientent.get().getFrequency(),payment,paymentrecieved,clientent.get().getDeposit(),clientent.get().getBottles(),clientent.get().getOncall());
 			}
 		 
 		} else {
-			 clientdetails= new ClientDetails(userid, clientid, userent.get().getName(), userent.get().getPhone(),clientent.get().getAddress(),0,bottlesholding, clientent.get().getRate(), " ",clientent.get().getFrequency(),payment,paymentrecieved);
+			 clientdetails= new ClientDetails(userid, clientid, userent.get().getName(), userent.get().getPhone(),clientent.get().getAddress(),0,bottlesholding, clientent.get().getRate(), " ",clientent.get().getFrequency(),payment,paymentrecieved,clientent.get().getDeposit(),clientent.get().getBottles(),clientent.get().getOncall());
 		}
 		return clientdetails;
 	}

@@ -14,7 +14,9 @@ public class ClientDetails {
 	int daysperdelivery;
 	int paymentremaining;
 	int paid;
-	
+	int deposit;
+	int bottles;
+	String oncall;
 	
 	
 	public String getAddress() {
@@ -79,8 +81,27 @@ public class ClientDetails {
 	}
 	
 	
+	
 
 
+	public int getDeposit() {
+		return deposit;
+	}
+	public void setDeposit(int deposit) {
+		this.deposit = deposit;
+	}
+	public int getBottles() {
+		return bottles;
+	}
+	public void setBottles(int bottles) {
+		this.bottles = bottles;
+	}
+	public String getOncall() {
+		return oncall;
+	}
+	public void setOncall(String oncall) {
+		this.oncall = oncall;
+	}
 	public int getPaymentremaining() {
 		return paymentremaining;
 	}
@@ -97,8 +118,11 @@ public class ClientDetails {
 
 
 
+
+
 	public ClientDetails(int userid, int clientid, String name, String contact, String address, int totalbottles,
-			int bottlesholding, int rate, String lastdelivery, int daysperdelivery, int paymentremaining, int paid) {
+			int bottlesholding, int rate, String lastdelivery, int daysperdelivery, int paymentremaining, int paid,
+			int deposit, int bottles, String oncall) {
 		super();
 		this.userid = userid;
 		this.clientid = clientid;
@@ -112,8 +136,10 @@ public class ClientDetails {
 		this.daysperdelivery = daysperdelivery;
 		this.paymentremaining = paymentremaining;
 		this.paid = paid;
+		this.deposit = deposit;
+		this.bottles = bottles;
+		this.oncall = oncall;
 	}
-
 	public ClientDetails() {
 		super();
 		// TODO Auto-generated constructor stub
