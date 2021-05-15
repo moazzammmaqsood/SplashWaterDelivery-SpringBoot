@@ -31,6 +31,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 //	@Query(nativeQuery = true, value = "SELECT clientid ,sum(bottlesdelivered) as totalbottles ,sum(bottlesrecieved) as totalrecieved ,sum(payment) as totalpayment FROM worthywa_splash.orders where clientid = ?1 group by clientid")
 	ClientTotalDetail getClientTotalDetail(int clientid);
 	
-	
+	@Query(value=" FROM OrderEntity WHERE clientid= ?1 AND status = 'A' ")
 	Optional<List<OrderEntity>>  findAllByclientid(int clientid);
 }
