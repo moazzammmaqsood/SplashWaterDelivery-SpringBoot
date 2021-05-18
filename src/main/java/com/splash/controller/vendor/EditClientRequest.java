@@ -16,12 +16,10 @@ public class EditClientRequest {
     @NotEmpty(message = "name must not be empty.")
 	private String name;
     
-    @Size(max = 45, message = "Max length for contactno can not exceed 100 characters.")
-    @NotEmpty(message = "contactno must not be empty.")
+   
     private String contactno;
     
-    @Size(max = 100, message = "Max length for address can not exceed 100 characters.")
-    @NotEmpty(message = "address must not be empty.")
+ 
     private String address;
     
     
