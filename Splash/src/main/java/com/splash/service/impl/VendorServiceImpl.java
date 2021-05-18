@@ -16,21 +16,24 @@ import com.splash.controller.vendor.BottleDelivered;
 import com.splash.controller.vendor.ClientDeliveryRequest;
 import com.splash.controller.vendor.ClientRequest;
 import com.splash.controller.vendor.ClientUpdateRequest;
+import com.splash.controller.vendor.EditClientRequest;
 import com.splash.controller.vendor.GetClientsResponse;
+import com.splash.controller.vendor.UserClient;
 import com.splash.domain.ApiException;
 import com.splash.domain.constants.ApiStatusCodes;
 import com.splash.domain.constants.ErrorMessages;
 import com.splash.domain.entity.ClientDelivery;
 import com.splash.domain.entity.ClientEntity;
+import com.splash.domain.entity.ClientTotalDetail;
 import com.splash.domain.entity.OrderEntity;
 import com.splash.domain.entity.User;
 import com.splash.domain.entity.UserEntity;
 import com.splash.domain.entity.VendorEntity;
+import com.splash.entity.model.ClientDetails;
 import com.splash.repository.ClientRepository;
 import com.splash.repository.OrderRepository;
 import com.splash.repository.UserRepository;
 import com.splash.repository.VendorRepository;
-import com.splash.service.ClientDetails;
 import com.splash.service.VendorService;
 import com.splash.utils.Utils;
 
@@ -88,6 +91,8 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		
 	}
 
+	
+	
 
 	@Override
 	public String getuser() {
@@ -126,7 +131,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		newuser.setStatus("E");
 		userrepo.save(newuser);
 		 
-		ClientEntity client=new ClientEntity(newuser.getUserid(), request.getAddress(), request.getRate(), vendor.getVendorid(), request.getFrequency(), request.getNoofbottles(),request.getDeposit());
+		ClientEntity client=new ClientEntity(newuser.getUserid(), request.getAddress(), request.getRate(), vendor.getVendorid(), request.getFrequency(), request.getNoofbottles(),request.getDeposit(),request.getOncall());
 		clientrepo.save(client);
 	 
 
@@ -137,9 +142,9 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			order.setPayment(request.getLastpayment());
 			order.setClientid(client.getClientid());
 			order.setVendorid(vendor.getVendorid());
-	 
+			order.setStatus("A");
 			try {
-				order.setDate(Utils.DatetoString(request.getLastdelivery()));
+				order.setDate(Utils.StringtoDate(request.getLastdelivery()));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 		 
@@ -227,36 +232,37 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		Optional<UserEntity> vendoruser= userrepo.findByusername(user.getUsername());
 		
 		if(!vendoruser.isPresent()) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);	
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);	
 		}
 		
 		VendorEntity vendor= vendorrepo.findByUserid(vendoruser.get().getUserid());
 		if(vendor==null) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
 		}	
 		
-		ClientEntity client= clientrepo.getOne(request.getId());
+		ClientEntity client= clientrepo.getOne(request.getClientid());
 		if(client==null) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
 		}
 	
 		
 		UserEntity clientuser= userrepo.getOne(client.getUserid());
 		
 		if(clientuser==null) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
 		}
 		
-		if(!clientuser.getCreatedby().equals(vendoruser.get().getUsername())) {
-			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.UNAUTHORIZED_USER_TYPE);
+		if( client.getVendorid()!= vendor.getVendorid()) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.UNAUTHORIZED_USER_TYPE);
 		}
 		
 		order.setClientid(client.getClientid());
 		order.setVendorid(vendor.getVendorid());
 		order.setBottlesdelivered(request.getBottlesdel());
 		order.setBottlesrecieved(request.getBottlesrec());
-		order.setPayment(request.getBottlesdel());
+		order.setPayment(request.getPayment());
 		order.setDate(new Date());
+		order.setStatus("A");
 		
 		orderrepo.save(order);
 		
@@ -307,7 +313,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
 		}
 		
-		VendorEntity  vendor = vendorrepo.findByUserid(userid);
+		VendorEntity  vendor = vendorrepo.findByUserid(vendoruser.get().getUserid());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
 		}
@@ -331,12 +337,187 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USER_NOT_FOUND);
 		}
 		
+		ClientTotalDetail clienttotal = orderrepo.getClientTotalDetail(clientid);
+		
+		ClientDetails clientdetails;
+		int bottlesholding =0;
+		int payment=0;
+		int paymentrecieved=0;
+		if(clienttotal!= null) {
+		 bottlesholding =  clienttotal.getTotalbottles()-clienttotal.getTotalrecieved();
+		 payment= clienttotal.getTotalbottles()*clientent.get().getRate()-clienttotal.getTotalpayment();
+		 paymentrecieved=clienttotal.getTotalpayment();
+		
+		
+//		System.out.println(clienttotal);
+			if(clienttotal.getDate()!=null) {
+				 clientdetails= new ClientDetails(userid, clientid, userent.get().getName(), userent.get().getPhone(),clientent.get().getAddress(), clienttotal.getTotalbottles() , bottlesholding, clientent.get().getRate(), Utils.Datetostring(clienttotal.getDate()),clientent.get().getFrequency(),payment,paymentrecieved,clientent.get().getDeposit(),clientent.get().getBottles(),clientent.get().getOncall());	
+			}else {
+				 clientdetails= new ClientDetails(userid, clientid, userent.get().getName(), userent.get().getPhone(),clientent.get().getAddress(), clienttotal.getTotalbottles(),bottlesholding, clientent.get().getRate(), " ",clientent.get().getFrequency(),payment,paymentrecieved,clientent.get().getDeposit(),clientent.get().getBottles(),clientent.get().getOncall());
+			}
+		 
+		} else {
+			 clientdetails= new ClientDetails(userid, clientid, userent.get().getName(), userent.get().getPhone(),clientent.get().getAddress(),0,bottlesholding, clientent.get().getRate(), " ",clientent.get().getFrequency(),payment,paymentrecieved,clientent.get().getDeposit(),clientent.get().getBottles(),clientent.get().getOncall());
+		}
+		return clientdetails;
+	}
+
+
+
+
+	@Override
+	public List<UserClient> getClientsbyvendor() {
+		User user = getCurrentUser(); 
+		
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername()); 
+		
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+		
+		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
+		}
+		
+		
+		 List<UserClient>  clients=clientrepo.getbyClientsbyvendor(vendor.getVendorid());
+
+		if(clients!=null || !clients.isEmpty()) return clients ;
+		else return null;
+		
+	}
+
+
+
+
+	@Override
+	public List<OrderEntity> getClientOrders(int clientid) {
+		User user = getCurrentUser(); 
+		
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername());
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+		
+		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
+		}
+		
+		ClientEntity client =clientrepo.getOne(clientid);
+		if(client==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.CLIENT_NOT_FOUND);
+		}
+		
+		if (client.getVendorid()!=vendor.getVendorid()) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.UNAUTHORIZED_USER_TYPE);
+		}
+		
+		
+		Optional<List<OrderEntity>> orders= orderrepo.findAllByclientid(clientid);
+		
+		if(orders.isPresent()) {
+			return orders.get();
+		}else {
+			return null;
+		}
+
+
+	}
+
+
+
+
+	@Override
+	public void deleteClientOrder(int orderid) {
+
+		User user = getCurrentUser(); 
+		
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername());
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+		
+		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
+		}
+		
+		if(orderid==0) {
+			throw new ApiException(ApiStatusCodes.BAD_REQUEST,ErrorMessages.NULL_REQUEST);
+		}
+		OrderEntity order=orderrepo.getOne(orderid);
+		if(order.getVendorid()!=vendor.getVendorid()) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.UNAUTHORIZED_USER_TYPE);
+		}
+		
+		if(order.getStatus().equals("D")) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.ORDER_ALREADY_DELETED);
+		}
+		
+		order.setStatus("D");
+		
+		orderrepo.save(order);
 		
 		
 		
 		
 		
-		return null;
+	}
+
+
+
+
+	@Override
+	public void editUser(EditClientRequest request) {
+
+		User user = getCurrentUser();
+		 
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername()); 
+		if(!optionaluser.isPresent())
+		{ 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+ 
+		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		
+		 
+		if(vendor==null) { 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
+		}
+  
+		ClientEntity oldclient =clientrepo.getOne(request.getClientid());
+		if(oldclient.getVendorid()!=vendor.getVendorid()) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.UNAUTHORIZED_USER_TYPE);
+		}
+		
+		if(oldclient.getUserid()!=request.getUserid()) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.INVALID_USER_REQUEST);
+		}
+		UserEntity olduser= userrepo.getOne(oldclient.getUserid());
+		olduser.setEmail(request.getEmail());
+		olduser.setName(request.getName());
+		olduser.setPhone(request.getContactno());
+	  
+	 
+		userrepo.save(olduser);
+		 
+		oldclient.setAddress(request.getAddress());
+		oldclient.setRate(request.getRate());
+		oldclient.setFrequency(request.getFrequency());
+		oldclient.setBottles(request.getNoofbottles());
+		oldclient.setDeposit(request.getDeposit());
+		oldclient.setOncall(request.getOncall());
+		
+		
+		clientrepo.save(oldclient);
+	 
+ 
+		
 	}
 
 

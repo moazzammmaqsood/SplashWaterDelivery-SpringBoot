@@ -1,7 +1,9 @@
 package com.splash.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -24,8 +26,15 @@ public class Utils {
 		
 	}
 
-	public static Date DatetoString(String lastdelivery) throws ParseException {
+	public static Date StringtoDate(String lastdelivery) throws ParseException {
 		Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(lastdelivery);
         return date1;
+	}
+
+	public static String Datetostring(Date date) { 
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
+		String strDate = dateFormat.format(date);  
+		return strDate;
 	}
 }

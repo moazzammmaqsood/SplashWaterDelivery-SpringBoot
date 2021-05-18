@@ -1,21 +1,25 @@
 package com.splash.controller.vendor;
 
-import java.sql.Date;
-
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class ClientRequest {
+public class EditClientRequest {
 	
-    @Size(max = 100, message = "Max length for name can not exceed 100 characters.")
+	@Min(value=1,message="Invalid User Id")
+	int userid ;
+	
+	@Min(value=1,message="Invalid Client Id")
+	int clientid;
+	
+	@Size(max = 100, message = "Max length for name can not exceed 100 characters.")
     @NotEmpty(message = "name must not be empty.")
 	private String name;
     
-    @Size(max = 45, message = "Max length for contactno can not exceed 100 characters.")
+   
     private String contactno;
     
-    @Size(max = 100, message = "Max length for address can not exceed 100 characters.")
+ 
     private String address;
     
     
@@ -27,18 +31,11 @@ public class ClientRequest {
     
 	private int rate;
 
-	private int deposit;
-	
-	private String lastdelivery;
- 
-    int lastbottles;
-    
-    int lastrecieved;
-    
-    int lastpayment;
+	private int deposit; 
 
 	private int noofbottles;
 	
+	 @NotEmpty(message = "On Call must not be empty.")
 	private String oncall;
 
 	public String getName() {
@@ -97,13 +94,7 @@ public class ClientRequest {
 		this.deposit = deposit;
 	}
 
-	public String getLastdelivery() {
-		return lastdelivery;
-	}
-
-	public void setLastdelivery(String lastdelivery) {
-		this.lastdelivery = lastdelivery;
-	}
+ 
 
 	public int getNoofbottles() {
 		return noofbottles;
@@ -117,59 +108,6 @@ public class ClientRequest {
 
 
 
-	public ClientRequest(
-			@Size(max = 100, message = "Max length for name can not exceed 100 characters.") @NotEmpty(message = "name must not be empty.") String name,
-			@Size(max = 45, message = "Max length for contactno can not exceed 100 characters.") String contactno,
-			@Size(max = 100, message = "Max length for address can not exceed 100 characters.") String address,
-			String email, int frequency, int rate, int deposit, String lastdelivery, int lastbottles, int lastrecieved,
-			int lastpayment, int noofbottles, String oncall) {
-		super();
-		this.name = name;
-		this.contactno = contactno;
-		this.address = address;
-		this.email = email;
-		this.frequency = frequency;
-		this.rate = rate;
-		this.deposit = deposit;
-		this.lastdelivery = lastdelivery;
-		this.lastbottles = lastbottles;
-		this.lastrecieved = lastrecieved;
-		this.lastpayment = lastpayment;
-		this.noofbottles = noofbottles;
-		this.oncall = oncall;
-	}
-
-	public ClientRequest() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
-
-
-	public int getLastbottles() {
-		return lastbottles;
-	}
-
-	public void setLastbottles(int lastbottles) {
-		this.lastbottles = lastbottles;
-	}
-
-	public int getLastrecieved() {
-		return lastrecieved;
-	}
-
-	public void setLastrecieved(int lastrecieved) {
-		this.lastrecieved = lastrecieved;
-	}
-
-	public int getLastpayment() {
-		return lastpayment;
-	}
-
-	public void setLastpayment(int lastpayment) {
-		this.lastpayment = lastpayment;
-	}
 
 	public String getOncall() {
 		return oncall;
@@ -178,12 +116,56 @@ public class ClientRequest {
 	public void setOncall(String oncall) {
 		this.oncall = oncall;
 	}
-	
-	
-	
-	
+
+	public EditClientRequest(@Min(value = 1, message = "Invalid User Id") int userid,
+			@Min(value = 1, message = "Invalid Client Id") int clientid,
+			@Size(max = 100, message = "Max length for name can not exceed 100 characters.") @NotEmpty(message = "name must not be empty.") String name,
+			@Size(max = 45, message = "Max length for contactno can not exceed 100 characters.") @NotEmpty(message = "contactno must not be empty.") String contactno,
+			@Size(max = 100, message = "Max length for address can not exceed 100 characters.") @NotEmpty(message = "address must not be empty.") String address,
+			String email, int frequency, int rate, int deposit, int noofbottles, String oncall) {
+		super();
+		this.userid = userid;
+		this.clientid = clientid;
+		this.name = name;
+		this.contactno = contactno;
+		this.address = address;
+		this.email = email;
+		this.frequency = frequency;
+		this.rate = rate;
+		this.deposit = deposit;
+		this.noofbottles = noofbottles;
+		this.oncall = oncall;
+	}
+ 
+	public EditClientRequest() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
+	public int getClientid() {
+		return clientid;
+	}
+
+	public void setClientid(int clientid) {
+		this.clientid = clientid;
+	}
 	
 	
 	
 
+
+
+  
+	
+	
+	
+	
 }

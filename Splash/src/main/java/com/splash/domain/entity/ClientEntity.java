@@ -35,9 +35,26 @@ public class ClientEntity {
 
 	@Column(name="deposit")
 	private int deposit;
-
+	
+	@Column(name="oncall")
+	private String oncall;
 	
 
+	
+	 @OneToOne(mappedBy = "client")
+	  private UserEntity user;
+
+	 
+	 
+
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
+	}
 
 	public int getClientid() {
 		return clientid;
@@ -110,20 +127,19 @@ public class ClientEntity {
 		this.deposit = deposit;
 	}
 	
-	public ClientEntity(int clientid, int userid, String address, int rate, int vendorid, int frequency, int bottles,
-			int deposit) {
-		super();
-		this.clientid = clientid;
-		this.userid = userid;
-		this.address = address;
-		this.rate = rate;
-		this.vendorid = vendorid;
-		this.frequency = frequency;
-		this.bottles = bottles;
-		this.deposit = deposit;
+	
+	
+ 
+
+	public String getOncall() {
+		return oncall;
 	}
 
-	public ClientEntity(int userid, String address, int rate, int vendorid, int frequency, int bottles,int deposit) {
+	public void setOncall(String oncall) {
+		this.oncall = oncall;
+	}
+
+	public ClientEntity(int userid, String address, int rate, int vendorid, int frequency, int bottles,int deposit , String oncall) {
 		super();
 		this.userid = userid;
 		this.address = address;
@@ -132,6 +148,7 @@ public class ClientEntity {
 		this.frequency = frequency;
 		this.bottles = bottles;
 		this.deposit= deposit;
+		this.oncall = oncall; 
 	}
 
 	public ClientEntity() {
@@ -142,8 +159,14 @@ public class ClientEntity {
 	@Override
 	public String toString() {
 		return "ClientEntity [clientid=" + clientid + ", userid=" + userid + ", address=" + address + ", rate=" + rate
-				+ ", vendorid=" + vendorid + ", frequency=" + frequency + ", bottles=" + bottles + "]";
+				+ ", vendorid=" + vendorid + ", frequency=" + frequency + ", bottles=" + bottles + ", deposit="
+				+ deposit + ", oncall=" + oncall + ", user=" + user + "]";
 	}
+
+
+
+
+
 
 	
 	

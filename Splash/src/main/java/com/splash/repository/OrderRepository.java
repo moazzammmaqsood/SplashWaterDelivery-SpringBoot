@@ -3,6 +3,7 @@
 package com.splash.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.splash.domain.entity.ClientDelivery;
 import com.splash.domain.entity.ClientEntity;
+import com.splash.domain.entity.ClientTotalDetail;
 import com.splash.domain.entity.OrderEntity;
 
 @Repository
@@ -25,4 +27,10 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 //			+ "	 and o.vendorid= ?1")
 	List<ClientDelivery> getDailydelivery(int vendorid);
 	
+	
+//	@Query(nativeQuery = true, value = "SELECT clientid ,sum(bottlesdelivered) as totalbottles ,sum(bottlesrecieved) as totalrecieved ,sum(payment) as totalpayment FROM worthywa_splash.orders where clientid = ?1 group by clientid")
+	ClientTotalDetail getClientTotalDetail(int clientid);
+	
+	@Query(value=" FROM OrderEntity WHERE clientid= ?1 AND status = 'A' ")
+	Optional<List<OrderEntity>>  findAllByclientid(int clientid);
 }

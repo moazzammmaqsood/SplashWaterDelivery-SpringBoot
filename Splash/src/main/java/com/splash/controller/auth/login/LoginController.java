@@ -34,7 +34,7 @@ public class LoginController extends BaseController {
       
             
             ResponseEntity<LoginResponse> responses= ResponseEntity.ok(response);
-            System.out.println(responses.getBody().toString());
+
             
             return responses;
         };

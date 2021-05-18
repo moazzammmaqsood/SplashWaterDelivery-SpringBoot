@@ -2,7 +2,7 @@ package com.splash.controller.vendor;
 
 public class BottleDelivered {
 
-	int id;
+	int clientid;
 	int bottlesdel;
 	int bottlesrec;
 	int payment;
@@ -10,11 +10,13 @@ public class BottleDelivered {
 	
 	
 	
-	public int getId() {
-		return id;
+
+
+	public int getClientid() {
+		return clientid;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setClientid(int clientid) {
+		this.clientid = clientid;
 	}
 	public int getBottlesdel() {
 		return bottlesdel;
@@ -36,9 +38,11 @@ public class BottleDelivered {
 	}
 
 
-	public BottleDelivered(int id, int bottlesdel, int bottlesrec, int payment) {
+
+
+	public BottleDelivered(int clientid, int bottlesdel, int bottlesrec, int payment) {
 		super();
-		this.id = id;
+		this.clientid = clientid;
 		this.bottlesdel = bottlesdel;
 		this.bottlesrec = bottlesrec;
 		this.payment = payment;

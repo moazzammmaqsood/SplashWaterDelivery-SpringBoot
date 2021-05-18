@@ -42,7 +42,13 @@ public class UserEntity {
 	@Column(name="createdon")
 	Date createdon;
 	
+	
+	@OneToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="userid" ,referencedColumnName = "userid")
+	private ClientEntity client;
 
+	
+	
 //	private ClientEntity client;
 
 	
@@ -58,6 +64,14 @@ public class UserEntity {
 //	}
 //	
 	
+	public ClientEntity getClient() {
+		return client;
+	}
+
+	public void setClient(ClientEntity client) {
+		this.client = client;
+	}
+
 	public int getUserid() {
 		return userid;
 	}

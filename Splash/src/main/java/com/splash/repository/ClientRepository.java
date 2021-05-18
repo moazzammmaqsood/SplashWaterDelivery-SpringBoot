@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.splash.controller.vendor.UserClient;
 import com.splash.domain.entity.ClientEntity;
 import com.splash.domain.entity.UserEntity;
 
@@ -15,9 +16,11 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Integer> {
 	
 	Optional<ClientEntity> findByuserid(int Userid);
 	
+	Optional<List<ClientEntity> >findAllByvendorid(int vendorid);
 	
-
 	
-		
+//	List<UserClient> getClientList(int vendorid);
+	
+		List<UserClient> getbyClientsbyvendor(int vendorid);
 
 }
