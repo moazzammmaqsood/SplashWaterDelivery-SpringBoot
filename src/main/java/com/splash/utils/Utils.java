@@ -27,7 +27,9 @@ public class Utils {
 	}
 
 	public static Date StringtoDate(String lastdelivery) throws ParseException {
-		Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(lastdelivery);
+				
+		Date date1=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(lastdelivery+ " 10:00:00");
+		
         return date1;
 	}
 

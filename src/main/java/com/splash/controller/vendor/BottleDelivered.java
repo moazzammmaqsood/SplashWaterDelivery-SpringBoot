@@ -1,12 +1,14 @@
 package com.splash.controller.vendor;
 
+import java.util.Date;
+
 public class BottleDelivered {
 
 	int clientid;
 	int bottlesdel;
 	int bottlesrec;
 	int payment;
-	
+	String date;
 	
 	
 	
@@ -40,13 +42,27 @@ public class BottleDelivered {
 
 
 
-	public BottleDelivered(int clientid, int bottlesdel, int bottlesrec, int payment) {
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+
+	
+	
+	
+	public BottleDelivered(int clientid, int bottlesdel, int bottlesrec, int payment, String date) {
 		super();
 		this.clientid = clientid;
 		this.bottlesdel = bottlesdel;
 		this.bottlesrec = bottlesrec;
 		this.payment = payment;
+		this.date = date;
 	}
+	
+	
 	public BottleDelivered() {
 		super();
 		// TODO Auto-generated constructor stub
