@@ -420,7 +420,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		}
 		
 		
-		Optional<List<OrderEntity>> orders= orderrepo.findAllByclientid(clientid);
+		Optional<List<OrderEntity>> orders= orderrepo.findAllByclientidOrderByDateAsc(clientid);
 		
 		if(orders.isPresent()) {
 			return orders.get();
