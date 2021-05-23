@@ -11,6 +11,7 @@ import com.splash.controller.vendor.UserClient;
 import com.splash.domain.entity.ClientDelivery;
 import com.splash.domain.entity.ClientEntity;
 import com.splash.domain.entity.OrderEntity;
+import com.splash.domain.entity.VendorEntity;
 import com.splash.entity.model.ClientDetails;
 
 public interface VendorService {
@@ -37,6 +38,7 @@ public interface VendorService {
 
 	void editUser(EditClientRequest request);
 
+	VendorEntity getVendor(int id);
 }
 
 

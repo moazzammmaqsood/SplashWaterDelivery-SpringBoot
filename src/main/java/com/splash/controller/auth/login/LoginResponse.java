@@ -8,7 +8,8 @@ import java.util.Date;
 import com.splash.domain.entity.UserEntity;
 
 public class LoginResponse{
-    private String token;
+  
+	private String token;
   
 	private int userid;
 	
@@ -40,8 +41,23 @@ public class LoginResponse{
 	private Date createdon;
 
 
+	private String vendorname;
+	
+	
+	public String getVendorname() {
+		return vendorname;
+	}
+
+
+	public void setVendorname(String vendorname) {
+		this.vendorname = vendorname;
+	}
+
+
+ 
+
 	public LoginResponse(String token, int userid, String name, String email, String password, String username,
-			String phone, String userrole, String status, String createdby, Date createdon) {
+			String phone, String userrole, String status, String createdby, Date createdon, String vendorname) {
 		super();
 		this.token = token;
 		this.userid = userid;
@@ -54,6 +70,7 @@ public class LoginResponse{
 		this.status = status;
 		this.createdby = createdby;
 		this.createdon = createdon;
+		this.vendorname = vendorname;
 	}
 
 

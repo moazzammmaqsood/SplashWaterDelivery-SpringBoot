@@ -525,6 +525,15 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 
 
 
+
+	@Override
+	public VendorEntity getVendor(int id) {
+	    return vendorrepo.getOne(id);
+		
+	}
+
+
+
  	
 	
 	
