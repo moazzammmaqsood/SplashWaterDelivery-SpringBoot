@@ -145,9 +145,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			order.setStatus("A");
 			try {
 				order.setDate(Utils.StringtoDate(request.getLastdelivery()));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-		 
+			} catch (ParseException e) { 
 				throw new ApiException(ApiStatusCodes.SERVER_ERROR, e.getLocalizedMessage());
 			}
 			
@@ -261,7 +259,12 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		order.setBottlesdelivered(request.getBottlesdel());
 		order.setBottlesrecieved(request.getBottlesrec());
 		order.setPayment(request.getPayment());
-		order.setDate(new Date());
+		try {
+			order.setDate(Utils.StringtoDate(request.getDate()));
+		} catch (ParseException e) { 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, e.getLocalizedMessage());
+		}
+		 
 		order.setStatus("A");
 		
 		orderrepo.save(order);
@@ -517,6 +520,15 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		clientrepo.save(oldclient);
 	 
  
+		
+	}
+
+
+
+
+	@Override
+	public VendorEntity getVendor(int id) {
+	    return vendorrepo.getOne(id);
 		
 	}
 
