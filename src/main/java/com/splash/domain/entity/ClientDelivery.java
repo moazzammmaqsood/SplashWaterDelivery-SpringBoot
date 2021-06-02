@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity(name="ClientDelivery")
 
-@NamedNativeQuery(name="OrderEntity.getDailydelivery",query="SELECT  c.clientid,c.userid,u.name,c.address,c.bottles,c.frequency,c.rate, "
+@NamedNativeQuery(name="OrderEntity.getDailydelivery",query="SELECT  c.clientid,c.userid,u.name,c.address,c.bottles,c.frequency,c.rate, c.oncall,  "
 		+ "CASE "
 		+ "WHEN  o.date IS NULL THEN c.frequency  "
 		+ "ELSE DATEDIFF(CURDATE(),o.date ) "
@@ -50,23 +50,24 @@ public class ClientDelivery {
 	@Column(name="rate")
 	int rate;
 	
+	@Column(name="oncall")
+	String oncall;
+	
+	
 	@Column(name="days")
 	int days;
 
-	public ClientDelivery( int clientid, int userid, String name, String address, int bottles,
-			int frequency, int rate, int days) {
-		super();
+
+
  
-		this.clientid = clientid;
-		this.userid = userid;
-		this.name = name;
-		this.address = address;
-		this.bottles = bottles;
-		this.frequency = frequency;
-		this.rate = rate;
-		this.days = days;
+	public String getOncall() {
+		return oncall;
 	}
- 
+
+	public void setOncall(String oncall) {
+		this.oncall = oncall;
+	}
+
 	public int getClientid() {
 		return clientid;
 	}
@@ -136,16 +137,34 @@ public class ClientDelivery {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
+	
+	
+	public ClientDelivery(int clientid, int userid, String name, String address, int bottles, int frequency, int rate,
+			String oncall, int days) {
+		super();
+		this.clientid = clientid;
+		this.userid = userid;
+		this.name = name;
+		this.address = address;
+		this.bottles = bottles;
+		this.frequency = frequency;
+		this.rate = rate;
+		this.oncall = oncall;
+		this.days = days;
+	}
+
+	
+	
+	
 	@Override
 	public String toString() {
-		return "ClientDelivery [  clientid=" + clientid + ", userid=" + userid + ", name=" + name
-				+ ", address=" + address + ", bottles=" + bottles + ", frequency=" + frequency + ", rate=" + rate
+		return "ClientDelivery [clientid=" + clientid + ", userid=" + userid + ", name=" + name + ", address=" + address
+				+ ", bottles=" + bottles + ", frequency=" + frequency + ", rate=" + rate + ", oncall=" + oncall
 				+ ", days=" + days + "]";
 	}
-	
-	
-	
-	
+
 	public boolean bottlefinished() {
 		
 		

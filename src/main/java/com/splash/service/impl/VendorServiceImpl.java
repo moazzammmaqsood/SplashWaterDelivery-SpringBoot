@@ -295,7 +295,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		 
 		List<ClientDelivery> resultlist=new ArrayList<>();
 		for (ClientDelivery clientDelivery : clientdel) {
-			System.out.println(clientDelivery);
+			 
 			if(clientDelivery.bottlefinished()) {
 				resultlist.add(clientDelivery);
 			}
