@@ -23,6 +23,8 @@ import com.splash.domain.constants.ApiStatusCodes;
 import com.splash.domain.constants.ErrorMessages;
 import com.splash.domain.entity.*;
 import com.splash.entity.model.ClientDetails;
+import com.splash.entity.model.SummaryDaily;
+import com.splash.entity.model.SummaryDelivery;
 @RestController
 public class VendorController extends BaseController  {
 
@@ -215,4 +217,40 @@ public class VendorController extends BaseController  {
 	        return execute(client,v1editclient);
 	    }
 
+	    
+	    @GetMapping(
+	            value = "/api/v1/private/vendor/get_vendor_summary_deliveries/{date}",
+	            produces = MediaType.APPLICATION_JSON_VALUE,
+	            consumes = MediaType.APPLICATION_JSON_VALUE
+	    )
+	    public ResponseEntity<?> v1getvendorsummary_deliveries(@PathVariable("date") String date) {
+
+	    	
+	    	BasicAction< ResponseEntity<?>> v1getdeliveries = () -> {
+
+	    		List<SummaryDelivery> list =vendorservice.getVendorDailySummaryDeliveries(date);
+ 
+	    		return ResponseEntity.ok(list);
+	        };
+
+	        return execute(v1getdeliveries);
+	    }
+	    
+	    @GetMapping(
+	            value = "/api/v1/private/vendor/get_vendor_summary/{date}",
+	            produces = MediaType.APPLICATION_JSON_VALUE,
+	            consumes = MediaType.APPLICATION_JSON_VALUE
+	    )
+	    public ResponseEntity<?> v1getvendorsummary(@PathVariable("date") String date) {
+
+	    	
+	    	BasicAction< ResponseEntity<?>> v1getvendorsummary = () -> {
+
+	    		SummaryDaily sum =vendorservice.getVendorSummarybyDate(date);
+ 
+	    		return ResponseEntity.ok(sum);
+	        };
+
+	        return execute(v1getvendorsummary);
+	    }
 }

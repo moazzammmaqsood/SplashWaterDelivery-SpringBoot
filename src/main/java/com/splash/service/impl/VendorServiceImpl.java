@@ -30,6 +30,8 @@ import com.splash.domain.entity.User;
 import com.splash.domain.entity.UserEntity;
 import com.splash.domain.entity.VendorEntity;
 import com.splash.entity.model.ClientDetails;
+import com.splash.entity.model.SummaryDaily;
+import com.splash.entity.model.SummaryDelivery;
 import com.splash.repository.ClientRepository;
 import com.splash.repository.OrderRepository;
 import com.splash.repository.UserRepository;
@@ -530,6 +532,65 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	public VendorEntity getVendor(int id) {
 	    return vendorrepo.getOne(id);
 		
+	}
+
+
+
+
+	@Override
+	public List<SummaryDelivery> getVendorDailySummaryDeliveries(String date) {
+		
+		User user = getCurrentUser();
+		 
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername()); 
+		if(!optionaluser.isPresent())
+		{ 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+ 
+		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		
+		 
+		if(vendor==null) { 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
+		}
+		
+		List<SummaryDelivery> list =orderrepo.getdeliveryBydate(date, vendor.getVendorid());
+		
+		if(list==null || list.isEmpty()) {
+			throw new ApiException(ApiStatusCodes.DATA_NOT_FOUND,ErrorMessages.DATANOTFOUND);
+			
+		}
+		return list;
+	}
+
+
+
+
+	@Override
+	public SummaryDaily getVendorSummarybyDate(String date) {
+		User user = getCurrentUser();
+		 
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername()); 
+		if(!optionaluser.isPresent())
+		{ 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+ 
+		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		
+		 
+		if(vendor==null) { 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
+		}
+		
+		SummaryDaily summary =orderrepo.getDailySummary(date, vendor.getVendorid());
+		
+		if(summary==null ) {
+			throw new ApiException(ApiStatusCodes.DATA_NOT_FOUND,ErrorMessages.DATANOTFOUND);
+			
+		}
+		return summary;
 	}
 
 

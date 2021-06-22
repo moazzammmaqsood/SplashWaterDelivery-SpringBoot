@@ -22,4 +22,5 @@ public final class ErrorMessages {
 	public static final String ID_NOT_FOUND = "ID not found";
 	public static final String INVALID_USER_REQUEST= "Invalid Request : Client does not belong to this user";
 	public static final String ORDER_ALREADY_DELETED="Order already deleted";
+	public static final String DATANOTFOUND = "No Data Found";
 }
