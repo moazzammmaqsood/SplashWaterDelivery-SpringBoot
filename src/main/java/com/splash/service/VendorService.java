@@ -1,5 +1,6 @@
 package com.splash.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.splash.controller.vendor.BottleDelivered;
@@ -8,10 +9,7 @@ import com.splash.controller.vendor.ClientUpdateRequest;
 import com.splash.controller.vendor.EditClientRequest;
 import com.splash.controller.vendor.GetClientsResponse;
 import com.splash.controller.vendor.UserClient;
-import com.splash.domain.entity.ClientDelivery;
-import com.splash.domain.entity.ClientEntity;
-import com.splash.domain.entity.OrderEntity;
-import com.splash.domain.entity.VendorEntity;
+import com.splash.domain.entity.*;
 import com.splash.entity.model.ClientDetails;
 import com.splash.entity.model.SummaryDaily;
 import com.splash.entity.model.SummaryDelivery;
@@ -45,6 +43,8 @@ public interface VendorService {
 	List<SummaryDelivery> getVendorDailySummaryDeliveries(String date);
 	
 	SummaryDaily getVendorSummarybyDate(String date);
+
+	 void senddeliverysms(SmsEntity entity , String name, String Vendorname , int noofbottles,int noofbottlerec,int payment, Date date);
 }
 
 
