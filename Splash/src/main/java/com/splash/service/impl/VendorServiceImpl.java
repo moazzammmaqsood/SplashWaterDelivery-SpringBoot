@@ -1,11 +1,11 @@
 package com.splash.service.impl;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+import com.splash.domain.constants.AppConstants;
+import com.splash.domain.entity.*;
+import com.splash.repository.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,18 +22,9 @@ import com.splash.controller.vendor.UserClient;
 import com.splash.domain.ApiException;
 import com.splash.domain.constants.ApiStatusCodes;
 import com.splash.domain.constants.ErrorMessages;
-import com.splash.domain.entity.ClientDelivery;
-import com.splash.domain.entity.ClientEntity;
-import com.splash.domain.entity.ClientTotalDetail;
-import com.splash.domain.entity.OrderEntity;
-import com.splash.domain.entity.User;
-import com.splash.domain.entity.UserEntity;
-import com.splash.domain.entity.VendorEntity;
 import com.splash.entity.model.ClientDetails;
-import com.splash.repository.ClientRepository;
-import com.splash.repository.OrderRepository;
-import com.splash.repository.UserRepository;
-import com.splash.repository.VendorRepository;
+import com.splash.entity.model.SummaryDaily;
+import com.splash.entity.model.SummaryDelivery;
 import com.splash.service.VendorService;
 import com.splash.utils.Utils;
 
@@ -54,6 +45,9 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	
 	@Autowired
     PasswordEncoder passwordEncoder;
+
+	@Autowired
+	SmsRepository smsrepo;
 	
 	@Override
 	public List<GetClientsResponse> getClients() {
@@ -87,7 +81,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	return list;
 		
 		
-		
+
 		
 	}
 
@@ -268,6 +262,11 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		order.setStatus("A");
 		
 		orderrepo.save(order);
+		SmsEntity smsEntity=new SmsEntity();
+		smsEntity.setPhoneno(clientuser.getPhone());
+		smsEntity.setStatus("N");
+		smsEntity.setUserid(clientuser.getUserid());
+		senddeliverysms(smsEntity,clientuser.getName(),vendoruser.get().getName(),order.getBottlesdelivered(),order.getBottlesrecieved(),order.getPayment(),order.getDate());
 		
 	}
 
@@ -295,7 +294,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		 
 		List<ClientDelivery> resultlist=new ArrayList<>();
 		for (ClientDelivery clientDelivery : clientdel) {
-			System.out.println(clientDelivery);
+			 
 			if(clientDelivery.bottlefinished()) {
 				resultlist.add(clientDelivery);
 			}
@@ -420,7 +419,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		}
 		
 		
-		Optional<List<OrderEntity>> orders= orderrepo.findAllByclientid(clientid);
+		Optional<List<OrderEntity>> orders= orderrepo.findAllByclientidOrderByDateAsc(clientid);
 		
 		if(orders.isPresent()) {
 			return orders.get();
@@ -534,9 +533,80 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 
 
 
- 	
-	
-	
-	
+
+	@Override
+	public List<SummaryDelivery> getVendorDailySummaryDeliveries(String date) {
+		
+		User user = getCurrentUser();
+		 
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername()); 
+		if(!optionaluser.isPresent())
+		{ 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+ 
+		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		
+		 
+		if(vendor==null) { 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
+		}
+		
+		List<SummaryDelivery> list =orderrepo.getdeliveryBydate(date, vendor.getVendorid());
+		
+		if(list==null || list.isEmpty()) {
+			throw new ApiException(ApiStatusCodes.DATA_NOT_FOUND,ErrorMessages.DATANOTFOUND);
+			
+		}
+		return list;
+	}
+
+
+
+
+	@Override
+	public SummaryDaily getVendorSummarybyDate(String date) {
+		User user = getCurrentUser();
+		 
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername()); 
+		if(!optionaluser.isPresent())
+		{ 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+ 
+		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		
+		 
+		if(vendor==null) { 
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
+		}
+		
+		SummaryDaily summary =orderrepo.getDailySummary(date, vendor.getVendorid());
+		
+		if(summary==null ) {
+			throw new ApiException(ApiStatusCodes.DATA_NOT_FOUND,ErrorMessages.DATANOTFOUND);
+			
+		}
+		return summary;
+	}
+
+	@Override
+	public void senddeliverysms(SmsEntity entity, String name, String Vendorname, int noofbottles,int noofbottlerec,int payment, Date date) {
+		Map<String , String> map=new HashMap<>();
+		map.put(AppConstants.NAMEKEY,name);
+		map.put(AppConstants.VENDORNAMEKEY,Vendorname);
+		map.put(AppConstants.NOOFBOTTLEKEY,String.valueOf(noofbottles));
+		map.put(AppConstants.DATEKEY,date.toString());
+		map.put(AppConstants.BOTTLESRECIEVEDKEY,String.valueOf(noofbottlerec));
+		map.put(AppConstants.PAYMENTRECIEVED,String.valueOf(payment));
+		entity.setSenttime(new Date());
+		entity.setSmstext(Utils.getsmstext(AppConstants.DELIVERYTEXT,map));
+
+
+		smsrepo.save(entity);
+
+
+	}
+
 
 }

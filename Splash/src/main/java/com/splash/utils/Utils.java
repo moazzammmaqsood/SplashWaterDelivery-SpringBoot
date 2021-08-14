@@ -1,10 +1,13 @@
 package com.splash.utils;
 
+import com.splash.domain.constants.AppConstants;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.Random;
 
 public class Utils {
@@ -39,4 +42,17 @@ public class Utils {
 		String strDate = dateFormat.format(date);  
 		return strDate;
 	}
+
+	public static String getsmstext(String message, Map<String,String> map){
+
+		message=message.replace(AppConstants.NOOFBOTTLEKEY,map.get(AppConstants.NOOFBOTTLEKEY));
+		message=message.replace(AppConstants.VENDORNAMEKEY,map.get(AppConstants.VENDORNAMEKEY));
+		message=message.replace(AppConstants.DATEKEY,map.get(AppConstants.DATEKEY));
+		message=	message.replace(AppConstants.NAMEKEY,map.get(AppConstants.NAMEKEY));
+		message=message.replace(AppConstants.BOTTLESRECIEVEDKEY,map.get(AppConstants.BOTTLESRECIEVEDKEY));
+		message=message.replace(AppConstants.PAYMENTRECIEVED,map.get(AppConstants.PAYMENTRECIEVED));
+
+		return message;
+	}
+
 }
