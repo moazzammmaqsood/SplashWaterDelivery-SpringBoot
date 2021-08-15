@@ -51,8 +51,14 @@ public class Utils {
 		message=	message.replace(AppConstants.NAMEKEY,map.get(AppConstants.NAMEKEY));
 		message=message.replace(AppConstants.BOTTLESRECIEVEDKEY,map.get(AppConstants.BOTTLESRECIEVEDKEY));
 		message=message.replace(AppConstants.PAYMENTRECIEVED,map.get(AppConstants.PAYMENTRECIEVED));
-
+		message=message.replace(AppConstants.REMAININGBALANCEKEY,map.get(AppConstants.REMAININGBALANCEKEY));
 		return message;
+	}
+	public static String getdatetostring() {
+		Date date = Calendar.getInstance().getTime();
+		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+		String strDate = dateFormat.format(date);
+		return strDate;
 	}
 
 }

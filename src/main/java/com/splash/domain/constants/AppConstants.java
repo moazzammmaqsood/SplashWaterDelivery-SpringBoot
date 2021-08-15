@@ -8,5 +8,7 @@ public class AppConstants {
     public static String VENDORNAMEKEY="$VENDORNAME$";
     public static String BOTTLESRECIEVEDKEY= "$NOOFBOTTLESRECIEVED$";
     public static String PAYMENTRECIEVED = "$PAYMENTRECIVED$";
-    public static String DELIVERYTEXT= "Dear $NAME$ ,\n $NOOFBOTTLES$ bottles were delivered , $NOOFBOTTLESRECIEVED$ bottles recieved ,$PAYMENTRECIVED$ rs recieved on $DATE$ by $VENDORNAME$ ";
+    public static String REMAININGBALANCEKEY="$REMAININGBALANCE$";
+
+    public static String DELIVERYTEXT= "Dear $NAME$ ,\n$NOOFBOTTLES$ bottles were delivered \n$NOOFBOTTLESRECIEVED$ bottles recieved \n$PAYMENTRECIVED$rs recieved on $DATE$ by $VENDORNAME$\nYour remaining Balance is $REMAININGBALANCE$rs";
 }

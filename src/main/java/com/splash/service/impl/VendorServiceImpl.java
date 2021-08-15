@@ -262,11 +262,13 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		order.setStatus("A");
 		
 		orderrepo.save(order);
+		ClientTotalDetail  clientTotal = orderrepo.getClientTotalDetail(client.getClientid());
 		SmsEntity smsEntity=new SmsEntity();
 		smsEntity.setPhoneno(clientuser.getPhone());
 		smsEntity.setStatus("N");
 		smsEntity.setUserid(clientuser.getUserid());
-		senddeliverysms(smsEntity,clientuser.getName(),vendoruser.get().getName(),order.getBottlesdelivered(),order.getBottlesrecieved(),order.getPayment(),order.getDate());
+		int payment= clientTotal.getTotalbottles()*client.getRate()-clientTotal.getTotalpayment();
+		senddeliverysms(smsEntity,clientuser.getName(),vendor.getName(),order.getBottlesdelivered(),order.getBottlesrecieved(),order.getPayment(),order.getDate(),payment);
 		
 	}
 
@@ -591,14 +593,15 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	}
 
 	@Override
-	public void senddeliverysms(SmsEntity entity, String name, String Vendorname, int noofbottles,int noofbottlerec,int payment, Date date) {
+	public void senddeliverysms(SmsEntity entity, String name, String Vendorname, int noofbottles,int noofbottlerec,int payment, Date date,int remainingpayment) {
 		Map<String , String> map=new HashMap<>();
 		map.put(AppConstants.NAMEKEY,name);
 		map.put(AppConstants.VENDORNAMEKEY,Vendorname);
 		map.put(AppConstants.NOOFBOTTLEKEY,String.valueOf(noofbottles));
-		map.put(AppConstants.DATEKEY,date.toString());
+		map.put(AppConstants.DATEKEY,Utils.getdatetostring());
 		map.put(AppConstants.BOTTLESRECIEVEDKEY,String.valueOf(noofbottlerec));
 		map.put(AppConstants.PAYMENTRECIEVED,String.valueOf(payment));
+		map.put(AppConstants.REMAININGBALANCEKEY,String.valueOf(remainingpayment));
 		entity.setSenttime(new Date());
 		entity.setSmstext(Utils.getsmstext(AppConstants.DELIVERYTEXT,map));
 

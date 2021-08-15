@@ -44,7 +44,7 @@ public interface VendorService {
 	
 	SummaryDaily getVendorSummarybyDate(String date);
 
-	 void senddeliverysms(SmsEntity entity , String name, String Vendorname , int noofbottles,int noofbottlerec,int payment, Date date);
+	 void senddeliverysms(SmsEntity entity , String name, String Vendorname , int noofbottles,int noofbottlerec,int payment, Date date,int remainingpayment);
 }
 
 
