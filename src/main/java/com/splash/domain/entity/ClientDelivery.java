@@ -17,7 +17,7 @@ import javax.persistence.Table;
 		+ "END  AS days FROM   worthywa_splash.client c left join worthywa_splash.orders o on c.clientid=o.clientid inner join worthywa_splash.users u on c.userid = u.userid  where  "
 		+ "c.vendorid= ?1  "
 		+ "AND ( o.date = (select max(date) from  worthywa_splash.orders where clientid=c.clientid AND  status != 'D' and bottlesdelivered > 0  ) "
-		+ "OR o.date is null) group by c.clientid"
+		+ "OR o.date is null) group by c.clientid "
 		+ "order by name ",resultClass =ClientDelivery.class)
 
 
