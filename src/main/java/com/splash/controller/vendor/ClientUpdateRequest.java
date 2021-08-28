@@ -10,6 +10,16 @@ public class ClientUpdateRequest {
 	private int rate;	
 	private int deposit;
 	private int noofbottles;
+	private String oncall;
+
+	public String getOncall() {
+		return oncall;
+	}
+
+	public void setOncall(String oncall) {
+		this.oncall = oncall;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -49,6 +59,7 @@ public class ClientUpdateRequest {
 	public int getDeposit() {
 		return deposit;
 	}
+
 	public void setDeposit(int deposit) {
 		this.deposit = deposit;
 	}
@@ -58,9 +69,8 @@ public class ClientUpdateRequest {
 	public void setNoofbottles(int noofbottles) {
 		this.noofbottles = noofbottles;
 	}
-	public ClientUpdateRequest(String username, String name, String contactno, String address, int daysdelivery,
-			int rate, int deposit, int noofbottles) {
-		super();
+
+	public ClientUpdateRequest(String username, String name, String contactno, String address, int daysdelivery, int rate, int deposit, int noofbottles, String oncall) {
 		this.username = username;
 		this.name = name;
 		this.contactno = contactno;
@@ -69,23 +79,24 @@ public class ClientUpdateRequest {
 		this.rate = rate;
 		this.deposit = deposit;
 		this.noofbottles = noofbottles;
+		this.oncall = oncall;
 	}
-	public ClientUpdateRequest() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
 	@Override
 	public String toString() {
-		return "ClientUpdateRequest [username=" + username + ", name=" + name + ", contactno=" + contactno
-				+ ", address=" + address + ", daysdelivery=" + daysdelivery + ", rate=" + rate + ", deposit=" + deposit
-				+ ", noofbottles=" + noofbottles + "]";
+		return "ClientUpdateRequest{" +
+				"username='" + username + '\'' +
+				", name='" + name + '\'' +
+				", contactno='" + contactno + '\'' +
+				", address='" + address + '\'' +
+				", daysdelivery=" + daysdelivery +
+				", rate=" + rate +
+				", deposit=" + deposit +
+				", noofbottles=" + noofbottles +
+				", oncall='" + oncall + '\'' +
+				'}';
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public ClientUpdateRequest() {
+	}
 }

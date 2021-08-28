@@ -196,6 +196,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	 Clientupdate.setFrequency(request.getDaysdelivery());
 	 Clientupdate.setRate(request.getRate());
 	 Clientupdate.setDeposit(request.getDeposit());
+	 Clientupdate.setOncall(request.getOncall());
 	 
 	 clientrepo.save(Clientupdate);
 	 
