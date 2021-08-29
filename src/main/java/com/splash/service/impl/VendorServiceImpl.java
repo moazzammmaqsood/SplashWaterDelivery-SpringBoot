@@ -612,5 +612,79 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 
 	}
 
+	@Override
+	public void disableclient(int clientid) {
+		User user = getCurrentUser();
+
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername());
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+
+		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
+		}
+
+		ClientEntity client =clientrepo.getOne(clientid);
+		if(client==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.CLIENT_NOT_FOUND);
+		}
+
+		if (client.getVendorid()!=vendor.getVendorid()) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.UNAUTHORIZED_USER_TYPE);
+		}
+
+		Optional<UserEntity> clientUser=userrepo.findById(client.getUserid());
+		if(!clientUser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USER_NOT_FOUND);
+
+		}
+
+		UserEntity userUpdate = clientUser.get();
+		userUpdate.setStatus("D");
+		userrepo.save(userUpdate);
+
+	}
+
+	@Override
+	public void enableclient(int clientid) {
+		User user = getCurrentUser();
+
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername());
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+
+		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
+		}
+
+		ClientEntity client =clientrepo.getOne(clientid);
+		if(client==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.CLIENT_NOT_FOUND);
+		}
+
+		if (client.getVendorid()!=vendor.getVendorid()) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.UNAUTHORIZED_USER_TYPE);
+		}
+
+		Optional<UserEntity> clientUser=userrepo.findById(client.getUserid());
+		if(!clientUser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USER_NOT_FOUND);
+
+		}
+
+		UserEntity userUpdate = clientUser.get();
+		userUpdate.setStatus("E");
+		userrepo.save(userUpdate);
+
+	}
+
 
 }

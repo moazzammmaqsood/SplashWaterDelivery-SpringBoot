@@ -253,4 +253,44 @@ public class VendorController extends BaseController  {
 
 	        return execute(v1getvendorsummary);
 	    }
+
+
+
+	@GetMapping(
+			value = "/api/v1/private/vendor/disable_client/{clientid}",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<?> v1disableClient(@PathVariable("clientid") int clientid) {
+
+
+		BasicAction< ResponseEntity<?>> v1getdeliveries = () -> {
+
+			vendorservice.disableclient(clientid);
+
+			return ResponseEntity.ok(new SuccessResponse("Succesfully Disabled Client"));
+		};
+
+		return execute(v1getdeliveries);
+	}
+
+	@GetMapping(
+			value = "/api/v1/private/vendor/enable_client/{clientid}",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<?> v1enableClient(@PathVariable("clientid") int clientid) {
+
+
+		BasicAction< ResponseEntity<?>> v1getdeliveries = () -> {
+
+			vendorservice.enableclient(clientid);
+
+			return ResponseEntity.ok(new SuccessResponse("Succesfully Disabled Client"));
+		};
+
+		return execute(v1getdeliveries);
+	}
+
 }
+
