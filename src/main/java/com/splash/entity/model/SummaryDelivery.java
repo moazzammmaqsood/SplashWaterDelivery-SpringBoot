@@ -13,7 +13,7 @@ import com.splash.domain.entity.ClientDelivery;
 @NamedNativeQuery(name="OrderEntity.getdeliveryBydate",query="SELECT  c.clientid,c.userid,u.name,c.address,o.bottlesdelivered ,o.bottlesrecieved ,o.payment, c.oncall,DATE_FORMAT(o.date , '%Y-%m-%d') as date"
 		+ " FROM   worthywa_splash.client c inner join worthywa_splash.orders o on c.clientid=o.clientid "
 		+ " inner join worthywa_splash.users u on c.userid = u.userid  where "
-		+ " DATE_FORMAT(o.date , '%Y-%m-%d') = ?  and o.vendorid =?" ,resultClass =SummaryDelivery.class)
+		+ " DATE_FORMAT(o.date , '%Y-%m-%d') = ?  and o.vendorid =? and o.status != 'D' " ,resultClass =SummaryDelivery.class)
 
 
 
