@@ -24,6 +24,8 @@ public class SmsEntity {
     Date senttime;
     @Column
     String response;
+    @Column
+    int orderid;
 
 
     public int getId() {
@@ -82,10 +84,19 @@ public class SmsEntity {
         this.response = response;
     }
 
+    public int getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(int orderid) {
+        this.orderid = orderid;
+    }
+
     public SmsEntity() {
     }
 
-    public SmsEntity(int id, int userid, String phoneno, String smstext, String status, Date senttime, String response) {
+
+    public SmsEntity(int id, int userid, String phoneno, String smstext, String status, Date senttime, String response, int orderid) {
         this.id = id;
         this.userid = userid;
         this.phoneno = phoneno;
@@ -93,5 +104,6 @@ public class SmsEntity {
         this.status = status;
         this.senttime = senttime;
         this.response = response;
+        this.orderid = orderid;
     }
 }

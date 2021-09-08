@@ -10,5 +10,5 @@ public class AppConstants {
     public static String PAYMENTRECIEVED = "$PAYMENTRECIVED$";
     public static String REMAININGBALANCEKEY="$REMAININGBALANCE$";
 
-    public static String DELIVERYTEXT= "Dear $NAME$ ,\n$NOOFBOTTLES$ bottles were delivered \n$NOOFBOTTLESRECIEVED$ bottles recieved \n$PAYMENTRECIVED$rs recieved on $DATE$ by $VENDORNAME$\nYour remaining Balance is $REMAININGBALANCE$rs";
+    public static String DELIVERYTEXT= "Dear $NAME$ ,\n$NOOFBOTTLES$ bottles delivered \n$NOOFBOTTLESRECIEVED$ bottles recieved \n$PAYMENTRECIVED$rs recieved on $DATE$ by $VENDORNAME$\nYour remaining Balance is $REMAININGBALANCE$rs";
 }

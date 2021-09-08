@@ -269,7 +269,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		smsEntity.setStatus("N");
 		smsEntity.setUserid(clientuser.getUserid());
 		int payment= clientTotal.getTotalbottles()*client.getRate()-clientTotal.getTotalpayment();
-		senddeliverysms(smsEntity,clientuser.getName(),vendor.getName(),order.getBottlesdelivered(),order.getBottlesrecieved(),order.getPayment(),order.getDate(),payment);
+		senddeliverysms(smsEntity,clientuser.getName(),vendor.getName(),order.getBottlesdelivered(),order.getBottlesrecieved(),order.getPayment(),order.getDate(),payment,order.getOrderid());
 		
 	}
 
@@ -468,7 +468,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		
 		orderrepo.save(order);
 		
-		
+		deletesms(orderid);
 		
 		
 		
@@ -594,9 +594,10 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	}
 
 	@Override
-	public void senddeliverysms(SmsEntity entity, String name, String Vendorname, int noofbottles,int noofbottlerec,int payment, Date date,int remainingpayment) {
+	public void senddeliverysms(SmsEntity entity, String name, String Vendorname, int noofbottles,int noofbottlerec,int payment, Date date,int remainingpayment,int orderid) {
 		Map<String , String> map=new HashMap<>();
-		map.put(AppConstants.NAMEKEY,name);
+		String[] firstname = name.split(" ");
+		map.put(AppConstants.NAMEKEY,firstname[0]);
 		map.put(AppConstants.VENDORNAMEKEY,Vendorname);
 		map.put(AppConstants.NOOFBOTTLEKEY,String.valueOf(noofbottles));
 		map.put(AppConstants.DATEKEY,Utils.getdatetostring());
@@ -605,11 +606,22 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		map.put(AppConstants.REMAININGBALANCEKEY,String.valueOf(remainingpayment));
 		entity.setSenttime(new Date());
 		entity.setSmstext(Utils.getsmstext(AppConstants.DELIVERYTEXT,map));
-
+		entity.setOrderid(orderid);
 
 		smsrepo.save(entity);
 
 
+	}
+
+	@Override
+	public void deletesms(int orderid) {
+
+		SmsEntity sms= smsrepo.findByOrderid(orderid);
+		if(sms!=null){
+			sms.setStatus("E");
+			sms.setResponse("OrderDeleted");
+			smsrepo.save(sms);
+		}
 	}
 
 	@Override
