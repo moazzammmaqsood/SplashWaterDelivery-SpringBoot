@@ -74,7 +74,15 @@ public class UserClient {
 	public void setBottles(int bottles) {
 		this.bottles = bottles;
 	}
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public UserClient() {
 		super();
 		// TODO Auto-generated constructor stub
