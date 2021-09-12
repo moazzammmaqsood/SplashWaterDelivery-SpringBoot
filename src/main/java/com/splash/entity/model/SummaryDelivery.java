@@ -6,8 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 
-import com.splash.domain.entity.ClientDelivery;
-
 @Entity(name="SummaryDelivery")
 @Table(name="orders")
 @NamedNativeQuery(name="OrderEntity.getdeliveryBydate",query="SELECT  c.clientid,c.userid,u.name,c.address,o.bottlesdelivered ,o.bottlesrecieved ,o.payment, c.oncall,DATE_FORMAT(o.date , '%Y-%m-%d') as date"
@@ -22,10 +20,10 @@ public class SummaryDelivery {
 	@Id
 	 
 	@Column(name="clientid")
-	int clientid;
+	Integer clientid;
 	
 	@Column(name="userid")
-	int userid;
+	Integer userid;
 	
 	@Column(name="name")
 	String name;
@@ -34,13 +32,13 @@ public class SummaryDelivery {
 	String address;
 	
 	@Column(name="bottlesdelivered")
-	int bottlesdelivered;
+	Integer bottlesdelivered;
 	
 	@Column(name="bottlesrecieved")
-	int bottlesrecieved;
+	Integer bottlesrecieved;
 	
 	@Column(name="payment")
-	int payment;
+	Integer payment;
 	
 	@Column(name="oncall")
 	String oncall;
@@ -50,22 +48,22 @@ public class SummaryDelivery {
 	String date;
 
 
-	public int getClientid() {
+	public Integer getClientid() {
 		return clientid;
 	}
 
 
-	public void setClientid(int clientid) {
+	public void setClientid(Integer clientid) {
 		this.clientid = clientid;
 	}
 
 
-	public int getUserid() {
+	public Integer getUserid() {
 		return userid;
 	}
 
 
-	public void setUserid(int userid) {
+	public void setUserid(Integer userid) {
 		this.userid = userid;
 	}
 
@@ -90,32 +88,32 @@ public class SummaryDelivery {
 	}
 
 
-	public int getBottlesdelivered() {
+	public Integer getBottlesdelivered() {
 		return bottlesdelivered;
 	}
 
 
-	public void setBottlesdelivered(int bottlesdelivered) {
+	public void setBottlesdelivered(Integer bottlesdelivered) {
 		this.bottlesdelivered = bottlesdelivered;
 	}
 
 
-	public int getBottlesrecieved() {
+	public Integer getBottlesrecieved() {
 		return bottlesrecieved;
 	}
 
 
-	public void setBottlesrecieved(int bottlesrecieved) {
+	public void setBottlesrecieved(Integer bottlesrecieved) {
 		this.bottlesrecieved = bottlesrecieved;
 	}
 
 
-	public int getPayment() {
+	public Integer getPayment() {
 		return payment;
 	}
 
 
-	public void setPayment(int payment) {
+	public void setPayment(Integer payment) {
 		this.payment = payment;
 	}
 

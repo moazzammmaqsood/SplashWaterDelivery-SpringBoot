@@ -286,7 +286,7 @@ public class VendorController extends BaseController  {
 
 			vendorservice.enableclient(clientid);
 
-			return ResponseEntity.ok(new SuccessResponse("Succesfully Disabled Client"));
+			return ResponseEntity.ok(new SuccessResponse("Succesfully Enabled Client"));
 		};
 
 		return execute(v1getdeliveries);

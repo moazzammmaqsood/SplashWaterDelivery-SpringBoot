@@ -590,6 +590,11 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.DATA_NOT_FOUND,ErrorMessages.DATANOTFOUND);
 			
 		}
+
+		if(summary.getBottlesdelivered()==null){
+			throw new ApiException(ApiStatusCodes.DATA_NOT_FOUND,ErrorMessages.DATANOTFOUND);
+
+		}
 		return summary;
 	}
 

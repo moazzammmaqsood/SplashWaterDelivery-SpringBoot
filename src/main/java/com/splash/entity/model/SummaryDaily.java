@@ -6,8 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 
-import com.splash.domain.entity.ClientDelivery;
-
 @Entity(name="SummaryDaily")
 @Table(name="orders")
 @NamedNativeQuery(name= "OrderEntity.getDailySummary" ,query =  "SELECT 1 id,COUNT(*) houses, SUM(o.bottlesdelivered) bottlesdelivered, SUM(o.bottlesdelivered*c.rate) revenue,"
@@ -17,78 +15,75 @@ import com.splash.domain.entity.ClientDelivery;
 		+ " DATE_FORMAT(o.date , '%Y-%m-%d') = ?  and o.vendorid = ?",resultClass =SummaryDaily.class  )
 
 
-
 public class SummaryDaily {
 	
 	@Id
   	@Column(name="id")
-	int id;
-	
-	 
+	Integer id;
 	
 	@Column(name="houses")
-	int houses;
+	Integer houses;
 	
 	@Column(name="bottlesdelivered")
-	int bottlesdelivered;
+    Integer bottlesdelivered;
 	
 	@Column(name="revenue")
-	int revenue;
+	Integer revenue;
 	
  	
 	@Column(name="bottlesrecieved")
-	int bottlesrecieved;
+	Integer bottlesrecieved;
 	
 	@Column(name="payment")
-	int payment;
+	Integer payment;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getBottlesdelivered() {
+	public Integer getBottlesdelivered() {
 		return bottlesdelivered;
 	}
 
-	public void setBottlesdelivered(int bottlesdelivered) {
+	public void setBottlesdelivered(Integer bottlesdelivered) {
 		this.bottlesdelivered = bottlesdelivered;
 	}
 
-	public int getRevenue() {
+	public Integer getRevenue() {
 		return revenue;
 	}
 
-	public void setRevenue(int revenue) {
+	public void setRevenue(Integer revenue) {
 		this.revenue = revenue;
 	}
 
-	public int getBottlesrecieved() {
+	public Integer getBottlesrecieved() {
 		return bottlesrecieved;
 	}
 
-	public void setBottlesrecieved(int bottlesrecieved) {
+	public void setBottlesrecieved(Integer bottlesrecieved) {
 		this.bottlesrecieved = bottlesrecieved;
 	}
 
-	public int getPayment() {
+	public Integer getPayment() {
 		return payment;
 	}
 
-	public void setPayment(int payment) {
+	public void setPayment(Integer payment) {
 		this.payment = payment;
 	}
 
 	
 	
-	public int getHouses() {
+	public Integer getHouses() {
 		return houses;
 	}
 
-	public void setHouses(int houses) {
+	public void setHouses(Integer houses) {
 		this.houses = houses;
 	}
 
