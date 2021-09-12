@@ -11,7 +11,7 @@ import com.splash.domain.entity.ClientDelivery;
  
 @Entity(name="UserClient")
 
-@NamedNativeQuery(name="ClientEntity.getbyClientsbyvendor",query=" SELECT c.userid,c.clientid,u.name,c.address,c.bottles FROM worthywa_splash.client c Inner Join worthywa_splash.users u on c.userid =  u.userid where vendorid=? order by u.name",resultClass =UserClient.class)
+@NamedNativeQuery(name="ClientEntity.getbyClientsbyvendor",query=" SELECT c.userid,c.clientid,u.name,c.address,c.bottles ,u.status FROM worthywa_splash.client c Inner Join worthywa_splash.users u on c.userid =  u.userid where vendorid=? order by u.name",resultClass =UserClient.class)
 
 
 
@@ -29,30 +29,19 @@ public class UserClient {
 	String Address;
 	@Column
 	int bottles;
-//	u.userid,
-//	  u.name,
-//	  u.email, 
-//	  u.username,
-//	  u.phone,
-//	  u.userrole,
-//	  u.status,
-//	  u.createdby  
-//	  ,c.clientid ,
-//	  c.address , 
-//	  c.rate,
-//	  vendorid,
-//	  frequency,
-//	  bottles,
-//	  deposit 
-	
-	
-	public UserClient(int userid, int clientid, String name, String address, int bottles) {
+
+	@Column
+	String status;
+
+
+	public UserClient(int userid, int clientid, String name, String address, int bottles,String status) {
 		super();
 		this.userid = userid;
 		this.clientid = clientid;
 		this.name = name;
 		Address = address;
 		this.bottles = bottles;
+		this.status= status;
 	}
 	
 	public int getUserid() {

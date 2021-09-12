@@ -85,19 +85,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         try {
             String username = jwtUtils.extractUsername(token);
-
             Optional<UserEntity> optionalUserEntity= userRepository.findByusername(username);
-           
             // If username fetched from token is not present in db.
             if(! optionalUserEntity.isPresent()) {
                 SecurityUtils.buildErrorCodeResponse(response, ApiStatusCodes.UNAUTHORIZED, ErrorMessages.INVALID_TOKEN);
                 return;
             }
-            
-            User usermodel= new User(optionalUserEntity.get()); 
-
+            User usermodel= new User(optionalUserEntity.get());
             UserDetails user = usermodel;
-
             // If user is inactive in db
             if(! user.isEnabled()){
                 SecurityUtils.buildErrorCodeResponse(response, ApiStatusCodes.UNAUTHORIZED, ErrorMessages.ACCOUNT_LOCKED);
@@ -111,7 +106,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
             SecurityUtils.buildErrorCodeResponse(response, ApiStatusCodes.UNAUTHORIZED, ErrorMessages.EXPIRED_TOKEN);
