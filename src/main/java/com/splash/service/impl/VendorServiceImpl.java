@@ -605,7 +605,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		map.put(AppConstants.NAMEKEY,firstname[0]);
 		map.put(AppConstants.VENDORNAMEKEY,Vendorname);
 		map.put(AppConstants.NOOFBOTTLEKEY,String.valueOf(noofbottles));
-		map.put(AppConstants.DATEKEY,Utils.getdatetostring());
+		map.put(AppConstants.DATEKEY,Utils.getdatetostring(date));
 		map.put(AppConstants.BOTTLESRECIEVEDKEY,String.valueOf(noofbottlerec));
 		map.put(AppConstants.PAYMENTRECIEVED,String.valueOf(payment));
 		map.put(AppConstants.REMAININGBALANCEKEY,String.valueOf(remainingpayment));

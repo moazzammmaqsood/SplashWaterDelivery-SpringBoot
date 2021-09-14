@@ -54,8 +54,7 @@ public class Utils {
 		message=message.replace(AppConstants.REMAININGBALANCEKEY,map.get(AppConstants.REMAININGBALANCEKEY));
 		return message;
 	}
-	public static String getdatetostring() {
-		Date date = Calendar.getInstance().getTime();
+	public static String getdatetostring(Date date) {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
 		String strDate = dateFormat.format(date);
 		return strDate;
