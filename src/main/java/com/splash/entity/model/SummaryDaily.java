@@ -12,7 +12,7 @@ import javax.persistence.Table;
 		+ "SUM(o.bottlesrecieved ) bottlesrecieved,SUM(o.payment) payment "
 		+ " FROM   worthywa_splash.client c inner join worthywa_splash.orders o on c.clientid=o.clientid "
 		+ " inner join worthywa_splash.users u on c.userid = u.userid  where "
-		+ " DATE_FORMAT(o.date , '%Y-%m-%d') = ?  and o.vendorid = ?",resultClass =SummaryDaily.class  )
+		+ " DATE_FORMAT(o.date , '%Y-%m-%d') = ?  and o.vendorid = ? and o.status != 'D'",resultClass =SummaryDaily.class  )
 
 
 public class SummaryDaily {
