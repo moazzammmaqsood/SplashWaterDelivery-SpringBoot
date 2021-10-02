@@ -48,10 +48,38 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 
 	@Autowired
 	SmsRepository smsrepo;
-	
+
+//	public void updatingrate(){
+//
+//		Map<Integer,Integer> clientidrate=new HashMap<>();
+//		List<OrderEntity> orders =orderrepo.findAll();
+//		for (OrderEntity order:
+//				orders) {
+//			if(order.getRate()==null) {
+//				if (clientidrate.containsKey(order.getClientid())) {
+//					order.setRate(clientidrate.get(order.getClientid()));
+//				} else {
+//					ClientEntity clientEntity = clientrepo.getOne(order.getClientid());
+//					if (clientEntity != null) {
+////				System.out.println(order);
+////				System.out.println(clientEntity);
+//						clientidrate.put(order.getClientid(), clientEntity.getRate());
+////				System.out.println(clientidrate);
+//						order.setRate(clientEntity.getRate());
+//					}
+//
+//				}
+//				System.out.println(order);
+//				orderrepo.save(order);
+//
+//			}
+//		}
+//
+//	}
+
+
 	@Override
 	public List<GetClientsResponse> getClients() {
-
 
 	User user = getCurrentUser();
 	
@@ -74,7 +102,6 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			GetClientsResponse clientres=new GetClientsResponse(client.get().getAddress(),userEntity.getName(),userEntity.getPhone(),client.get().getClientid(),client.get().getRate(),client.get().getFrequency(),client.get().getBottles(),order.getDate());
 					list.add( clientres) ;		
 
-			System.out.println(client.get());
 		}
 	}
 	
@@ -254,6 +281,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		order.setBottlesdelivered(request.getBottlesdel());
 		order.setBottlesrecieved(request.getBottlesrec());
 		order.setPayment(request.getPayment());
+		order.setRate(client.getRate());
 		try {
 			order.setDate(Utils.StringtoDate(request.getDate()));
 		} catch (ParseException e) { 
@@ -308,8 +336,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 
 
 	@Override
-	public ClientDetails getclient(int clientid, int userid) {
-
+	public ClientDetails getclient(int clientid, int userid) { 
 		User user =getCurrentUser();
 		
 		Optional<UserEntity> vendoruser= userrepo.findByusername(user.getUsername());
@@ -328,6 +355,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		if(!clientent.isPresent()) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.CLIENT_NOT_FOUND);
 		}
+
 		
 		if(clientent.get().getUserid()!=userid) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.UNAUTHORIZED_USER_TYPE);
@@ -343,7 +371,11 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		}
 		
 		ClientTotalDetail clienttotal = orderrepo.getClientTotalDetail(clientid);
-		
+		Long payments = orderrepo.getPayments(clientid);
+		if(payments==null){
+			payments=0L;
+		}
+		clienttotal.setTotalpayment(payments.intValue());
 		ClientDetails clientdetails;
 		int bottlesholding =0;
 		int payment=0;

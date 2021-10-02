@@ -44,4 +44,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 	
 	@Query(value=" FROM OrderEntity WHERE clientid= ?1 AND status = 'A' order by date ASC") 
 	Optional<List<OrderEntity>>  findAllByclientidOrderByDateAsc(int clientid );
+
+	@Query(value="select sum(payment) FROM orders WHERE clientid= ?1 AND status != 'D'",nativeQuery = true)
+	Long  getPayments(int clientid );
 }

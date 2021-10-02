@@ -34,10 +34,18 @@ public class OrderEntity {
 	
 	@Column(name="status")
 	private String status;
-	
-	
-	
-	
+
+	@Column(name="rate")
+	private Integer rate;
+
+	public Integer getRate() {
+		return rate;
+	}
+
+	public void setRate(Integer rate) {
+		this.rate = rate;
+	}
+
 	public String getStatus() {
 		return status;
 	}
@@ -103,11 +111,25 @@ public class OrderEntity {
 	}
 
 
+	public OrderEntity() {
+	}
 
+	@Override
+	public String toString() {
+		return "OrderEntity{" +
+				"orderid=" + orderid +
+				", clientid=" + clientid +
+				", vendorid=" + vendorid +
+				", bottlesdelivered=" + bottlesdelivered +
+				", bottlesrecieved=" + bottlesrecieved +
+				", payment=" + payment +
+				", date=" + date +
+				", status='" + status + '\'' +
+				", rate=" + rate +
+				'}';
+	}
 
-	public OrderEntity(int orderid, int clientid, int vendorid, int bottlesdelivered, int bottlesrecieved, int payment,
-			Date date, String status) {
-		super();
+	public OrderEntity(int orderid, int clientid, int vendorid, int bottlesdelivered, int bottlesrecieved, int payment, Date date, String status, int rate) {
 		this.orderid = orderid;
 		this.clientid = clientid;
 		this.vendorid = vendorid;
@@ -116,23 +138,6 @@ public class OrderEntity {
 		this.payment = payment;
 		this.date = date;
 		this.status = status;
+		this.rate = rate;
 	}
-
-	public OrderEntity() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public String toString() {
-		return "OrderEntity [orderid=" + orderid + ", clientid=" + clientid + ", vendorid=" + vendorid
-				+ ", bottlesdelivered=" + bottlesdelivered + ", bottlesrecieved=" + bottlesrecieved + ", payment="
-				+ payment + ", date=" + date + ", status=" + status + "]";
-	}
-	
-	
-	
-
-	
-	
 }

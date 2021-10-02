@@ -175,8 +175,24 @@ public class VendorController extends BaseController  {
 	        return execute(v1getdeliveries);
 	    }
 
-	    
-	    @GetMapping(
+	@GetMapping(
+			value = "/api/v2/private/vendor/get_client_orders/{clientid}",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<?> v1getClientOrdersV2(@PathVariable("clientid") int clientid) {
+
+
+		BasicAction< ResponseEntity<?>> v1getdeliveries = () -> {
+			List<OrderEntity> list= vendorservice.getClientOrders(clientid);
+
+			return ResponseEntity.ok(list);
+		};
+
+		return execute(v1getdeliveries);
+	}
+
+	@GetMapping(
 	            value = "/api/v1/private/vendor/delete_get_client_order/{orderid}",
 	            produces = MediaType.APPLICATION_JSON_VALUE,
 	            consumes = MediaType.APPLICATION_JSON_VALUE
