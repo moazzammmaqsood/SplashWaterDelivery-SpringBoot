@@ -3,12 +3,7 @@ package com.splash.service;
 import java.util.Date;
 import java.util.List;
 
-import com.splash.controller.vendor.BottleDelivered;
-import com.splash.controller.vendor.ClientRequest;
-import com.splash.controller.vendor.ClientUpdateRequest;
-import com.splash.controller.vendor.EditClientRequest;
-import com.splash.controller.vendor.GetClientsResponse;
-import com.splash.controller.vendor.UserClient;
+import com.splash.controller.vendor.*;
 import com.splash.domain.entity.*;
 import com.splash.entity.model.ClientDetails;
 import com.splash.entity.model.SummaryDaily;
@@ -51,6 +46,12 @@ public interface VendorService {
 	 void disableclient(int clientid);
 
 	void enableclient(int clientid);
+
+	void addFinance(FinanceRequest request);
+	void deleteFinance(int financeid);
+	List<FinanceEntitiy> getFinanceByVendorId();
+
+
 }
 
 

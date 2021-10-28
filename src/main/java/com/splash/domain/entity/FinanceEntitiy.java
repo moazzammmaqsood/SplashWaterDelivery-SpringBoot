@@ -30,7 +30,10 @@ public class FinanceEntitiy {
     @Column
     String status;
 
-    public FinanceEntitiy(int id, int income, int expense, Date date, String remarks, String tags, String status) {
+    @Column
+    Integer vendorid;
+
+    public FinanceEntitiy(int id, int income, int expense, Date date, String remarks, String tags, String status, Integer vendorid) {
         this.id = id;
         this.income = income;
         this.expense = expense;
@@ -38,11 +41,19 @@ public class FinanceEntitiy {
         this.remarks = remarks;
         this.tags = tags;
         this.status = status;
+        this.vendorid = vendorid;
     }
 
     public FinanceEntitiy() {
     }
 
+    public Integer getVendorid() {
+        return vendorid;
+    }
+
+    public void setVendorid(Integer vendorid) {
+        this.vendorid = vendorid;
+    }
 
     public int getId() {
         return id;
@@ -98,5 +109,19 @@ public class FinanceEntitiy {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "FinanceEntitiy{" +
+                "id=" + id +
+                ", income=" + income +
+                ", expense=" + expense +
+                ", date=" + date +
+                ", remarks='" + remarks + '\'' +
+                ", tags='" + tags + '\'' +
+                ", status='" + status + '\'' +
+                ", vendorid=" + vendorid +
+                '}';
     }
 }

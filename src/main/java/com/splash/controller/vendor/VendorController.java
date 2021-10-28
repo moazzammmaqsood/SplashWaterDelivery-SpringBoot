@@ -308,5 +308,30 @@ public class VendorController extends BaseController  {
 		return execute(v1getdeliveries);
 	}
 
+
+	@PostMapping(
+			value = "/api/v1/private/vendor/add_finance",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<?> v1addFinance(@Valid @RequestBody FinanceRequest financeRequest,BindingResult bindingResult) {
+
+
+		if(bindingResult.hasErrors()) {
+			throw new ApiException(ApiStatusCodes.BAD_REQUEST,bindingResult.getFieldError().getDefaultMessage());
+		}
+
+		ParameterizedAction<FinanceRequest, ResponseEntity<?>> v1addFinance = (request) -> {
+			vendorservice.addFinance(financeRequest);
+			if(request.getType().equals("I")){
+				return ResponseEntity.ok(new SuccessResponse("Successfull Added Income"));
+			}else{
+				return ResponseEntity.ok(new SuccessResponse("Successfull Added Expense"));
+			}
+		};
+
+		return execute(financeRequest,v1addFinance);
+	}
+
 }
 

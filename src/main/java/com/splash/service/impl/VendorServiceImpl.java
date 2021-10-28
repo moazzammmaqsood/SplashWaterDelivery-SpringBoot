@@ -3,6 +3,7 @@ package com.splash.service.impl;
 import java.text.ParseException;
 import java.util.*;
 
+import com.splash.controller.vendor.*;
 import com.splash.domain.constants.AppConstants;
 import com.splash.domain.entity.*;
 import com.splash.repository.*;
@@ -12,13 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.splash.controller.base.BaseService;
-import com.splash.controller.vendor.BottleDelivered;
-import com.splash.controller.vendor.ClientDeliveryRequest;
-import com.splash.controller.vendor.ClientRequest;
-import com.splash.controller.vendor.ClientUpdateRequest;
-import com.splash.controller.vendor.EditClientRequest;
-import com.splash.controller.vendor.GetClientsResponse;
-import com.splash.controller.vendor.UserClient;
 import com.splash.domain.ApiException;
 import com.splash.domain.constants.ApiStatusCodes;
 import com.splash.domain.constants.ErrorMessages;
@@ -48,6 +42,9 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 
 	@Autowired
 	SmsRepository smsrepo;
+
+	@Autowired
+	FinanceRepository financeRepo;
 
 //	public void updatingrate(){
 //
@@ -296,7 +293,9 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		smsEntity.setPhoneno(clientuser.getPhone());
 		smsEntity.setStatus("N");
 		smsEntity.setUserid(clientuser.getUserid());
-		int payment= clientTotal.getTotalbottles()*client.getRate()-clientTotal.getTotalpayment();
+		Long payments = orderrepo.getPayments(client.getClientid());
+		int payment= clientTotal.getTotalbottles()*client.getRate()-payments.intValue();
+
 		senddeliverysms(smsEntity,clientuser.getName(),vendor.getName(),order.getBottlesdelivered(),order.getBottlesrecieved(),order.getPayment(),order.getDate(),payment,order.getOrderid());
 		
 	}
@@ -452,8 +451,6 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		if (client.getVendorid()!=vendor.getVendorid()) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.UNAUTHORIZED_USER_TYPE);
 		}
-		
-		
 		Optional<List<OrderEntity>> orders= orderrepo.findAllByclientidOrderByDateAsc(clientid);
 		
 		if(orders.isPresent()) {
@@ -461,9 +458,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		}else {
 			return null;
 		}
-
-
-	}
+ }
 
 
 
@@ -501,10 +496,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		orderrepo.save(order);
 		
 		deletesms(orderid);
-		
-		
-		
-	}
+ 	}
 
 
 
@@ -549,12 +541,8 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		oldclient.setBottles(request.getNoofbottles());
 		oldclient.setDeposit(request.getDeposit());
 		oldclient.setOncall(request.getOncall());
-		
-		
-		clientrepo.save(oldclient);
-	 
- 
-		
+	 	clientrepo.save(oldclient);
+
 	}
 
 
@@ -563,8 +551,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	@Override
 	public VendorEntity getVendor(int id) {
 	    return vendorrepo.getOne(id);
-		
-	}
+	 }
 
 
 
@@ -733,6 +720,85 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		userUpdate.setStatus("E");
 		userrepo.save(userUpdate);
 
+	}
+
+	@Override
+	public void addFinance(FinanceRequest request) {
+		User user = getCurrentUser();
+
+		if(request==null){
+			throw new ApiException(ApiStatusCodes.BAD_REQUEST,ErrorMessages.INVALID_USER_REQUEST);
+		}
+
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername());
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+
+		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
+		}
+
+
+		FinanceEntitiy entitiy=new FinanceEntitiy();
+		entitiy.setStatus("A");
+		if(request.getType().equals("I")){
+			entitiy.setIncome(request.getAmount());
+		}else{
+			entitiy.setExpense(request.getAmount());
+		}
+		entitiy.setRemarks(request.getRemark());
+		try {
+			entitiy.setDate(Utils.StringtoDate(request.getDate()));
+		} catch (ParseException e) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.DATE_NOT_FORMATTED);
+
+		}
+
+		financeRepo.save(entitiy);
+
+	}
+
+	@Override
+	public void deleteFinance(int financeid) {
+
+		User user = getCurrentUser();
+
+		if(financeid==0){
+			throw new ApiException(ApiStatusCodes.BAD_REQUEST,ErrorMessages.INVALID_USER_REQUEST);
+		}
+
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername());
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+
+		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
+		}
+
+		Optional<FinanceEntitiy> financeEntity=		financeRepo.findById(financeid);
+
+			if(!financeEntity.isPresent()){
+				throw new ApiException(ApiStatusCodes.DATA_NOT_FOUND,ErrorMessages.DATANOTFOUND);
+			}
+
+			if (financeEntity.get().getVendorid()!=vendor.getVendorid()){
+				throw new ApiException(ApiStatusCodes.UNAUTHORIZED,ErrorMessages.UNAUTHORIZED_USER_TYPE);
+			}
+
+			financeRepo.delete(financeEntity.get());
+
+
+	}
+
+	@Override
+	public List<FinanceEntitiy> getFinanceByVendorId() {
+		return null;
 	}
 
 
