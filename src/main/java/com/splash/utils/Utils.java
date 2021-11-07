@@ -60,4 +60,10 @@ public class Utils {
 		return strDate;
 	}
 
+	public static String fetchYearAndMonth(Date date) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+		String strDate = dateFormat.format(date);
+		return strDate;
+	}
+
 }

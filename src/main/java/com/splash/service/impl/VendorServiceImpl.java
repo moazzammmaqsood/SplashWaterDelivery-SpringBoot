@@ -6,6 +6,7 @@ import java.util.*;
 import com.splash.controller.vendor.*;
 import com.splash.domain.constants.AppConstants;
 import com.splash.domain.entity.*;
+import com.splash.entity.model.SummaryMonthly;
 import com.splash.repository.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -799,6 +800,46 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	@Override
 	public List<FinanceEntitiy> getFinanceByVendorId() {
 		return null;
+	}
+
+	@Override
+	public SummaryMonthly getVendorSummarybyMonth(String date) {
+		User user = getCurrentUser();
+
+		Date date1 =null;
+		try {
+		 date1= Utils.StringtoDate(date);
+
+		}catch (Exception e){
+			throw new ApiException(ApiStatusCodes.BAD_REQUEST, ErrorMessages.DATE_NOT_FORMATTED);
+		}
+		String findMonth=null;
+		if(date1!=null)
+		{
+		findMonth=Utils.fetchYearAndMonth(date1);
+		}
+
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername());
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+
+		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+
+
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
+		}
+
+		SummaryMonthly summary =orderrepo.getMonthlySunmary(findMonth+"%", vendor.getVendorid());
+
+		if(summary==null ) {
+			throw new ApiException(ApiStatusCodes.DATA_NOT_FOUND,ErrorMessages.DATANOTFOUND);
+
+		}
+
+		return summary;
 	}
 
 

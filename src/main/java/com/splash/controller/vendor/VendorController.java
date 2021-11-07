@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.splash.entity.model.SummaryMonthly;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -332,6 +333,26 @@ public class VendorController extends BaseController  {
 
 		return execute(financeRequest,v1addFinance);
 	}
+
+
+	@GetMapping(
+			value = "/api/v1/private/vendor/get_vendor_summary_monthly/{date}",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<?> v1getvendorsummaryMonthly(@PathVariable("date") String date) {
+
+
+		BasicAction< ResponseEntity<?>> v1getvendorsummary = () -> {
+
+			SummaryMonthly sum =vendorservice.getVendorSummarybyMonth(date);
+
+			return ResponseEntity.ok(sum);
+		};
+
+		return execute(v1getvendorsummary);
+	}
+
 
 }
 

@@ -8,6 +8,7 @@ import com.splash.domain.entity.*;
 import com.splash.entity.model.ClientDetails;
 import com.splash.entity.model.SummaryDaily;
 import com.splash.entity.model.SummaryDelivery;
+import com.splash.entity.model.SummaryMonthly;
 
 public interface VendorService {
 	
@@ -52,6 +53,7 @@ public interface VendorService {
 	List<FinanceEntitiy> getFinanceByVendorId();
 
 
+	SummaryMonthly getVendorSummarybyMonth(String date);
 }
 
 
