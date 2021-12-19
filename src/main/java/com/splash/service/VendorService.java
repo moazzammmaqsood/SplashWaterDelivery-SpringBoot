@@ -50,7 +50,7 @@ public interface VendorService {
 
 	void addFinance(FinanceRequest request);
 	void deleteFinance(int financeid);
-	List<FinanceEntitiy> getFinanceByVendorId();
+	List<FinanceEntitiy> getFinanceByDateVendorId(String date);
 
 
 	SummaryMonthly getVendorSummarybyMonth(String date);

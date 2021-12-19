@@ -335,6 +335,41 @@ public class VendorController extends BaseController  {
 	}
 
 
+
+	@GetMapping(
+			value = "/api/v1/private/vendor/delete_finance/{financeId}",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<?> v1deleteFinance(@PathVariable("financeId")int finfinanceId) {
+
+
+		BasicAction<ResponseEntity<?>> v1deleteFinance = () -> {
+			vendorservice.deleteFinance(finfinanceId);
+			return ResponseEntity.ok(new SuccessResponse("Successfully Deleted"));
+		};
+
+		return execute(v1deleteFinance);
+	}
+
+	@GetMapping(
+			value = "/api/v1/private/vendor/get_finance/{date}",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<?> v1fetchFinance(@PathVariable("date")String date) {
+
+
+		BasicAction<ResponseEntity<?>>  v1fetchFinance = () -> {
+			List<FinanceEntitiy> finance=vendorservice.getFinanceByDateVendorId(date);
+			return ResponseEntity.ok(finance);
+		};
+
+		return execute(v1fetchFinance);
+	}
+
+
+
 	@GetMapping(
 			value = "/api/v1/private/vendor/get_vendor_summary_monthly/{date}",
 			produces = MediaType.APPLICATION_JSON_VALUE,

@@ -375,12 +375,14 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		if(payments==null){
 			payments=0L;
 		}
-		clienttotal.setTotalpayment(payments.intValue());
+
+
 		ClientDetails clientdetails;
 		int bottlesholding =0;
 		int payment=0;
 		int paymentrecieved=0;
 		if(clienttotal!= null) {
+			clienttotal.setTotalpayment(payments.intValue());
 		 bottlesholding =  clienttotal.getTotalbottles()-clienttotal.getTotalrecieved();
 		 payment= clienttotal.getTotalbottles()*clientent.get().getRate()-clienttotal.getTotalpayment();
 		 paymentrecieved=clienttotal.getTotalpayment();
@@ -751,6 +753,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			entitiy.setExpense(request.getAmount());
 		}
 		entitiy.setRemarks(request.getRemark());
+		entitiy.setVendorid(vendor.getVendorid());
 		try {
 			entitiy.setDate(Utils.StringtoDate(request.getDate()));
 		} catch (ParseException e) {
@@ -798,8 +801,46 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	}
 
 	@Override
-	public List<FinanceEntitiy> getFinanceByVendorId() {
-		return null;
+	public List<FinanceEntitiy> getFinanceByDateVendorId(String date) {
+
+		User user = getCurrentUser();
+
+
+		Date date1 =null;
+		try {
+			date1= Utils.StringtoDate(date);
+
+		}catch (Exception e){
+			throw new ApiException(ApiStatusCodes.BAD_REQUEST, ErrorMessages.DATE_NOT_FORMATTED);
+		}
+		String findMonth=null;
+		if(date1!=null)
+		{
+			findMonth=Utils.fetchYearAndMonth(date1);
+		}
+
+
+
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername());
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+
+		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
+		}
+
+		List<FinanceEntitiy> financeEntity=		financeRepo.getList(findMonth+"%",vendor.getVendorid());
+
+		if(financeEntity.isEmpty()){
+			throw new ApiException(ApiStatusCodes.DATA_NOT_FOUND,ErrorMessages.DATANOTFOUND);
+		}
+
+
+
+		return financeEntity;
 	}
 
 	@Override
