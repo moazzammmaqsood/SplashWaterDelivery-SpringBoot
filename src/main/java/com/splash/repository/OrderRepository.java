@@ -28,7 +28,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 	@Query(nativeQuery = true, value = "SELECT * FROM orders WHERE clientid = :clientid ORDER BY date  DESC LIMIT 1")
 	OrderEntity getClientlastDelivery(int clientid);
 
-	@Query(nativeQuery = true, value = "SELECT sum(bottlesdelivered) as totalbottles, sum(payment) as totalpayments ,count(Distinct(clientid)) as totalactiveclients ,0 as countersale , 0 as expense ,0 as totalrevenue FROM worthywa_splash.orders where date like :date and status = 'A' and  vendorid = :vendorid ")
+//	@Query(nativeQuery = true, value = "SELECT sum(bottlesdelivered) as totalbottles, sum(payment) as totalpayments ,count(Distinct(clientid)) as totalactiveclients ,0 as countersale , 0 as expense ,0 as totalrevenue FROM worthywa_splash.orders where date like :date and status = 'A' and  vendorid = :vendorid ")
 	SummaryMonthly getMonthlySunmary(String date, int vendorid);
 	//	@Query(nativeQuery=true, value ="select NEW ClientDelivery (o.orderid,  c.clientid,c.userid,u.name,c.address,c.bottles,c.frequency,c.rate,DATEDIFF(CURDATE(),o.date ) AS days ) from worthywa_splash.client c inner join  worthywa_splash.orders o  on c.clientid =o.clientid "
 //			+ "	Inner join worthywa_splash.users u on c.userid = u.userid "

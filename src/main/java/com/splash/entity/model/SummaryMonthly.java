@@ -9,17 +9,18 @@ import javax.persistence.*;
 public class SummaryMonthly {
     @Id
     @Column
-    Long totalpayments;
+    Integer totalbottles;
+
     @Column
-    int totalbottles;
+    Integer totalpayments;
     @Column
-    int totalactiveclients;
+    Integer totalactiveclients;
     @Column
-    Long countersale;
+    Integer countersale;
     @Column
-    Long expense;
+    Integer expense;
     @Column
-    Long totalrevenue;
+    Integer totalrevenue;
 
     @Override
     public String toString() {
@@ -33,58 +34,58 @@ public class SummaryMonthly {
                 '}';
     }
 
-    public Long getTotalpayments() {
+    public Integer getTotalpayments() {
         return totalpayments;
     }
 
-    public void setTotalpayments(Long totalpayments) {
+    public void setTotalpayments(Integer totalpayments) {
         this.totalpayments = totalpayments;
     }
 
-    public int getTotalbottles() {
+    public Integer getTotalbottles() {
         return totalbottles;
     }
 
-    public void setTotalbottles(int totalbottles) {
+    public void setTotalbottles(Integer totalbottles) {
         this.totalbottles = totalbottles;
     }
 
-    public int getTotalactiveclients() {
+    public Integer getTotalactiveclients() {
         return totalactiveclients;
     }
 
-    public void setTotalactiveclients(int totalactiveclients) {
+    public void setTotalactiveclients(Integer totalactiveclients) {
         this.totalactiveclients = totalactiveclients;
     }
 
-    public Long getCountersale() {
+    public Integer getCountersale() {
         return countersale;
     }
 
-    public void setCountersale(Long countersale) {
+    public void setCountersale(Integer countersale) {
         this.countersale = countersale;
     }
 
-    public Long getExpense() {
+    public Integer getExpense() {
         return expense;
     }
 
-    public void setExpense(Long expense) {
+    public void setExpense(Integer expense) {
         this.expense = expense;
     }
 
-    public Long getTotalrevenue() {
+    public Integer getTotalrevenue() {
         return totalrevenue;
     }
 
-    public void setTotalrevenue(Long totalrevenue) {
+    public void setTotalrevenue(Integer totalrevenue) {
         this.totalrevenue = totalrevenue;
     }
 
     public SummaryMonthly() {
     }
 
-    public SummaryMonthly(Long totalPayments, int totalBottles, int totalActiveClients, Long counterSale, Long expense, Long totalrevenue) {
+    public SummaryMonthly(Integer totalPayments, int totalBottles, int totalActiveClients, Integer counterSale, Integer expense, Integer totalrevenue) {
         this.totalpayments = totalPayments;
         this.totalbottles = totalBottles;
         this.totalactiveclients = totalActiveClients;
