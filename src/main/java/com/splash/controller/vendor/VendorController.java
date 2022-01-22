@@ -401,7 +401,7 @@ public class VendorController extends BaseController  {
 
 			 vendorservice.sendSms();
 
-			return ResponseEntity.ok().body("Success");
+			return ResponseEntity.ok(new SuccessResponse("Success"));
 		};
 
 		return execute(v1getvendorsummary);
