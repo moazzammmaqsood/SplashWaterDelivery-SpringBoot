@@ -8,8 +8,13 @@ import com.splash.domain.constants.AppConstants;
 import com.splash.domain.entity.*;
 import com.splash.entity.model.SummaryMonthly;
 import com.splash.repository.*;
+import com.splash.utils.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +27,8 @@ import com.splash.entity.model.SummaryDaily;
 import com.splash.entity.model.SummaryDelivery;
 import com.splash.service.VendorService;
 import com.splash.utils.Utils;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class VendorServiceImpl extends BaseService implements VendorService  {
@@ -46,6 +53,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 
 	@Autowired
 	FinanceRepository financeRepo;
+
 
 //	public void updatingrate(){
 //
@@ -884,4 +892,54 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	}
 
 
+
+	@Override
+	public void sendSms() {
+
+		List<SmsEntity> smsList = smsrepo.fetchUnSentSms();
+
+		for (SmsEntity sms:
+			 smsList) {
+
+			String phoneno = sms.getPhoneno();
+			phoneno = phoneno.trim();
+			if (phoneno != null || !phoneno.isEmpty() || phoneno.length() == 11) {
+
+				if (phoneno.contains(",")) {
+					phoneno = phoneno.substring(0, phoneno.indexOf(","));
+				}
+				phoneno = phoneno.replace("+", "");
+				phoneno = phoneno.replace("-", "");
+				phoneno = phoneno.replace(" ", "");
+
+				try {
+
+					if (phoneno.substring(0, 1).equals("92")) {
+						phoneno = phoneno.replaceFirst("92", "0");
+					}
+				HttpEntity<String> response=	Utils.sendSmsUtil(sms.getSmstext(), phoneno);
+					if(response.getBody().contains("Accepted")){
+						sms.setSenttime(new Date());
+						sms.setResponse(response.getBody());
+						sms.setStatus("Y");
+						smsrepo.save(sms);
+					}else{
+						sms.setSenttime(new Date());
+						sms.setResponse(response.getBody());
+						sms.setStatus("E");
+						smsrepo.save(sms);
+					}
+				}catch (Exception e){
+					sms.setSenttime(new Date());
+					sms.setResponse(e.getMessage());
+					sms.setStatus("E");
+					smsrepo.save(sms);
+				}
+				}
+
+		}
+
+
+
+	}
 }

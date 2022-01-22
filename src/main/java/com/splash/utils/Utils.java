@@ -1,18 +1,21 @@
 package com.splash.utils;
 
 import com.splash.domain.constants.AppConstants;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Utils {
 
-	
+	static RestTemplate restTemplate = new RestTemplate();
 	
 	public static String generateRandomnumber(int num) {
 		
@@ -64,6 +67,39 @@ public class Utils {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 		String strDate = dateFormat.format(date);
 		return strDate;
+	}
+
+	public static HttpEntity<String> sendSmsUtil(String sms, String recieverPhoneNumber){
+
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+		headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+
+		String urlTemplate = UriComponentsBuilder.fromHttpUrl(Constants.VeevoUrl)
+				.queryParam("hash", "{hash}")
+				.queryParam("receivenum", "{receivenum}")
+				.queryParam("sendernum", "{sendernum}")
+				.queryParam("textmessage", "{textmessage}")
+				.encode()
+				.toUriString();
+
+		Map<String, String > params = new HashMap<>();
+		params.put("hash", Constants.ApiKey);
+		params.put("receivenum", recieverPhoneNumber);
+		params.put("sendernum", Constants.Phone);
+		params.put("textmessage", sms);
+
+		HttpEntity<String> response = restTemplate.exchange(
+				urlTemplate,
+				HttpMethod.GET,
+				entity,
+				String.class,
+				params);
+
+		return response;
+
 	}
 
 }

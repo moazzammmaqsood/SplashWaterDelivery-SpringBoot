@@ -389,5 +389,26 @@ public class VendorController extends BaseController  {
 	}
 
 
+	@GetMapping(
+			value = "/api/v1/private/vendor/sms",
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<?> v1getvendorsendSms() {
+
+
+		BasicAction< ResponseEntity<?>> v1getvendorsummary = () -> {
+
+			 vendorservice.sendSms();
+
+			return ResponseEntity.ok().body("Success");
+		};
+
+		return execute(v1getvendorsummary);
+	}
+
+
+
+
 }
 

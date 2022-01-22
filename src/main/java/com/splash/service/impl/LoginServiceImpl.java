@@ -103,10 +103,6 @@ public class LoginServiceImpl implements LoginService {
             	loginresponse.setVendorname("Admin");
             }
 
-            
-            
-            
-            
             return loginresponse;
         } catch (AccountStatusException e){
             throw new ApiException(ApiStatusCodes.UNAUTHORIZED, ErrorMessages.ACCOUNT_LOCKED);
