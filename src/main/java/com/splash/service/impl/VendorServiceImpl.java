@@ -942,4 +942,49 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 
 
 	}
+
+	@Override
+	public void sendCustomSms(CustomSmsRequest smsRequest) {
+		User user = getCurrentUser();
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername());
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
+
+		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+
+
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
+		}
+		List<String> list = userrepo.getAllNumbers(vendor.getVendorid());
+		for (String number:
+			 list) {
+
+			String phoneno = number;
+			phoneno = phoneno.trim();
+			if (phoneno != null || !phoneno.isEmpty() || phoneno.length() == 11) {
+
+				if (phoneno.contains(",")) {
+					phoneno = phoneno.substring(0, phoneno.indexOf(","));
+				}
+				phoneno = phoneno.replace("+", "");
+				phoneno = phoneno.replace("-", "");
+				phoneno = phoneno.replace(" ", "");
+				try {
+
+					HttpEntity<String> response = Utils.sendSmsUtil(smsRequest.getSms(), "03248262087");
+					if (response.getBody().contains("Accepted")) {
+						System.out.println("sms sent");
+					} else {
+						System.out.println("sms not sent");
+					}
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+
+	}
 }

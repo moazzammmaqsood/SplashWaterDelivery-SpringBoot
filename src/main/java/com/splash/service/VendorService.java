@@ -56,6 +56,8 @@ public interface VendorService {
 	SummaryMonthly getVendorSummarybyMonth(String date);
 
     void sendSms();
+
+	void sendCustomSms(CustomSmsRequest smsRequest);
 }
 
 
