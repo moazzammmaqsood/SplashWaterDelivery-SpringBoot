@@ -963,8 +963,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		for (String number:
 			 list) {
 
-			String phoneno = new String(number);
-			System.out.println(phoneno);
+			String phoneno = number;
 			phoneno = phoneno.trim();
 			if (phoneno != null || !phoneno.isEmpty() || phoneno.length() == 11) {
 
@@ -976,7 +975,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 				phoneno = phoneno.replace(" ", "");
 				try {
 
-					HttpEntity<String> response = Utils.sendSmsUtil(smsRequest.getSms(), "03248262087");
+					HttpEntity<String> response = Utils.sendSmsUtil(smsRequest.getSms(), phoneno);
 					if (response.getBody().contains("Accepted")) {
 						System.out.println("sms sent");
 					} else {
