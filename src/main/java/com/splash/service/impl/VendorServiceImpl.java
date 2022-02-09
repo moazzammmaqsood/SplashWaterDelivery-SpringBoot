@@ -959,10 +959,12 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
 		}
 		List<String> list = userrepo.getAllNumbers(vendor.getVendorid());
+		System.out.println(list);
 		for (String number:
 			 list) {
 
-			String phoneno = number;
+			String phoneno = new String(number);
+			System.out.println(phoneno);
 			phoneno = phoneno.trim();
 			if (phoneno != null || !phoneno.isEmpty() || phoneno.length() == 11) {
 
