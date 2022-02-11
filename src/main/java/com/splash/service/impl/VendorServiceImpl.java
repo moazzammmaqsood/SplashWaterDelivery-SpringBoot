@@ -960,6 +960,8 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		}
 		List<String> list = userrepo.getAllNumbers(vendor.getVendorid());
 		System.out.println(list);
+		StringBuilder stringBuilder=new StringBuilder();
+		int count =0;
 		for (String number:
 			 list) {
 
@@ -973,18 +975,26 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 				phoneno = phoneno.replace("+", "");
 				phoneno = phoneno.replace("-", "");
 				phoneno = phoneno.replace(" ", "");
-				try {
-
-					HttpEntity<String> response = Utils.sendSmsUtil(smsRequest.getSms(), phoneno);
-					if (response.getBody().contains("Accepted")) {
-						System.out.println("sms sent");
-					} else {
-						System.out.println("sms not sent");
-					}
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
+				stringBuilder.append(phoneno);
+				if(list.size()!=count){
+					stringBuilder.append(",");
 				}
+
+					count++;
 			}
+		}
+
+		try {
+
+			HttpEntity<String> response = Utils.sendSmsUtil(smsRequest.getSms(), stringBuilder.toString());
+			System.out.println(response.getBody());
+			if (response.getBody().contains("Accepted")) {
+				System.out.println("sms sent");
+			} else {
+				System.out.println("sms not sent");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 
 	}
