@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity(name="ClientTotalDetail")
 
-@NamedNativeQuery(name="OrderEntity.getClientTotalDetail",query=" SELECT clientid ,sum(bottlesdelivered) as totalbottles ,sum(bottlesrecieved) as totalrecieved ,sum(payment) as totalpayment , max(date) date FROM worthywa_splash.orders where clientid = ?1 and status != 'D' and bottlesdelivered > 0 group by clientid ",resultClass =ClientTotalDetail.class)
+@NamedNativeQuery(name="OrderEntity.getClientTotalDetail",query=" SELECT clientid ,sum(bottlesdelivered) as totalbottles ,sum(bottlesrecieved) as totalrecieved , sum(payment) as totalpayment , max(date) date ,sum(bottlesdelivered*rate) as bill FROM worthywa_splash.orders where clientid = ?1 and status != 'D' group by clientid ",resultClass =ClientTotalDetail.class)
 
 
 
@@ -34,8 +34,9 @@ public class ClientTotalDetail {
 	
 	@Column(name="date")
 	Date date;
-	
-	
+
+	@Column(name="bill")
+	int bill;
 	
 	public Date getDate() {
 		return date;
@@ -67,17 +68,24 @@ public class ClientTotalDetail {
 	public void setTotalpayment(int totalpayment) {
 		this.totalpayment = totalpayment;
 	}
-	
-	
-	
-	public ClientTotalDetail(int clientid, int totalbottles, int totalrecieved, int totalpayment, Date date) {
-		super();
+
+	public int getBill() {
+		return bill;
+	}
+
+	public void setBill(int bill) {
+		this.bill = bill;
+	}
+
+	public ClientTotalDetail(int clientid, int totalbottles, int totalrecieved, int totalpayment, Date date, int bill) {
 		this.clientid = clientid;
 		this.totalbottles = totalbottles;
 		this.totalrecieved = totalrecieved;
 		this.totalpayment = totalpayment;
 		this.date = date;
+		this.bill = bill;
 	}
+
 	public ClientTotalDetail() {
 		super();
 		// TODO Auto-generated constructor stub

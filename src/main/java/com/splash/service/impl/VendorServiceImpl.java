@@ -392,7 +392,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		if(clienttotal!= null) {
 			clienttotal.setTotalpayment(payments.intValue());
 		 bottlesholding =  clienttotal.getTotalbottles()-clienttotal.getTotalrecieved();
-		 payment= clienttotal.getTotalbottles()*clientent.get().getRate()-clienttotal.getTotalpayment();
+		 payment= clienttotal.getBill()-clienttotal.getTotalpayment();
 		 paymentrecieved=clienttotal.getTotalpayment();
 		
 		
@@ -989,9 +989,9 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			HttpEntity<String> response = Utils.sendSmsUtil(smsRequest.getSms(), stringBuilder.toString());
 			System.out.println(response.getBody());
 			if (response.getBody().contains("Accepted")) {
-				System.out.println("sms sent");
+				System.out.println("sms sent"+ " total count "+count);
 			} else {
-				System.out.println("sms not sent");
+				System.out.println("sms not sent"+" total count "+count);
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
