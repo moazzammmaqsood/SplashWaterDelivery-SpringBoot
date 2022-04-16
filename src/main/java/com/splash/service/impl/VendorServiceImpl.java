@@ -303,13 +303,13 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		smsEntity.setStatus("N");
 		smsEntity.setUserid(clientuser.getUserid());
 		Long payments = orderrepo.getPayments(client.getClientid());
-		int payment= clientTotal.getTotalbottles()*client.getRate()-payments.intValue();
+		int payment= clientTotal.getBill()-payments.intValue();
 
 		senddeliverysms(smsEntity,clientuser.getName(),vendor.getName(),order.getBottlesdelivered(),order.getBottlesrecieved(),order.getPayment(),order.getDate(),payment,order.getOrderid());
 		
 	}
 
-
+g
 	@Override
 	public List<ClientDelivery> getDeliveries() {
 
