@@ -309,7 +309,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		
 	}
 
-g
+
 	@Override
 	public List<ClientDelivery> getDeliveries() {
 
