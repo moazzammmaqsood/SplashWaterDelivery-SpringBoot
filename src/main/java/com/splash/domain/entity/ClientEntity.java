@@ -38,10 +38,35 @@ public class ClientEntity {
 	
 	@Column(name="oncall")
 	private String oncall;
-	
 
-	
-	 @OneToOne(mappedBy = "client")
+	@Column(name="clienttype")
+	private String clienttype;
+
+
+	public String getClienttype() {
+		return clienttype;
+	}
+
+	public void setClienttype(String clienttype) {
+		this.clienttype = clienttype;
+	}
+
+	public ClientEntity(int clientid, int userid, String address, int rate, int vendorid, int frequency, int bottles, int deposit, String oncall, String clienttype, UserEntity user) {
+
+		this.clientid = clientid;
+		this.userid = userid;
+		this.address = address;
+		this.rate = rate;
+		this.vendorid = vendorid;
+		this.frequency = frequency;
+		this.bottles = bottles;
+		this.deposit = deposit;
+		this.oncall = oncall;
+		this.clienttype = clienttype;
+		this.user = user;
+	}
+
+	@OneToOne(mappedBy = "client")
 	  private UserEntity user;
 
 	 
@@ -156,18 +181,21 @@ public class ClientEntity {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	@Override
 	public String toString() {
-		return "ClientEntity [clientid=" + clientid + ", userid=" + userid + ", address=" + address + ", rate=" + rate
-				+ ", vendorid=" + vendorid + ", frequency=" + frequency + ", bottles=" + bottles + ", deposit="
-				+ deposit + ", oncall=" + oncall + ", user=" + user + "]";
+		return "ClientEntity{" +
+				"clientid=" + clientid +
+				", userid=" + userid +
+				", address='" + address + '\'' +
+				", rate=" + rate +
+				", vendorid=" + vendorid +
+				", frequency=" + frequency +
+				", bottles=" + bottles +
+				", deposit=" + deposit +
+				", oncall='" + oncall + '\'' +
+				", clienttype='" + clienttype + '\'' +
+				", user=" + user +
+				'}';
 	}
-
-
-
-
-
-
-	
-	
 }
