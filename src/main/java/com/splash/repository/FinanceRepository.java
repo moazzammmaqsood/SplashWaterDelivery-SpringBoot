@@ -15,4 +15,7 @@ public interface FinanceRepository
 
     @Query(nativeQuery = true,value = "SELECT * FROM worthywa_splash.finance where date like :date and status = 'A' and  vendorid = :vendorid ")
     List<FinanceEntitiy> getList(String date,int vendorid);
+
+    @Query(nativeQuery = true,value = "SELECT *  FROM worthywa_splash.orders where month(date) = month(:date) and   year(date) = year(:date) status = 'A' and  vendorid = :vendorid  ")
+    List<FinanceEntitiy> getListByMonth(String date,int vendorid);
 }

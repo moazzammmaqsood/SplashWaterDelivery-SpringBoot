@@ -52,6 +52,7 @@ public interface VendorService {
 	void deleteFinance(int financeid);
 	List<FinanceEntitiy> getFinanceByDateVendorId(String date);
 
+//	List<FinanceEntitiy> getFinanceByMonthVendorId(String date);
 
 	SummaryMonthly getVendorSummarybyMonth(String date);
 
