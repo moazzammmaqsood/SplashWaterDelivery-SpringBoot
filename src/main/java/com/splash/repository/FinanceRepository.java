@@ -13,7 +13,7 @@ public interface FinanceRepository
         extends JpaRepository<FinanceEntitiy, Integer> {
 
 
-    @Query(nativeQuery = true,value = "SELECT * FROM worthywa_splash.finance where date like :date and status = 'A' and  vendorid = :vendorid ")
+    @Query(nativeQuery = true,value = "SELECT * FROM worthywa_splash.finance where date like :date and status = 'A' and  vendorid = :vendorid  order by date desc")
     List<FinanceEntitiy> getList(String date,int vendorid);
 
     @Query(nativeQuery = true,value = "SELECT *  FROM worthywa_splash.orders where month(date) = month(:date) and   year(date) = year(:date) status = 'A' and  vendorid = :vendorid  ")
