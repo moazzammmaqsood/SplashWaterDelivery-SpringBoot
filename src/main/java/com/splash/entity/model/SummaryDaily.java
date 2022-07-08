@@ -8,11 +8,7 @@ import javax.persistence.Table;
 
 @Entity(name="SummaryDaily")
 @Table(name="orders")
-@NamedNativeQuery(name= "OrderEntity.getDailySummary" ,query =  "SELECT 1 id,COUNT(*) houses, SUM(o.bottlesdelivered) bottlesdelivered, SUM(o.bottlesdelivered*c.rate) revenue,"
-		+ "SUM(o.bottlesrecieved ) bottlesrecieved,SUM(o.payment) payment "
-		+ " FROM   worthywa_splash.client c inner join worthywa_splash.orders o on c.clientid=o.clientid "
-		+ " inner join worthywa_splash.users u on c.userid = u.userid  where "
-		+ " DATE_FORMAT(o.date , '%Y-%m-%d') = ?  and o.vendorid = ? and o.status != 'D'",resultClass =SummaryDaily.class  )
+@NamedNativeQuery(name= "OrderEntity.getDailySummary" ,query =  "SELECT 1 id,COUNT(*) houses, SUM(o.bottlesdelivered) bottlesdelivered, SUM(o.bottlesdelivered*c.rate) revenue, SUM(o.bottlesrecieved ) bottlesrecieved,SUM(o.payment) payment FROM worthywa_splash.client c inner join worthywa_splash.orders o on c.clientid=o.clientid inner join worthywa_splash.users u on c.userid = u.userid where DATE_FORMAT(o.date , '%Y-%m-%d') = ?  and o.vendorid = ? and o.status != 'D' and c.clienttype is null",resultClass =SummaryDaily.class  )
 
 
 public class SummaryDaily {
