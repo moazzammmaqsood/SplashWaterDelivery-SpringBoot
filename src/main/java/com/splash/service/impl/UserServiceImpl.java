@@ -1,4 +1,4 @@
-package com.splash.service;
+package com.splash.service.impl;
 
 import com.splash.controller.base.BaseService;
 import com.splash.dao.UserDAO;
@@ -7,7 +7,8 @@ import com.splash.domain.constants.ApiStatusCodes;
 import com.splash.domain.constants.ErrorMessages;
 import com.splash.domain.entity.User;
 import com.splash.domain.entity.UserEntity;
- 
+
+import com.splash.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

@@ -8,16 +8,13 @@ import java.util.Optional;
 
 import javax.persistence.OrderBy;
 
+import com.splash.domain.entity.*;
 import com.splash.entity.model.SummaryMonthly;
 import org.hibernate.annotations.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.splash.domain.entity.ClientDelivery;
-import com.splash.domain.entity.ClientEntity;
-import com.splash.domain.entity.ClientTotalDetail;
-import com.splash.domain.entity.OrderEntity;
 import com.splash.entity.model.SummaryDaily;
 import com.splash.entity.model.SummaryDelivery;
 
@@ -51,4 +48,11 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 
 	@Query(value="select sum(payment) FROM orders WHERE clientid= ?1 AND status != 'D'",nativeQuery = true)
 	Long  getPayments(int clientid );
+
+
+//	@Query(value = "select date_format(date,\"%d-%M-%Y\") date,bottlesdelivered,rate,payment from orders  where  clientId =  ?1 " +
+//			" and date  between" +
+//			" (last_day(current_date() - interval 2 MONTH)+ interval 1 day) " +
+//			" AND CURRENT_DATE() and status='A'",nativeQuery = true)
+	List<MonthlyBill> getMonthlyBill(int clientId);
 }

@@ -35,6 +35,7 @@ public interface VendorService {
 	void editUser(EditClientRequest request);
 
 	VendorEntity getVendor(int id);
+	VendorEntity getClientVendor();
 
 	List<SummaryDelivery> getVendorDailySummaryDeliveries(String date);
 	
@@ -57,6 +58,7 @@ public interface VendorService {
 	SummaryMonthly getVendorSummarybyMonth(String date);
 
     void sendSms();
+
 
 	void sendCustomSms(CustomSmsRequest smsRequest);
 }

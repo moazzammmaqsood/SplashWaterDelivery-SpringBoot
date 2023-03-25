@@ -564,7 +564,23 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	    return vendorrepo.getOne(id);
 	 }
 
+	@Override
+	public VendorEntity getClientVendor() {
+		 User user =getCurrentUser();
+		Optional<UserEntity> optionaluser=userrepo.findByusername(user.getUsername());
+		if(!optionaluser.isPresent())
+		{
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
+		}
 
+		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+
+		if(vendor==null) {
+			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
+		}
+		else return vendor;
+
+	}
 
 
 	@Override

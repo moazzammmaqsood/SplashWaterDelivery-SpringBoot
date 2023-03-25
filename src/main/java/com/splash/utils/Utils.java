@@ -102,4 +102,41 @@ public class Utils {
 
 	}
 
+
+
+	public static HttpEntity<String> sendSmsUtilSendPk(String sms, String recieverPhoneNumber){
+
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+		headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+
+		String urlTemplate = UriComponentsBuilder.fromHttpUrl(Constants.sendpk)
+				.queryParam("username", "{username}")
+				.queryParam("password", "{password}")
+				.queryParam("Masking", "{sender}")
+				.queryParam("mobile", "{mobile}")
+				.queryParam("message", "{message}")
+				.encode()
+				.toUriString();
+
+		Map<String, String > params = new HashMap<>();
+		params.put("username", "+92324826");
+		params.put("password", recieverPhoneNumber);
+		params.put("Masking", Constants.Phone);
+		params.put("mobile", recieverPhoneNumber);
+		params.put("message", sms);
+
+		HttpEntity<String> response = restTemplate.exchange(
+				urlTemplate,
+				HttpMethod.GET,
+				entity,
+				String.class,
+				params);
+
+		return response;
+
+	}
+
 }
