@@ -54,5 +54,5 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 //			" and date  between" +
 //			" (last_day(current_date() - interval 2 MONTH)+ interval 1 day) " +
 //			" AND CURRENT_DATE() and status='A'",nativeQuery = true)
-	List<MonthlyBill> getMonthlyBill(int clientId);
+	List<MonthlyBill> getMonthlyBill(int clientId,String yearMonth);
 }

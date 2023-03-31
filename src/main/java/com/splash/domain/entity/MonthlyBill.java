@@ -10,9 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="orders")
 @NamedNativeQuery(name= "OrderEntity.getMonthlyBill" ,query = "select date_format(date,\"%d-%M-%Y\") date,bottlesdelivered,rate,payment from orders  where  clientId =  ?1 " +
-        " and date  between" +
-        " (last_day(current_date() - interval 2 MONTH)+ interval 1 day) " +
-        " AND CURRENT_DATE() and status='A'",resultClass = MonthlyBill.class  )
+        " and date_format(date,\"%Y-%b\") like ?2  and status='A'" ,resultClass = MonthlyBill.class  )
 
 //@NoArgsConstructor
 public class MonthlyBill {

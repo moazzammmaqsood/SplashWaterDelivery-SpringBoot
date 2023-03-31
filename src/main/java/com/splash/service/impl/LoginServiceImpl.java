@@ -14,7 +14,6 @@ import com.splash.repository.ClientRepository;
 import com.splash.repository.VendorRepository;
 import com.splash.service.LoginService;
 import com.splash.service.UserService;
-import com.splash.service.VendorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountStatusException;
@@ -22,7 +21,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -73,7 +71,7 @@ public class LoginServiceImpl implements LoginService {
             
             if(user.getUserrole().equals("C")) {
             	
-                Optional<ClientEntity> client =clientRepository.findByuserid(user.getUserid());
+                Optional<ClientEntity> client =clientRepository.findByuser(user);
                 
                 if(!client.isPresent()) {
                 	throw new ApiException(ApiStatusCodes.INTERNAL_ERROR, ErrorMessages.CLIENT_NOT_FOUND);

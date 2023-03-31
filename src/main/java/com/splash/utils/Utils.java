@@ -1,6 +1,9 @@
 package com.splash.utils;
 
+import com.splash.domain.ApiException;
 import com.splash.domain.constants.AppConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -9,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -16,9 +20,16 @@ import java.util.*;
 public class Utils {
 
 	static RestTemplate restTemplate = new RestTemplate();
-	
+	static Logger logger= LoggerFactory.getLogger(Utils.class);
+
+	public static String getFileName(String clientName,Integer clientId,String vendorName,String monthYear){
+		clientName=clientName.replace(" ","_");
+		clientName=clientName+clientId+ System.currentTimeMillis();
+		vendorName=vendorName.replace(" ","_");
+		return vendorName+"/"+monthYear+"/"+clientName+".pdf";
+	}
 	public static String generateRandomnumber(int num) {
-		
+
 		
 		String randomnum="";
 		Random rand=new Random();
@@ -32,6 +43,23 @@ public class Utils {
 		
 	}
 
+	public  static String getLastMonth(){
+		Calendar c=Calendar.getInstance();
+		int month = c.get(Calendar.MONTH);
+		String[] months = new DateFormatSymbols().getShortMonths();
+
+		String lastMonth=null;
+		if(c.get(Calendar.DAY_OF_MONTH)>25){
+			lastMonth=	c.get(Calendar.YEAR)+"-"+months[month];
+		}else {
+			lastMonth=c.get(Calendar.YEAR)+"-"+months[month-1];
+		}
+
+
+		logger.debug(lastMonth);
+		return lastMonth;
+
+	}
 	public static Date StringtoDate(String lastdelivery) throws ParseException {
 				
 		Date date1=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(lastdelivery+ " 10:00:00");
@@ -42,7 +70,8 @@ public class Utils {
 	public static String Datetostring(Date date) { 
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
-		String strDate = dateFormat.format(date);  
+		String strDate = dateFormat.format(date);
+
 		return strDate;
 	}
 
@@ -139,4 +168,12 @@ public class Utils {
 
 	}
 
+	public static void validateMonthYear(String monthYear) {
+		String[] arr=monthYear.split("-");
+	 	try {
+			Integer.parseInt(arr[0]);
+		}catch (Exception e){
+			 throw new ApiException(5,e.getMessage());
+		}
+	}
 }

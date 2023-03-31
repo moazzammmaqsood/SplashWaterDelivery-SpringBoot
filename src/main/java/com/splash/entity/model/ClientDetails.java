@@ -17,6 +17,8 @@ public class ClientDetails {
 	int deposit;
 	int bottles;
 	String oncall;
+
+	String billUrl;
 	
 	
 	public String getAddress() {
@@ -79,10 +81,14 @@ public class ClientDetails {
 	public void setDaysperdelivery(int daysperdelivery) {
 		this.daysperdelivery = daysperdelivery;
 	}
-	
-	
-	
 
+	public String getBillUrl() {
+		return billUrl;
+	}
+
+	public void setBillUrl(String billUrl) {
+		this.billUrl = billUrl;
+	}
 
 	public int getDeposit() {
 		return deposit;
@@ -122,7 +128,7 @@ public class ClientDetails {
 
 	public ClientDetails(int userid, int clientid, String name, String contact, String address, int totalbottles,
 			int bottlesholding, int rate, String lastdelivery, int daysperdelivery, int paymentremaining, int paid,
-			int deposit, int bottles, String oncall) {
+			int deposit, int bottles, String oncall,String billUrl) {
 		super();
 		this.userid = userid;
 		this.clientid = clientid;
@@ -139,6 +145,7 @@ public class ClientDetails {
 		this.deposit = deposit;
 		this.bottles = bottles;
 		this.oncall = oncall;
+		this.billUrl=billUrl;
 	}
 	public ClientDetails() {
 		super();
