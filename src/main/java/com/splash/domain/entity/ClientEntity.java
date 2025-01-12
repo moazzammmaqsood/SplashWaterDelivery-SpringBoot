@@ -17,11 +17,6 @@ public class ClientEntity {
 	@JoinColumn(name = "userid",referencedColumnName = "userid")
 	private UserEntity user;
 
-//
-//
-//	@JoinColumn(name="userid")
-//	private int userid ;
-
 	@Column(name="address")
 	private String address;
 	

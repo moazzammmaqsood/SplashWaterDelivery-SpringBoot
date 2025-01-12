@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface VendorRepository extends JpaRepository<VendorEntity,Integer> {
 
 	VendorEntity findByVendorid(int vendorid); 
-	VendorEntity findByUserid(int Userid); 
-	
+
 }

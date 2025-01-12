@@ -49,7 +49,7 @@ public abstract class BaseController {
     private ResponseEntity<?> handleApiException(ApiException exception) {
         ErrorCodeResponse errorCodeResponse;
         ResponseEntity<?> result;
-
+        exception.printStackTrace();
         switch (exception.getErrorCode()) {
             case ApiStatusCodes.BAD_REQUEST:
                 errorCodeResponse = new ErrorCodeResponse(exception.getErrorCode(), exception.getMessage());
@@ -85,7 +85,7 @@ public abstract class BaseController {
     private ResponseEntity<?> handleException(Exception exception) {
         ErrorResponse errorResponse;
         ResponseEntity result;
-
+        exception.printStackTrace();
         boolean exposeInternalError = true;
 
         if (exposeInternalError) {

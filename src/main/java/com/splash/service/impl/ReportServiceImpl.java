@@ -12,6 +12,7 @@ import com.backblaze.b2.util.B2ExecutorUtils;
 import com.splash.domain.entity.*;
 import com.splash.entity.model.ClientDetails;
 import com.splash.entity.model.UploadInfo;
+import com.splash.enums.MONTHS;
 import com.splash.repository.ClientRepository;
 import com.splash.repository.InvoiceRepository;
 import com.splash.repository.OrderRepository;
@@ -30,10 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -71,11 +70,6 @@ public class ReportServiceImpl implements ReportService {
     };
     @Override
     public String uploadToB2(ClientEntity clientEntity,String clientName, String vendorName, String monthYear , byte[] bytes) {
-
-       InvoiceEntity invoice= invoiceRepository.getLastMonthInvoice(clientEntity.getClientid(),Utils.getLastMonth());
-       if(invoice!=null){
-           return invoice.getUrl();
-       }
         String url=null;
         try{
             final B2ContentSource source = B2ByteArrayContentSource.build(bytes);
@@ -93,10 +87,13 @@ public class ReportServiceImpl implements ReportService {
             invoiceEntity.setUrl(url);
             invoiceEntity.setYearMonth(monthYear);
             invoiceEntity.setClient(clientEntity);
+            invoiceEntity.setStatus(true);
             invoiceRepository.save(invoiceEntity);
+            logger.info("File save: "+ invoiceEntity);
 
         }catch (Exception e){
-            logger.info(e.getMessage() +" : "+e.getLocalizedMessage());
+             logger.error("Error while uploading report error" +e.getMessage() +" : "+e.getLocalizedMessage(),e);
+                return null;
         }
         return url;
     }
@@ -116,11 +113,37 @@ public class ReportServiceImpl implements ReportService {
 //        Constants.UploadQueue.add(uploadInfo);
 //    }
 
+    String getLastDateOfMonth(String yearMonth){
+        System.out.println(yearMonth);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String[] arr= yearMonth.split("-");
+        String year=arr[0];
+        String month=arr[1];
+        if(month.contains("Sept")){
+            month = "Sep";
+        }
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.MONTH, MONTHS.getIndex(month));
+        calendar.set(Calendar.YEAR, Integer.parseInt(year));
+        calendar.set(Calendar.DAY_OF_MONTH,  calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return dateFormat.format(calendar.getTime());
+    }
     @Override
     public UploadInfo getUploadEntity(ClientEntity clientEntity,ClientDetails client, VendorEntity vendor, List<MonthlyBill> list ,String yearMonth) {
+         Integer balance=getBalance(clientEntity.getClientid(),getLastDateOfMonth(yearMonth));
+        client.setPaymentremaining(balance);
         UploadInfo uploadInfo=new UploadInfo(null,list,client,vendor,yearMonth,clientEntity);
         return uploadInfo;
+
     }
+
+    @Override
+    public Integer getBalance(int clientid, String date) {
+
+      Integer sum=  orderRepository.findBalancePreviousMonth(clientid,date);
+      return sum!=null?sum:0;
+    }
+
     @Override
     public String generatePdf(UploadInfo uploadInfo) {
         Map<String ,Object> map =new HashMap<>();
@@ -129,8 +152,8 @@ public class ReportServiceImpl implements ReportService {
         map.put("totalBill",uploadInfo.getClientDetails().getPaymentremaining());
         map.put("address",uploadInfo.getVendorEntity().getAddress());
         map.put("clientName",uploadInfo.getClientDetails().getName());
-        map.put("yearMonth",Utils.getLastMonth());
-//        ClientEntity clientEntity=clientRepository.findById(uploadInfo.getClientDetails().getClientid()).get();
+        map.put("yearMonth",uploadInfo.getMonthYear());
+        map.put("prevBalance",prevBalance(uploadInfo.getMonthlyBillList(),uploadInfo.getClientDetails().getPaymentremaining()));
         String url = null;
         try {
             JRBeanCollectionDataSource dataSource = new
@@ -138,28 +161,36 @@ public class ReportServiceImpl implements ReportService {
             JasperPrint empReport =
                     JasperFillManager.fillReport
                             (
-                                    JasperCompileManager.compileReport(
-                                            ResourceUtils.getFile("classpath:splashInvoicenew.jrxml")
-                                                    .getAbsolutePath()) // path of the jasper report
+                                    JasperCompileManager.compileReport
+//                                      //local test      (ResourceUtils.getFile("classpath:splashInvoicenew4.jrxml").getAbsolutePath())
+                                        /*prod*/    ("/app/target/classes/splashInvoicenew4.jrxml") // path of the jasper report
                                     , map // dynamic parameters
                                     , dataSource
                             );
             byte[] bytes = JasperExportManager.exportReportToPdf(empReport);
             url= uploadToB2(uploadInfo.getClientEntity(),uploadInfo.getClientDetails().getName(), uploadInfo.getVendorEntity().getName(),uploadInfo.getMonthYear() , bytes);
-
+            return url;
         }catch (Exception e){
-            logger.error(e.getMessage()+" "+e.getLocalizedMessage());
-        }
-        return url;
-    }
-
-    @Override
-    synchronized public void processPdfQueue() {
-        while (!Constants.UploadQueue.isEmpty()){
-            UploadInfo uploadInfo=Constants.UploadQueue.poll();
-            generatePdf(uploadInfo);
+            logger.error("Error while generating report error" +e.getMessage() +" : "+e.getLocalizedMessage(),e);
+            throw new IllegalStateException("Error generating report ");
         }
     }
 
+//    @Override
+//    synchronized public void processPdfQueue() {
+//        while (!Constants.UploadQueue.isEmpty()){
+//            UploadInfo uploadInfo=Constants.UploadQueue.poll();
+//            generatePdf(uploadInfo);
+//        }
+//    }
 
+    int prevBalance(List<MonthlyBill> list,int totalBalance){
+        int totalAmount=0;
+        for (MonthlyBill bill:
+                list) {
+            totalAmount=totalAmount+(bill.getBottlesdelivered()*bill.getRate());
+        }
+        int lastMonthBal= totalBalance-totalAmount;
+        return lastMonthBal<0?0:lastMonthBal;
+    }
 }

@@ -3,6 +3,7 @@
 package com.splash.repository;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,11 +26,11 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 	@Query(nativeQuery = true, value = "SELECT * FROM orders WHERE clientid = :clientid ORDER BY date  DESC LIMIT 1")
 	OrderEntity getClientlastDelivery(int clientid);
 
-//	@Query(nativeQuery = true, value = "SELECT sum(bottlesdelivered) as totalbottles, sum(payment) as totalpayments ,count(Distinct(clientid)) as totalactiveclients ,0 as countersale , 0 as expense ,0 as totalrevenue FROM worthywa_splash.orders where date like :date and status = 'A' and  vendorid = :vendorid ")
+//	@Query(nativeQuery = true, value = "SELECT sum(bottlesdelivered) as totalbottles, sum(payment) as totalpayments ,count(Distinct(clientid)) as totalactiveclients ,0 as countersale , 0 as expense ,0 as totalrevenue FROM orders where date like :date and status = 'A' and  vendorid = :vendorid ")
 	SummaryMonthly getMonthlySunmary(String date, int vendorid);
-	//	@Query(nativeQuery=true, value ="select NEW ClientDelivery (o.orderid,  c.clientid,c.userid,u.name,c.address,c.bottles,c.frequency,c.rate,DATEDIFF(CURDATE(),o.date ) AS days ) from worthywa_splash.client c inner join  worthywa_splash.orders o  on c.clientid =o.clientid "
+	//	@Query(nativeQuery=true, value ="select NEW ClientDelivery (o.orderid,  c.clientid,c.userid,u.name,c.address,c.bottles,c.frequency,c.rate,DATEDIFF(CURDATE(),o.date ) AS days ) from client c inner join  orders o  on c.clientid =o.clientid "
 //			+ "	Inner join worthywa_splash.users u on c.userid = u.userid "
-//			+ "  where o.date = (select max(date) from  worthywa_splash.orders where clientid=o.clientid) "
+//			+ "  where o.date = (select max(date) from  orders where clientid=o.clientid) "
 //			+ "	 and o.vendorid= ?1")
 	List<ClientDelivery> getDailydelivery(int vendorid);
 	
@@ -40,7 +41,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 
 	
 	
-//	@Query(nativeQuery = true, value = "SELECT clientid ,sum(bottlesdelivered) as totalbottles ,sum(bottlesrecieved) as totalrecieved ,sum(payment) as totalpayment FROM worthywa_splash.orders where clientid = ?1 group by clientid")
+//	@Query(nativeQuery = true, value = "SELECT clientid ,sum(bottlesdelivered) as totalbottles ,sum(bottlesrecieved) as totalrecieved ,sum(payment) as totalpayment FROM orders where clientid = ?1 group by clientid")
 	ClientTotalDetail getClientTotalDetail(int clientid);
 	
 	@Query(value=" FROM OrderEntity WHERE clientid= ?1 AND status = 'A' order by date ASC") 
@@ -55,4 +56,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 //			" (last_day(current_date() - interval 2 MONTH)+ interval 1 day) " +
 //			" AND CURRENT_DATE() and status='A'",nativeQuery = true)
 	List<MonthlyBill> getMonthlyBill(int clientId,String yearMonth);
+
+	@Query(value="select sum(bottlesdelivered*rate)-sum(payment) from orders where   clientid = ?1 and date <= ?2 and status = 'A'",nativeQuery = true)
+	Integer findBalancePreviousMonth(int clientid, String date);
 }

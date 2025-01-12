@@ -45,17 +45,15 @@ public class Utils {
 
 	public  static String getLastMonth(){
 		Calendar c=Calendar.getInstance();
-		int month = c.get(Calendar.MONTH);
+ 		int month = c.get(Calendar.MONTH);
 		String[] months = new DateFormatSymbols().getShortMonths();
-
-		String lastMonth=null;
-		if(c.get(Calendar.DAY_OF_MONTH)>25){
-			lastMonth=	c.get(Calendar.YEAR)+"-"+months[month];
-		}else {
-			lastMonth=c.get(Calendar.YEAR)+"-"+months[month-1];
+		int year= c.get(Calendar.YEAR);
+		if(month==0) {
+			month=12;
+			year=year-1;
 		}
-
-
+		String lastMonth;
+		lastMonth=year+"-"+months[month-1];
 		logger.debug(lastMonth);
 		return lastMonth;
 

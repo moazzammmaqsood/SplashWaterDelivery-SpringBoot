@@ -1,14 +1,20 @@
 package com.splash.domain.entity;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name="request")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class RequestEntity {
 
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="requestid")
@@ -16,6 +22,10 @@ public class RequestEntity {
 	
 	@Column(name="userid")
 	private int userid;
+
+	@Column(name="clientid")
+	private int clientid;
+
 	
 	@Column(name="vendorid")
 	private int vendorid;

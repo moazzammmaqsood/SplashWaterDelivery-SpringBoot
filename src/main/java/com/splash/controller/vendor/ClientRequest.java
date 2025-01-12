@@ -41,7 +41,7 @@ public class ClientRequest {
 	
 	private String oncall;
 
-	public String getName() {
+ 	public String getName() {
 		return name;
 	}
 
@@ -112,8 +112,6 @@ public class ClientRequest {
 	public void setNoofbottles(int noofbottles) {
 		this.noofbottles = noofbottles;
 	}
-
-	
 
 
 

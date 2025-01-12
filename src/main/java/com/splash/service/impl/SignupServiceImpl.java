@@ -39,8 +39,7 @@ public class SignupServiceImpl implements SignupService{
     
 	@Override
 	public String signup(SignupRequest request) {
-
-		UserEntity user=new UserEntity(request.getEmail(),passwordEncoder.encode(request.getPassword()),request.getName(),request.getPhone(),request.getUsername(),request.getUserrole(),request.getCreatedby());
+		UserEntity user=new UserEntity(request.getEmail(),passwordEncoder.encode(request.getPassword()),request.getName(),request.getPhone(),request.getUsername(),request.getUserrole(),request.getCreatedby(),request.getVendorid());
 		user.setStatus("E");
 		user.setCreatedon(new Date());
 		

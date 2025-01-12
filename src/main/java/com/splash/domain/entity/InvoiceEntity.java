@@ -1,12 +1,14 @@
 package com.splash.domain.entity;
 
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "invoice")
 @NoArgsConstructor
+@ToString
 public class InvoiceEntity {
 
     @Id
@@ -28,6 +30,8 @@ public class InvoiceEntity {
     @Column(name="filename")
     private String fileName;
 
+    @Column(name="status")
+    private Boolean status;
 
     public Long getId() {
         return id;
@@ -69,11 +73,20 @@ public class InvoiceEntity {
         this.fileName = fileName;
     }
 
-    public InvoiceEntity(Long id, ClientEntity client, String yearMonth, String url, String fileName) {
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public InvoiceEntity(Long id, ClientEntity client, String yearMonth, String url, String fileName, Boolean status) {
         this.id = id;
         this.client = client;
         this.yearMonth = yearMonth;
         this.url = url;
         this.fileName = fileName;
+        this.status = status;
     }
 }

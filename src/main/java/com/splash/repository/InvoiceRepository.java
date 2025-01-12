@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface InvoiceRepository extends JpaRepository<InvoiceEntity,Long> {
 
 
-    @Query(value = "select * from invoice where clientid = :clientId and yearmonth = :yearMonth limit 1",nativeQuery = true)
-    InvoiceEntity getLastMonthInvoice(@Param("clientId") int clientid , @Param("yearMonth") String yearMonth);
+    @Query(value = "select * from invoice where clientid = :clientId and yearmonth = :yearMonth and status = :status limit 1",nativeQuery = true)
+    InvoiceEntity getLastMonthInvoice(@Param("clientId") int clientid , @Param("yearMonth") String yearMonth, @Param("status") Boolean status);
 
 
 }

@@ -23,6 +23,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -87,20 +88,16 @@ public class LoginServiceImpl implements LoginService {
            	 loginresponse.setVendorname(vendor.getName());
            	
                
-            }else if(user.getUserrole().equals("V")) {
-            	
-            	 VendorEntity  vendor= vendorRepository.findByUserid(user.getUserid()); 
+            }else{
+
+            	 VendorEntity  vendor= vendorRepository.findByVendorid(user.getVendorId());
             	 
             	 if(vendor== null) {
             		 throw new ApiException(ApiStatusCodes.INTERNAL_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
             	 }
             	 
             	 loginresponse.setVendorname(vendor.getName());
-            }else {
-            	
-            	loginresponse.setVendorname("Admin");
             }
-
             return loginresponse;
         } catch (AccountStatusException e){
             throw new ApiException(ApiStatusCodes.UNAUTHORIZED, ErrorMessages.ACCOUNT_LOCKED);

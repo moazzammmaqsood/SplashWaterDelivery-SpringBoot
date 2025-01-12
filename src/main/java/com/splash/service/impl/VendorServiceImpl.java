@@ -137,7 +137,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
  
-		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		
 		 
 		if(vendor==null) { 
@@ -148,7 +148,13 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 		 
 		String Clientusername=generateusername(vendor.getShortcode(),nextval);
  
-		UserEntity newuser =new UserEntity(request.getEmail(),passwordEncoder.encode("splash123123"),request.getName(),request.getContactno(),Clientusername,"C",optionaluser.get().getUsername());
+		UserEntity newuser =new UserEntity(request.getEmail(),
+				passwordEncoder.encode("splash123123"),
+				request.getName(),
+				request.getContactno(),
+				Clientusername,"C",
+				optionaluser.get().getUsername()
+		,optionaluser.get().getVendorId());
 		
 		 
 		newuser.setCreatedon(new Date());
@@ -258,7 +264,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);	
 		}
 		
-		VendorEntity vendor= vendorrepo.findByUserid(vendoruser.get().getUserid());
+		VendorEntity vendor= vendorrepo.findByVendorid(vendoruser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
 		}	
@@ -318,7 +324,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);	
 		}
 		
-		VendorEntity vendor= vendorrepo.findByUserid(vendoruser.get().getUserid());
+		VendorEntity vendor= vendorrepo.findByVendorid(vendoruser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.INTERNAL_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
 		}
@@ -343,7 +349,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 	@Override
 	public ClientDetails getclient(int clientid, int userid) { 
 		User user =getCurrentUser();
-		InvoiceEntity invoiceEntity=invoiceRepository.getLastMonthInvoice(clientid,Utils.getLastMonth());
+		InvoiceEntity invoiceEntity=invoiceRepository.getLastMonthInvoice(clientid,Utils.getLastMonth(),true);
 
 
 		Optional<UserEntity> vendoruser= userrepo.findByusername(user.getUsername());
@@ -352,7 +358,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.USERNAME_NOT_FOUND);
 		}
 		
-		VendorEntity  vendor = vendorrepo.findByUserid(vendoruser.get().getUserid());
+		VendorEntity  vendor = vendorrepo.findByVendorid(vendoruser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
 		}
@@ -428,7 +434,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 		
-		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity  vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
 		}
@@ -454,7 +460,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 		
-		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity  vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
 		}
@@ -490,7 +496,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 		
-		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity  vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
 		}
@@ -528,7 +534,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
  
-		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		
 		 
 		if(vendor==null) { 
@@ -578,7 +584,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 
-		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.VENDOR_NOT_FOUND);
@@ -599,7 +605,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
  
-		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		
 		 
 		if(vendor==null) { 
@@ -628,7 +634,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
  
-		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		
 		 
 		if(vendor==null) { 
@@ -690,7 +696,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 
-		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity  vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
 		}
@@ -727,7 +733,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 
-		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity  vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
 		}
@@ -768,7 +774,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 
-		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity  vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
 		}
@@ -809,7 +815,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 
-		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity  vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
 		}
@@ -856,7 +862,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 
-		VendorEntity  vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity  vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 		if(vendor==null) {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR,ErrorMessages.VENDOR_NOT_FOUND);
 		}
@@ -895,7 +901,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 
-		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 
 
 		if(vendor==null) {
@@ -973,7 +979,7 @@ public class VendorServiceImpl extends BaseService implements VendorService  {
 			throw new ApiException(ApiStatusCodes.SERVER_ERROR, ErrorMessages.USERNAME_NOT_FOUND);
 		}
 
-		VendorEntity vendor = vendorrepo.findByUserid(optionaluser.get().getUserid());
+		VendorEntity vendor = vendorrepo.findByVendorid(optionaluser.get().getVendorId());
 
 
 		if(vendor==null) {

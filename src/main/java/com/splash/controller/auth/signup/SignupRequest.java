@@ -1,10 +1,7 @@
 package com.splash.controller.auth.signup;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import lombok.Data;
 
 
 public class SignupRequest {
@@ -25,7 +22,8 @@ public class SignupRequest {
 	 @Size(max = 1, message = "Max length for userrole can not exceed 1 characters.")
 	 @NotEmpty(message = "userrole must not be empty.")
 	 private String userrole;
-	 
+
+	 private  int vendorid;
 	public String getName() {
 		return name;
 	}
@@ -63,9 +61,15 @@ public class SignupRequest {
 	public void setUserrole(String userrole) {
 		this.userrole = userrole;
 	}
-	
-	
-	
+
+	public int getVendorid() {
+		return vendorid;
+	}
+
+	public void setVendorid(int vendorid) {
+		this.vendorid = vendorid;
+	}
+
 	public String getCreatedby() {
 		return createdby;
 	}
@@ -77,12 +81,12 @@ public class SignupRequest {
 	
 	
 	public SignupRequest(@NotEmpty(message = "name must not be empty.") String name,
-			@NotEmpty(message = "email must not be empty.") String email,
-			@NotEmpty(message = "password must not be empty.") String password,
-			@NotEmpty(message = "username must not be empty.") String username,
-			@NotEmpty(message = "phone must not be empty.") String phone,
-			@NotEmpty(message = "createdby must not be empty.") String createdby,
-			@Size(max = 1, message = "Max length for userrole can not exceed 1 characters.") @NotEmpty(message = "userrole must not be empty.") String userrole) {
+						 @NotEmpty(message = "email must not be empty.") String email,
+						 @NotEmpty(message = "password must not be empty.") String password,
+						 @NotEmpty(message = "username must not be empty.") String username,
+						 @NotEmpty(message = "phone must not be empty.") String phone,
+						 @NotEmpty(message = "createdby must not be empty.") String createdby,
+						 @Size(max = 1, message = "Max length for userrole can not exceed 1 characters.") @NotEmpty(message = "userrole must not be empty.") String userrole, int vendorid) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -91,6 +95,7 @@ public class SignupRequest {
 		this.phone = phone;
 		this.createdby = createdby;
 		this.userrole = userrole;
+		this.vendorid = vendorid;
 	}
 	public SignupRequest() {
 		super();

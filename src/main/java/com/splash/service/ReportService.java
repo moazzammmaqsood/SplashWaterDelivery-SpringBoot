@@ -6,6 +6,7 @@ import com.splash.domain.entity.VendorEntity;
 import com.splash.entity.model.ClientDetails;
 import com.splash.entity.model.UploadInfo;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ReportService {
@@ -17,6 +18,8 @@ public interface ReportService {
 
     String generatePdf(UploadInfo uploadInfo);
 
-    void processPdfQueue();
+//    void processPdfQueue();
      UploadInfo getUploadEntity(ClientEntity clientEntity,ClientDetails client, VendorEntity vendor, List<MonthlyBill> list ,String yearMonth);
+
+    Integer getBalance(int clientid, String date);
 }

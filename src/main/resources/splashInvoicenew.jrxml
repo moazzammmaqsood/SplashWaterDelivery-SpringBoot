@@ -27,7 +27,10 @@
 		<variableExpression><![CDATA[$F{bottlesdelivered}*$F{rate}]]></variableExpression>
 	</variable>
 	<variable name="prevBalance" class="java.lang.Integer">
-		<variableExpression><![CDATA[$P{totalBill}-$V{totalAmount}]]></variableExpression>
+		<variableExpression><![CDATA[(($P{totalBill}-$V{totalAmount})<0?0:$P{totalBill}-$V{totalAmount})]]></variableExpression>
+	</variable>
+	<variable name="totPayments" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{payment}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>

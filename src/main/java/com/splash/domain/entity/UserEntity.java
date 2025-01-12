@@ -41,7 +41,9 @@ public class UserEntity {
 	
 	@Column(name="createdon")
 	Date createdon;
-	
+
+	@Column(name="vendorid")
+	int vendorId;
 	
 //	@OneToOne(cascade= CascadeType.ALL)
 //	@JoinColumn(name="userid" ,referencedColumnName = "userid")
@@ -152,8 +154,16 @@ public class UserEntity {
 		this.createdon = createdon;
 	}
 
+	public int getVendorId() {
+		return vendorId;
+	}
+
+	public void setVendorId(int vendorId) {
+		this.vendorId = vendorId;
+	}
+
 	public UserEntity(int userid, String name, String email, String password, String username, String phone,
-			String userrole, String status, String createdby, Date createdon) {
+					  String userrole, String status, String createdby, Date createdon, int vendorId) {
 		super();
 		this.userid = userid;
 		this.name = name;
@@ -165,6 +175,7 @@ public class UserEntity {
 		this.status = status;
 		this.createdby = createdby;
 		this.createdon = createdon;
+		this.vendorId= vendorId;
 	}
 
 	public UserEntity() {
@@ -172,7 +183,7 @@ public class UserEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserEntity(String email2, String password2, String name2, String phone2, String username2, String userrole, String createdby) {
+	public UserEntity(String email2, String password2, String name2, String phone2, String username2, String userrole, String createdby, int vendorId) {
 		
 		this.name = name2;
 		this.email = email2;
@@ -181,7 +192,7 @@ public class UserEntity {
 		this.phone = phone2;
 		this.userrole=userrole;
 		this.createdby =createdby;
-
+		this.vendorId=vendorId;
 	}
 
 	@Override

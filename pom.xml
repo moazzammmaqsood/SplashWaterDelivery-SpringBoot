@@ -93,11 +93,6 @@
 			<version>2.4.10</version>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>6.16.0</version>
-		</dependency>
-		<dependency>
 			<groupId>com.backblaze.b2</groupId>
 			<artifactId>b2-sdk-core</artifactId>
 			<version>6.1.1</version>
@@ -109,7 +104,23 @@
 			<version>6.1.1</version>
 			<scope>compile</scope>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.16.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-functions -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-functions</artifactId>
+			<version>6.12.2</version>
+		</dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+
+    </dependencies>
 	<repositories>
 		<!-- JasperSoft, they modified a standard library for their own special needs -->
 		<repository>
